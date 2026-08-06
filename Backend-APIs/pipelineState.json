@@ -1,0 +1,30 @@
+{
+  "totalTours": 50,
+  "completedCount": 0,
+  "currentlyProcessing": [
+    {
+      "tourIdx": 20,
+      "tourName": "Taiga Boreal Forest & Scandinavian Wilderness",
+      "stage": "Downloading & Scoring"
+    }
+  ],
+  "remainingCount": 31,
+  "failedCount": 19,
+  "coverReplacedCount": 0,
+  "galleryReplacedCount": 0,
+  "totalUploadsCompleted": 0,
+  "overwriteSuccessCount": 0,
+  "overwriteFailedCount": 0,
+  "avgCandidatesFound": "12.6",
+  "avgImagesScored": "0.0",
+  "avgSelectedScore": "93.5",
+  "elapsedMs": 267124,
+  "elapsedFormatted": "267s",
+  "remainingMs": 435833.8947368421,
+  "remainingFormatted": "435s",
+  "completionPercent": "38.0%",
+  "rateLimitsEncountered": 0,
+  "cloudinaryUploadFailures": 0,
+  "imageSearchFailures": 0,
+  "lastUpdated": "2026-07-26T12:53:26.630Z"
+}
