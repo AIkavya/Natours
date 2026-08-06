@@ -1,20 +1,46 @@
-# Node
-node_modules/
+# =========================
+# Node.js
+# =========================
+**/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
+# =========================
 # Python
-.venv/
-__pycache__/
+# =========================
+**/.venv/
+**/venv/
+**/__pycache__/
+**/*.py[cod]
+**/*.sqlite3
 
-# VS Code
+# =========================
+# Environment Variables
+# =========================
+**/.env
+**/.env.*
+
+# =========================
+# React / Vite
+# =========================
+**/dist/
+**/build/
+**/.vite/
+
+# =========================
+# IDE
+# =========================
 .vscode/
+.idea/
 
-# Environment
-.env
-.env.*
+# =========================
+# OS
+# =========================
+.DS_Store
+Thumbs.db
 
-# Build
-dist/
-build/
-
+# =========================
 # Logs
+# =========================
 *.log
