@@ -43,7 +43,7 @@ const TourInformation = () =>
  const {formatCurrency} =useCurrencyDetector();
   const [searchParams] = useSearchParams();
   const packageName = searchParams.get("package");
-
+  
   const { tour, isPending } = useTourDetail();
 
 

@@ -6,6 +6,11 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
   padding: 2rem;
+
+  @media (max-width: 500px) {
+    padding: 0;
+    width: 100%;
+  }
 `;
 
 export const StyledForm = styled.form`
@@ -17,7 +22,7 @@ export const StyledForm = styled.form`
   flex-direction: column;
   justify-content: flex-start;
 
-  z-index: 1000;
+  z-index: 10;
 
   ${({ type }) => {
     if (type !== "login" && type !== "signup") {
@@ -61,6 +66,16 @@ export const StyledForm = styled.form`
     0 10px 25px rgba(0, 0, 0, 0.08);
 
   overflow: hidden;
+  @media (max-width: 500px) {
+    width: 100%;
+    max-width: 100%;
+    min-height: auto;
+
+    padding: 2rem 1.5rem;
+
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 30px;
+  }
 `;
 
 export const Title = styled.h1`
@@ -113,6 +128,8 @@ export const Input = styled.input`
 
     box-shadow: 0 0 0 4px rgba(32, 32, 32, 0.12);
   }
+
+  
 `;
 
 export const Error = styled.p`

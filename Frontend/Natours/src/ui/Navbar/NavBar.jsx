@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import styled from "styled-components";
+import { Menu, X } from "lucide-react";
 
 import {
   LoginButton,
@@ -9,65 +9,85 @@ import {
   NavMenu,
   StyledLink,
   LogoIcon,
+  LogoText,
+  MobileToggle,
 } from "./NavBar.styles";
 import svg from "../../assets/tourist-bag-svgrepo-com.svg";
-import { NavLink } from "react-router-dom";
 import useUser from "../../features/hooks/UserHooks/useUser";
-
-const Span = styled(NavLink)`
-  font-size: 3.5rem;
-  font-weight: 800;
-  letter-spacing: -2px;
-  background: linear-gradient(135deg, #1933b6 30%, #0f172a 45%, #0f172a 25%);
-  font-family: "Outfit", sans-serif;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-`;
 
 function NavBar() {
   const { user } = useUser();
-
   const [scrolled, setScrolled] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > window.innerHeight);
     };
 
     window.addEventListener("scroll", handleScroll);
-
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setIsOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const toggleMenu = () => setIsOpen((prev) => !prev);
+  const closeMenu = () => setIsOpen(false);
 
   return (
     <Nav scroll={scrolled}>
       <Logo>
-        <LogoIcon src={svg} />
-        <Span to="/">Natours</Span>
+        <LogoIcon src={svg} alt="Natours Logo" />
+        <LogoText to="/" onClick={closeMenu}>
+          Natours
+        </LogoText>
       </Logo>
 
-      <NavMenu>
+      <MobileToggle onClick={toggleMenu} aria-label="Toggle navigation menu">
+        {isOpen ? <X size={28} /> : <Menu size={28} />}
+      </MobileToggle>
+
+      <NavMenu $isOpen={isOpen}>
         <NavItem>
-          <StyledLink to="/">Home</StyledLink>
+          <StyledLink to="/" onClick={closeMenu}>
+            Home
+          </StyledLink>
         </NavItem>
 
         <NavItem>
-          <StyledLink to="/tours">Tours</StyledLink>
+          <StyledLink to="/tours" onClick={closeMenu}>
+            Tours
+          </StyledLink>
         </NavItem>
 
         <NavItem>
-          <StyledLink to="/about">About</StyledLink>
+          <StyledLink to="/about" onClick={closeMenu}>
+            About
+          </StyledLink>
         </NavItem>
 
-        {console.log(user)}
         {!user && (
           <NavItem>
-            <LoginButton to="/user/login">Login</LoginButton>
+            <LoginButton to="/user/login" onClick={closeMenu}>
+              Login
+            </LoginButton>
           </NavItem>
         )}
 
         {user && (
           <NavItem>
-            <LoginButton to="/user">User</LoginButton>
+            <LoginButton to="/user" onClick={closeMenu}>
+              User
+            </LoginButton>
           </NavItem>
         )}
       </NavMenu>
@@ -76,3 +96,4 @@ function NavBar() {
 }
 
 export default NavBar;
+

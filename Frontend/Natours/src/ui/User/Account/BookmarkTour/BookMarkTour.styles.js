@@ -3,12 +3,17 @@ import styled from "styled-components";
 export const BookMarkContainer = styled.section`
   width: min(145rem, 92%);
   margin: 4rem auto 8rem;
+
+  @media (max-width: 768px) {
+    width: 95%;
+    margin: 2rem auto 4rem;
+  }
 `;
 
 export const BookMarkGrid = styled.div`
   display: grid;
 
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 
   gap: 2.4rem;
 
@@ -33,4 +38,3 @@ export const BookMarkGrid = styled.div`
     }
   }
 `;
-

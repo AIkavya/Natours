@@ -21,6 +21,10 @@ export const PageContainer = styled.div`
     sans-serif;
   overflow-x: hidden;
   padding-bottom: 6rem;
+
+  @media (max-width: 1080px) {
+    padding-bottom: 8rem;
+  }
 `;
 
 export const LoadingContainer = styled.div`
@@ -71,6 +75,14 @@ export const HeroWrapper = styled.section`
   width: 100%;
   background: #000;
   padding: 6rem 0;
+
+  @media (max-width: 768px) {
+    padding: 5rem 0 4rem;
+  }
+
+  @media (max-width: 500px) {
+    padding: 4.5rem 0 3rem;
+  }
 `;
 
 export const HeroSection = styled.section`
@@ -82,6 +94,20 @@ export const HeroSection = styled.section`
   border-radius: 28px;
   background: black;
   top: 3rem;
+
+  @media (max-width: 1023px) {
+    width: 92%;
+    aspect-ratio: 4 / 3;
+    border-radius: 22px;
+    top: 3rem;
+  }
+
+  @media (max-width: 600px) {
+    width: 95%;
+    aspect-ratio: 3 / 4;
+    border-radius: 18px;
+    top: 3rem;
+  }
 `;
 
 export const Background = styled.img`
@@ -159,6 +185,17 @@ export const Content = styled.div`
   padding: 3rem;
 
   z-index: 5;
+
+  @media (max-width: 768px) {
+    padding: 2rem 1.5rem;
+    justify-content: flex-end;
+    padding-bottom: 3rem;
+  }
+
+  @media (max-width: 500px) {
+    padding: 1.5rem 1rem;
+    padding-bottom: 2.5rem;
+  }
 `;
 
 export const HeroTitle = styled.h1`
@@ -179,6 +216,17 @@ export const HeroTitle = styled.h1`
   z-index: 10000;
   width: 100%;
   padding: 0 1rem;
+
+  @media (max-width: 768px) {
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    top: 1.5rem;
+  }
+
+  @media (max-width: 500px) {
+    font-size: clamp(2rem, 7vw, 3rem);
+    top: 1.2rem;
+    line-height: 1;
+  }
 `;
 
 export const HeroSubtitle = styled.p`
@@ -197,6 +245,17 @@ export const HeroSubtitle = styled.p`
   width: 90%;
   z-index: 10000;
   text-shadow: 0 2px 12px rgba(160, 160, 160, 0.7);
+
+  @media (max-width: 768px) {
+    font-size: 1.4rem;
+    top: clamp(8rem, 16vw, 14rem);
+  }
+
+  @media (max-width: 500px) {
+    font-size: 1.2rem;
+    top: clamp(6rem, 14vw, 10rem);
+    width: 95%;
+  }
 `;
 
 export const QuickMetaBar = styled.div`
@@ -211,6 +270,19 @@ export const QuickMetaBar = styled.div`
   transform: translateX(-50%);
   z-index: 10;
   width: 90%;
+
+  @media (max-width: 768px) {
+    bottom: 2.5rem;
+    gap: 0.8rem;
+    width: 95%;
+  }
+
+  @media (max-width: 500px) {
+    bottom: 1.5rem;
+    gap: 0.6rem;
+    flex-direction: column;
+    align-items: stretch;
+  }
 `;
 
 export const MetaPill = styled.div`
@@ -232,6 +304,27 @@ export const MetaPill = styled.div`
     font-size: 1.6rem;
     flex-shrink: 0;
   }
+
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+    padding: 0.6rem 1.1rem;
+    gap: 0.5rem;
+
+    svg {
+      font-size: 1.4rem;
+    }
+  }
+
+  @media (max-width: 500px) {
+    font-size: 1.15rem;
+    padding: 0.7rem 1rem;
+    border-radius: 10px;
+    justify-content: center;
+
+    svg {
+      font-size: 1.3rem;
+    }
+  }
 `;
 
 /* ==========================================
@@ -240,6 +333,16 @@ export const MetaPill = styled.div`
 export const FullWidthContainer = styled.div`
   width: min(130rem, calc(100% - 4rem));
   margin: 3.5rem auto 0;
+
+  @media (max-width: 768px) {
+    width: calc(100% - 2.4rem);
+    margin-top: 2.5rem;
+  }
+
+  @media (max-width: 500px) {
+    width: calc(100% - 1.6rem);
+    margin-top: 2rem;
+  }
 `;
 
 export const OverviewCard = styled.div`
@@ -266,6 +369,14 @@ export const OverviewCard = styled.div`
 
   @media (max-width: 768px) {
     padding: 2.2rem;
+    border-radius: 18px;
+    gap: 2rem;
+  }
+
+  @media (max-width: 500px) {
+    padding: 1.6rem;
+    border-radius: 14px;
+    gap: 1.6rem;
   }
 `;
 
@@ -277,6 +388,13 @@ export const OverviewHeader = styled.div`
   gap: 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   padding-bottom: 1.5rem;
+
+  @media (max-width: 500px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+    padding-bottom: 1.2rem;
+  }
 `;
 
 export const ThemeTag = styled.span`
@@ -289,6 +407,11 @@ export const ThemeTag = styled.span`
   background: #030303ff;
   color: #ffffffff;
   border: 1px solid #ffffffff;
+
+  @media (max-width: 500px) {
+    font-size: 1.1rem;
+    padding: 0.4rem 1.1rem;
+  }
 `;
 
 export const OverviewContent = styled.div`
@@ -303,6 +426,11 @@ export const LeadParagraph = styled.p`
   color: #f3f4f6;
   font-weight: 400;
   letter-spacing: -0.01em;
+
+  @media (max-width: 500px) {
+    font-size: 1.5rem;
+    line-height: 1.7;
+  }
 `;
 
 export const RichDescription = styled.div`
@@ -312,6 +440,11 @@ export const RichDescription = styled.div`
 
   p {
     margin-bottom: 1.2rem;
+  }
+
+  @media (max-width: 500px) {
+    font-size: 1.4rem;
+    line-height: 1.75;
   }
 `;
 
@@ -330,6 +463,17 @@ export const HighlightsGrid = styled.div`
   margin-top: 0.5rem;
   padding-top: 2rem;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.2rem;
+  }
+
+  @media (max-width: 500px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding-top: 1.5rem;
+  }
 `;
 
 export const HighlightBox = styled.div`
@@ -369,6 +513,32 @@ export const HighlightBox = styled.div`
     font-weight: 700;
     margin-top: 0.2rem;
   }
+
+  @media (max-width: 768px) {
+    padding: 1.3rem 1.5rem;
+    gap: 1rem;
+
+    svg {
+      font-size: 2rem;
+    }
+
+    .label {
+      font-size: 1.1rem;
+    }
+
+    .value {
+      font-size: 1.35rem;
+    }
+  }
+
+  @media (max-width: 500px) {
+    padding: 1.2rem 1.4rem;
+    border-radius: 12px;
+
+    svg {
+      font-size: 2rem;
+    }
+  }
 `;
 
 /* ==========================================
@@ -380,6 +550,18 @@ export const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3.5rem;
+
+  @media (max-width: 768px) {
+    width: calc(100% - 2.4rem);
+    margin-top: 2.5rem;
+    gap: 2.5rem;
+  }
+
+  @media (max-width: 500px) {
+    width: calc(100% - 1.6rem);
+    margin-top: 2rem;
+    gap: 2rem;
+  }
 `;
 
 /* ==========================================
@@ -394,6 +576,18 @@ export const SectionCard = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+
+  @media (max-width: 768px) {
+    padding: 2rem;
+    border-radius: 16px;
+    gap: 1.6rem;
+  }
+
+  @media (max-width: 500px) {
+    padding: 1.4rem;
+    border-radius: 14px;
+    gap: 1.4rem;
+  }
 `;
 
 export const SectionHeader = styled.div`
@@ -405,6 +599,16 @@ export const SectionHeader = styled.div`
   margin: 2rem auto 3.5rem auto;
   gap: 1.2rem;
   width: 100%;
+
+  @media (max-width: 768px) {
+    margin: 1.5rem auto 2.5rem;
+    gap: 1rem;
+  }
+
+  @media (max-width: 500px) {
+    margin: 1rem auto 2rem;
+    gap: 0.8rem;
+  }
 `;
 
 export const SectionTitle = styled.h2`
@@ -418,6 +622,15 @@ export const SectionTitle = styled.h2`
   svg {
     color: #ffffff;
   }
+
+  @media (max-width: 768px) {
+    font-size: 1.9rem;
+  }
+
+  @media (max-width: 500px) {
+    font-size: 1.7rem;
+    gap: 0.6rem;
+  }
 `;
 
 export const SectionSubtitle = styled.p`
@@ -428,6 +641,15 @@ export const SectionSubtitle = styled.p`
   margin: 0 auto;
   font-weight: 400;
   text-align: center;
+
+  @media (max-width: 768px) {
+    font-size: 1.45rem;
+  }
+
+  @media (max-width: 500px) {
+    font-size: 1.35rem;
+    line-height: 1.55;
+  }
 `;
 
 export const DescriptionText = styled.p`
@@ -435,6 +657,11 @@ export const DescriptionText = styled.p`
   line-height: 1.85;
   color: #d1d5db;
   white-space: pre-line;
+
+  @media (max-width: 500px) {
+    font-size: 1.4rem;
+    line-height: 1.75;
+  }
 `;
 
 /* ==========================================
@@ -444,6 +671,16 @@ export const GalleryGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 1.5rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.2rem;
+  }
+
+  @media (max-width: 500px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
 `;
 
 export const GalleryItem = styled.div`
@@ -482,6 +719,16 @@ export const GalleryItem = styled.div`
   &:hover img {
     transform: scale(1.08) translateZ(0);
   }
+
+  @media (max-width: 768px) {
+    height: 160px;
+    border-radius: 12px;
+  }
+
+  @media (max-width: 500px) {
+    height: 130px;
+    border-radius: 10px;
+  }
 `;
 
 /* ==========================================
@@ -513,6 +760,18 @@ export const TimelineContainer = styled.div`
       background: #ffffff;
     }
   }
+
+  @media (max-width: 768px) {
+    gap: 1.2rem;
+    max-height: 220px;
+    padding-bottom: 1.2rem;
+  }
+
+  @media (max-width: 500px) {
+    gap: 1rem;
+    max-height: 200px;
+    padding: 0.4rem 0.2rem 1rem 0.2rem;
+  }
 `;
 
 export const TimelineItem = styled.div`
@@ -523,12 +782,27 @@ export const TimelineItem = styled.div`
   flex-direction: column;
   gap: 1.2rem;
   position: relative;
+
+  @media (max-width: 768px) {
+    min-width: 260px;
+    max-width: 300px;
+  }
+
+  @media (max-width: 500px) {
+    min-width: 240px;
+    max-width: 270px;
+    gap: 0.8rem;
+  }
 `;
 
 export const DayHeaderRow = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
+
+  @media (max-width: 500px) {
+    gap: 0.7rem;
+  }
 `;
 
 export const DayCircle = styled.div`
@@ -545,6 +819,12 @@ export const DayCircle = styled.div`
   font-weight: 700;
   font-size: 1.2rem;
   color: #000000;
+
+  @media (max-width: 500px) {
+    width: 32px;
+    height: 32px;
+    font-size: 1.05rem;
+  }
 `;
 
 export const DayCard = styled.div`
@@ -566,6 +846,18 @@ export const DayCard = styled.div`
     border-color: #ffffff;
     background: rgba(255, 255, 255, 0.06);
   }
+
+  @media (max-width: 768px) {
+    padding: 1.2rem 1.4rem;
+    height: 145px;
+    border-radius: 14px;
+  }
+
+  @media (max-width: 500px) {
+    padding: 1rem 1.2rem;
+    height: 130px;
+    border-radius: 12px;
+  }
 `;
 
 export const DayTitle = styled.h4`
@@ -575,6 +867,10 @@ export const DayTitle = styled.h4`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  @media (max-width: 500px) {
+    font-size: 1.35rem;
+  }
 `;
 
 export const DayDesc = styled.p`
@@ -585,6 +881,11 @@ export const DayDesc = styled.p`
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+
+  @media (max-width: 500px) {
+    font-size: 1.2rem;
+    -webkit-line-clamp: 2;
+  }
 `;
 
 export const DayLocation = styled.div`
@@ -599,6 +900,10 @@ export const DayLocation = styled.div`
   svg {
     color: #ef4444;
   }
+
+  @media (max-width: 500px) {
+    font-size: 1.05rem;
+  }
 `;
 
 /* ==========================================
@@ -608,6 +913,16 @@ export const PackageGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1.5rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.2rem;
+  }
+
+  @media (max-width: 500px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
 `;
 
 export const PackageOptionCard = styled.div`
@@ -635,6 +950,17 @@ export const PackageOptionCard = styled.div`
     border-color: #ffffff;
     transform: translateY(-2px);
   }
+
+  @media (max-width: 768px) {
+    padding: 1.6rem 1.4rem;
+    border-radius: 14px;
+  }
+
+  @media (max-width: 500px) {
+    padding: 1.4rem 1.2rem;
+    border-radius: 12px;
+    gap: 1rem;
+  }
 `;
 
 export const SelectedBadge = styled.div`
@@ -656,24 +982,43 @@ export const SelectedBadge = styled.div`
     font-size: 1.3rem;
     color: #000000;
   }
+
+  @media (max-width: 500px) {
+    font-size: 1.05rem;
+    padding: 0.3rem 0.7rem;
+  }
 `;
 
 export const PackageHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: 500px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
 `;
 
 export const PackageName = styled.span`
   font-size: 1.7rem;
   font-weight: 700;
   color: #cececeff;
+
+  @media (max-width: 500px) {
+    font-size: 1.5rem;
+  }
 `;
 
 export const PackagePriceTag = styled.div`
   font-size: 2.2rem;
   font-weight: 800;
   color: #ffffff;
+
+  @media (max-width: 500px) {
+    font-size: 1.9rem;
+  }
 `;
 
 export const FeatureList = styled.ul`
@@ -695,6 +1040,12 @@ export const FeatureItem = styled.li`
   svg {
     color: #22c55e;
     flex-shrink: 0;
+  }
+
+  @media (max-width: 500px) {
+    font-size: 1.2rem;
+    min-height: 44px;
+    align-items: center;
   }
 `;
 
@@ -733,6 +1084,19 @@ export const HotelCard = styled.div`
     color: #ffffff;
     text-decoration: underline;
   }
+
+  @media (max-width: 768px) {
+    font-size: 1.25rem;
+    padding: 0.9rem 1.2rem;
+  }
+
+  @media (max-width: 500px) {
+    font-size: 1.15rem;
+    padding: 0.8rem 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
 `;
 
 /* ==========================================
@@ -747,6 +1111,10 @@ export const BookingPackagesRow = styled.div`
 
   @media (max-width: 1080px) {
     grid-template-columns: 1fr;
+  }
+
+  @media (max-width: 500px) {
+    gap: 2rem;
   }
 `;
 
@@ -765,6 +1133,22 @@ export const BookingCard = styled.div`
   position: sticky;
   top: 9rem;
   align-self: start;
+
+  @media (max-width: 1080px) {
+    position: static;
+    border-radius: 18px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 2rem;
+    gap: 1.6rem;
+  }
+
+  @media (max-width: 500px) {
+    padding: 1.6rem;
+    border-radius: 14px;
+    gap: 1.4rem;
+  }
 `;
 
 export const PriceHeader = styled.div`
@@ -777,18 +1161,31 @@ export const PriceRow = styled.div`
   display: flex;
   align-items: baseline;
   gap: 1rem;
+  flex-wrap: wrap;
 `;
 
 export const PriceCurrent = styled.span`
   font-size: 3.2rem;
   font-weight: 900;
   color: #ffffff;
+
+  @media (max-width: 768px) {
+    font-size: 2.8rem;
+  }
+
+  @media (max-width: 500px) {
+    font-size: 2.4rem;
+  }
 `;
 
 export const PriceOriginal = styled.span`
   font-size: 1.8rem;
   color: #9ca3af;
   text-decoration: line-through;
+
+  @media (max-width: 500px) {
+    font-size: 1.5rem;
+  }
 `;
 
 export const DiscountBadge = styled.span`
@@ -799,6 +1196,11 @@ export const DiscountBadge = styled.span`
   font-weight: 800;
   font-size: 1.2rem;
   align-self: flex-start;
+
+  @media (max-width: 500px) {
+    font-size: 1.05rem;
+    padding: 0.35rem 0.7rem;
+  }
 `;
 
 export const DepositBox = styled.div`
@@ -830,6 +1232,32 @@ export const DepositBox = styled.div`
     font-size: 1.25rem;
     line-height: 1.5;
   }
+
+  @media (max-width: 768px) {
+    padding: 1.4rem;
+    border-radius: 12px;
+
+    .deposit-amount {
+      font-size: 2rem;
+    }
+  }
+
+  @media (max-width: 500px) {
+    padding: 1.2rem;
+    border-radius: 10px;
+
+    .deposit-title {
+      font-size: 1.1rem;
+    }
+
+    .deposit-amount {
+      font-size: 1.8rem;
+    }
+
+    .deposit-desc {
+      font-size: 1.15rem;
+    }
+  }
 `;
 
 export const BookButton = styled.button`
@@ -847,6 +1275,7 @@ export const BookButton = styled.button`
   align-items: center;
   justify-content: center;
   gap: 0.8rem;
+  min-height: 56px;
 
   &:hover:not(:disabled) {
     background: #000000;
@@ -862,6 +1291,13 @@ export const BookButton = styled.button`
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+  }
+
+  @media (max-width: 500px) {
+    padding: 1.4rem;
+    font-size: 1.4rem;
+    border-radius: 12px;
+    min-height: 52px;
   }
 `;
 
@@ -879,10 +1315,17 @@ export const TrustItem = styled.div`
   gap: 0.8rem;
   font-size: 1.3rem;
   color: #9ca3af;
+  min-height: 44px;
 
   svg {
     color: #22c55e;
     font-size: 1.6rem;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 500px) {
+    font-size: 1.2rem;
+    gap: 0.6rem;
   }
 `;
 
@@ -913,6 +1356,17 @@ export const StickyNavContainer = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+
+  @media (max-width: 768px) {
+    width: calc(100% - 2rem);
+    justify-content: flex-start;
+    gap: 0.8rem;
+    padding: 0 0.5rem;
+  }
+
+  @media (max-width: 500px) {
+    gap: 0.6rem;
+  }
 `;
 
 export const StickyNavItem = styled.button`
@@ -925,10 +1379,22 @@ export const StickyNavItem = styled.button`
   font-weight: 700;
   cursor: pointer;
   transition: all 0.25s ease;
+  white-space: nowrap;
+  min-height: 44px;
 
   &:hover {
     color: #ffffff;
     background: rgba(255, 255, 255, 0.12);
+  }
+
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+    padding: 0.6rem 1.2rem;
+  }
+
+  @media (max-width: 500px) {
+    font-size: 1.15rem;
+    padding: 0.5rem 1rem;
   }
 `;
 
@@ -954,6 +1420,10 @@ export const MobileStickyBar = styled.div`
   @media (max-width: 1080px) {
     display: flex;
   }
+
+  @media (max-width: 500px) {
+    padding: 1rem 1.2rem;
+  }
 `;
 
 export const MobilePriceInfo = styled.div`
@@ -970,6 +1440,16 @@ export const MobilePriceInfo = styled.div`
     font-size: 1.15rem;
     color: #9ca3af;
   }
+
+  @media (max-width: 500px) {
+    .price {
+      font-size: 1.7rem;
+    }
+
+    .label {
+      font-size: 1.05rem;
+    }
+  }
 `;
 
 export const MobileBookButton = styled.button`
@@ -985,10 +1465,18 @@ export const MobileBookButton = styled.button`
   display: flex;
   align-items: center;
   gap: 0.6rem;
+  min-height: 48px;
+  white-space: nowrap;
 
   &:hover {
     background: #000000;
     color: #ffffff;
+  }
+
+  @media (max-width: 500px) {
+    padding: 1rem 1.8rem;
+    font-size: 1.35rem;
+    border-radius: 10px;
   }
 `;
 
@@ -1017,6 +1505,7 @@ export const BookmarkButton = styled.button`
   font-weight: 600;
   letter-spacing: 0.01em;
   cursor: pointer;
+  min-height: 44px;
   transition:
     transform 0.2s ease,
     background 0.2s ease,
@@ -1048,5 +1537,31 @@ export const BookmarkButton = styled.button`
   &:disabled {
     opacity: 0.55;
     cursor: not-allowed;
+  }
+
+  @media (max-width: 768px) {
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: 1.15rem;
+    padding: 0.6rem 1rem;
+
+    svg {
+      font-size: 1.6rem;
+    }
+  }
+
+  @media (max-width: 500px) {
+    top: 1rem;
+    right: 1rem;
+    font-size: 0;
+    padding: 0.7rem;
+    gap: 0;
+    width: 44px;
+    height: 44px;
+    justify-content: center;
+
+    svg {
+      font-size: 1.8rem;
+    }
   }
 `;

@@ -1,4 +1,4 @@
-import { useState} from "react";
+import { useState , useEffect , useRef} from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import useUser from "../../features/hooks/UserHooks/useUser";
@@ -143,6 +143,7 @@ function RichTextFormatter({ text }) {
   );
 }
 
+
 function TourPage() {
   const navigate = useNavigate();
   const { formatCurrency } = useCurrencyDetector();
@@ -151,7 +152,8 @@ function TourPage() {
   const [selectedPackageIndex, setSelectedPackageIndex] = useState(0);
   const [activeSection, setActiveSection] = useState("overview");
   const [isBooking, setIsBooking] = useState(false);
-
+ const bookingCardRef = useRef(null);
+ const [showMobileBar, setShowMobileBar] = useState(true);
   const { user: isLoggedIn } = useUser();
   const [bookmarkTour, isBookmarkPending] = useAddBookmark({
     onSuccess: () => {
@@ -176,6 +178,31 @@ function TourPage() {
       toast.error(err.response?.data?.message || "Failed to remove bookmark.");
     },
   });
+
+  useEffect(() => {
+    if (!bookingCardRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Hide when booking card is visible
+        setShowMobileBar(!entry.isIntersecting);
+      },
+      {
+        threshold: 0.2, // 20% visible
+      },
+    );
+
+    observer.observe(bookingCardRef.current);
+
+    return () => observer.disconnect();
+  }, []);
+
+  const handleBookClick = () => {
+    bookingCardRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
 
   if (isPending) {
     return (
@@ -575,7 +602,7 @@ function TourPage() {
                                 <HiOutlineStar /> {hotel.rating}
                               </div>
                               <div>
-                                <HiOutlineHome /> {hotel.roomType}  
+                                <HiOutlineHome /> {hotel.roomType}
                               </div>
                             </HotelCard>
                           ))}
@@ -613,7 +640,7 @@ function TourPage() {
             </SectionCard>
           )}
 
-          <BookingCard>
+          <BookingCard ref={bookingCardRef}>
             <PriceHeader>
               {discount > 0 && (
                 <DiscountBadge>
@@ -679,23 +706,26 @@ function TourPage() {
       {/* ==========================================
           MOBILE STICKY BOTTOM BOOKING BAR
          ========================================== */}
-      <MobileStickyBar>
-        <MobilePriceInfo>
-          <span className="price">{formatCurrency(effectivePrice)}</span>
-          <span className="label">
-            {selectedPackage?.name
-              ? `${selectedPackage.name} Tier`
-              : "Standard"}
-          </span>
-        </MobilePriceInfo>
-        <MobileBookButton
-          type="button"
-          onClick={handleBooking}
-          disabled={isBooking}
-        >
-          {isBooking ? "Reserving..." : "Book Now"}
-        </MobileBookButton>
-      </MobileStickyBar>
+      {showMobileBar && (
+        <MobileStickyBar>
+          <MobilePriceInfo>
+            <span className="price">{formatCurrency(effectivePrice)}</span>
+            <span className="label">
+              {selectedPackage?.name
+                ? `${selectedPackage.name} Tier`
+                : "Standard"}
+            </span>
+          </MobilePriceInfo>
+
+          <MobileBookButton
+            type="button"
+            onClick={handleBookClick}
+            disabled={isBooking}
+          >
+            {isBooking ? "Processing..." : "Book Now"}
+          </MobileBookButton>
+        </MobileStickyBar>
+      )}
     </PageContainer>
   );
 }

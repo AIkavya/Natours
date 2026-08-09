@@ -199,6 +199,12 @@ export const PrimaryButton = styled.button`
   &:active {
     transform: translateY(0);
   }
+
+  @media (max-width: 500px) {
+    font-size: 1.6rem;
+    line-height: 1.6;
+    padding: 10px 20px;
+  }
 `;
 
 export const SecondaryButton = styled.button`
@@ -220,11 +226,15 @@ export const SecondaryButton = styled.button`
   &:hover {
     background-color: rgba(255, 255, 255, 0.08);
     border-color: rgba(255, 255, 255, 0.4);
-
   }
 
   &:active {
     transform: translateY(0);
+  }
+  @media (max-width: 500px) {
+    font-size: 1.6rem;
+    line-height: 1.6;
+    padding: 10px 20px;
   }
 `;
 
@@ -232,7 +242,8 @@ export const ButtonGroup = styled.div`
   display: flex;
   align-items: center;
   gap: 18px;
-  flex-wrap: wrap;
+
+ 
 `;
 
 // ==========================================
@@ -271,12 +282,18 @@ export const HeroGrid = styled.div`
 export const HeroContent = styled.div`
   animation: ${fadeIn} 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 
-  h1 {
+ h1 {
     font-size: clamp(7rem, 10vw, 5rem);
     font-weight: 600;
     line-height: 1.1;
     color: #ffffff;
     margin-bottom: 60px;
+
+    @media (max-width: 500px) {
+    font-size: 3rem;
+    line-height: 1.25;
+    margin-bottom: 1.2rem;
+  }
   }
 
   p {
@@ -1051,7 +1068,6 @@ export const CTAContent = styled.div`
   text-align: center;
   max-width: 780px;
   margin: 0 auto;
-  top: 18rem;
 
 
 

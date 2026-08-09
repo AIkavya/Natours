@@ -4,6 +4,10 @@ import {
   HeroWrapper,
   HeroSection,
   Background,
+  HeaderSection,
+  HeroHeadingSection,
+  FlexSpacer,
+  FooterSection,
   Overlay,
   Content,
   Specil,
@@ -21,21 +25,28 @@ function Hero() {
 
         <Overlay />
 
-        <SearchButton to="/search">
-          <LuSearch />  Search
-        </SearchButton>
-
         <Content>
-          <Specil>
-            EXPERIENCE
-            <br />
-            BEYOND BOUNDARIES
-          </Specil>
+          <HeaderSection>
+            <SearchButton to="/search">
+              <LuSearch /> Search
+            </SearchButton>
+          </HeaderSection>
+          <HeroHeadingSection>
+            <Specil>
+              EXPERIENCE
+              <br />
+              BEYOND BOUNDARIES
+            </Specil>
+          </HeroHeadingSection>
 
-          <Buttons>
-            <Button to="/tours">Explore Tours</Button>
-            <ButtonSec to="/about">Learn More</ButtonSec>
-          </Buttons>
+          <FlexSpacer />
+
+          <FooterSection>
+            <Buttons>
+              <Button to="/tours">Explore Tours</Button>
+              <ButtonSec to="/about">Learn More</ButtonSec>
+            </Buttons>
+          </FooterSection>
         </Content>
       </HeroSection>
     </HeroWrapper>

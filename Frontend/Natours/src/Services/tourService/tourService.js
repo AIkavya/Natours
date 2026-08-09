@@ -98,9 +98,6 @@ export const removeBookmark = async (slug) => {
   return res.data;
 };
 
-
-
-
 export const fetchTours = async (params = {}) => {
   const queryParams = new URLSearchParams();
 
@@ -138,7 +135,9 @@ export const fetchTours = async (params = {}) => {
   if (params.page) queryParams.set("page", params.page.toString());
   if (params.limit) queryParams.set("limit", params.limit.toString());
 
-  const response = await axios.get(`http://localhost:3001/api/v1/tours?${queryParams.toString()}`);
+  const response = await axios.get(
+    `http://localhost:3001/api/v1/tours?${queryParams.toString()}`,
+  );
 
   return response.data;
 };
@@ -152,13 +151,25 @@ export const fetchSearchSuggestions = async (query) => {
     };
   }
 
-  const response = await axios.get(`http://localhost:3001/api/v1/tours/suggestions?q=${encodeURIComponent(query)}`);
+  const response = await axios.get(
+    `http://localhost:3001/api/v1/tours/suggestions?q=${encodeURIComponent(query)}`,
+  );
 
   return response.data;
 };
 
 export const fetchTourDetails = async (idOrSlug) => {
-  const response = await axios.get(`http://localhost:3001/api/v1/tours/${idOrSlug}`);
+  const response = await axios.get(
+    `http://localhost:3001/api/v1/tours/${idOrSlug}`,
+  );
 
   return response.data.data.tour;
+};
+
+export const getUniqueCountries = async () => {
+  const { data } = await axios.get(
+    "http://localhost:3001/api/v1/tours/unique-countries",
+  );
+
+  return data.data;
 };

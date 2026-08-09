@@ -52,6 +52,9 @@ import {
   ChecklistGrid,
   ChecklistItem,
   CheckIcon,
+  
+  ReuploadButton,
+
 } from "./MyBookingDetails.styles.js";
 
 
@@ -103,12 +106,28 @@ const DocPreviewImage = ({ src, alt }) => {
 };
 
 import useCurrencyDetector from "../../../../Services/useCurrencyDetector";
+import useReuploadBookingDocument from "../../../../features/hooks/BookingHooks/useReuploadBookingDocument";
 function MyBookingDetails() {
   const { formatCurrency } = useCurrencyDetector();
   const { bookingid } = useParams();
   const { booking } = useMyBookingDetails(bookingid);
+  const { reuploadDocument : handleReupload, isPending : isReuploading } = useReuploadBookingDocument();
 
-  ;
+
+const handleFileChange = (e, idx, doc ) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+
+  handleReupload({
+    bookingId: booking._id,
+    travelerIndex: idx,
+    docType: doc.key,
+    file,
+  });
+
+ 
+};
+
   const safeData =
     booking && typeof booking === "object" ? booking : {};
 
@@ -172,10 +191,7 @@ function MyBookingDetails() {
           .join(", ")
       : "—";
 
-  const durationText =
-    tour?.duration && typeof tour.duration === "object"
-      ? `${tour.duration.days ?? 0} Days / ${tour.duration.nights ?? 0} Nights`
-      : "—";
+
 
   // Policies checklist map
   const termsMap =
@@ -371,6 +387,74 @@ function MyBookingDetails() {
               const visa = docs.visa || {};
               const insurance = docs.insurance || {};
 
+const documents = [
+  {
+    key: "passport",
+    title: "Passport",
+    preview: getDocUrl(passport),
+    details: [
+      {
+        label: "Number",
+        value: passport.number || "—",
+      },
+      {
+        label: "Expiry",
+        value: formatDate(passport.expiry),
+      },
+    ],
+  },
+  {
+    key: "nationalId",
+    title: "National ID",
+    preview: getDocUrl(nationalId),
+    details: [
+      {
+        label: "Type",
+        value: nationalId.type
+          ? formatStatus(nationalId.type)
+          : "—",
+      },
+      {
+        label: "Number",
+        value: nationalId.number || "—",
+      },
+    ],
+  },
+  {
+    key: "visa",
+    title: "Visa",
+    preview: getDocUrl(visa),
+    details: [
+      {
+        label: "Visa Number",
+        value: visa.number || "—",
+      },
+      {
+        label: "Expiry",
+        value: formatDate(visa.expiry),
+      },
+    ],
+  },
+  {
+    key: "insurance",
+    title: "Insurance",
+    preview: getDocUrl(insurance),
+    details: [
+      {
+        label: "Provider",
+        value: insurance.provider || "—",
+      },
+      {
+        label: "Policy No.",
+        value: insurance.policyNumber || "—",
+      },
+    ],
+  },
+];
+
+             
+
+             
               return (
                 <TravelerCard key={idx}>
                   <TravelerTitle>
@@ -412,208 +496,190 @@ function MyBookingDetails() {
 
                   {/* Travel Documents Section for this traveler */}
                   <DocumentsSubTitle>Travel Documents</DocumentsSubTitle>
+                  <p
+                    style={{
+                      float: "right",
+                      marginRight: "1.5rem",
+                      marginTop: "-3.3rem",
+                    }}
+                  >
+                    {" "}
+                    {booking.documentVerificationStatus === "verified" ? (
+                      <StatusBadge style={{ backgroundColor: "#10b981" }}>
+                        Verified
+                      </StatusBadge>
+                    ) : booking.documentVerificationStatus === "rejected" ? (
+                      <StatusBadge style={{ backgroundColor: "#eb1010" }}>
+                        Rejected Verification | Please Reupload File(s)
+                      </StatusBadge>
+                    ) : (
+                      <StatusBadge style={{ backgroundColor: "#f59e0b" }}>
+                        Pending Verification
+                      </StatusBadge>
+                    )}
+                  </p>
+
                   <DocumentGrid>
-                    {/* Passport Card */}
-                    <DocumentCard>
-                      <DocumentTitle>Passport</DocumentTitle>
-                      <DocPreviewImage
-                        src={passport.file?.secureUrl}
-                        alt="Passport Document"
-                      />
-                      <DocumentDetailRow>
-                        <DocumentDetailLabel>Number</DocumentDetailLabel>
-                        <DocumentDetailValue>
-                          {passport.number || "—"}
-                        </DocumentDetailValue>
-                      </DocumentDetailRow>
-                      <DocumentDetailRow>
-                        <DocumentDetailLabel>Expiry</DocumentDetailLabel>
-                        <DocumentDetailValue>
-                          {formatDate(passport.expiry)}
-                        </DocumentDetailValue>
-                      </DocumentDetailRow>
-                      <ButtonGroup>
-                        {passport.file?.secureUrl ? (
-                          <>
-                            <ActionButton
-                              href={passport.file.secureUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              <Eye size={14} /> View
-                            </ActionButton>
-                            <ActionButton
-                              href={passport.file.secureUrl}
-                              download
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              <Download size={14} /> Download
-                            </ActionButton>
-                          </>
-                        ) : (
-                          <ActionButton
-                            as="button"
-                            disabled
-                            style={{ opacity: 0.5, cursor: "not-allowed" }}
-                          >
-                            Unavailable
-                          </ActionButton>
-                        )}
-                      </ButtonGroup>
-                    </DocumentCard>
+                    {documents.map((doc) => {
+                      const docObj = docs[doc.key] || {};
+                      const fileObj = docObj.file || {};
+                      const previewUrl = doc.preview || fileObj.secureUrl || null;
 
-                    {/* National ID Card */}
-                    <DocumentCard>
-                      <DocumentTitle>National ID</DocumentTitle>
-                      <DocPreviewImage
-                        src={nationalId.file?.secureUrl}
-                        alt="National ID Document"
-                      />
-                      <DocumentDetailRow>
-                        <DocumentDetailLabel>Type</DocumentDetailLabel>
-                        <DocumentDetailValue>
-                          {nationalId.type
-                            ? formatStatus(nationalId.type)
-                            : "—"}
-                        </DocumentDetailValue>
-                      </DocumentDetailRow>
-                      <DocumentDetailRow>
-                        <DocumentDetailLabel>Number</DocumentDetailLabel>
-                        <DocumentDetailValue>
-                          {nationalId.number || "—"}
-                        </DocumentDetailValue>
-                      </DocumentDetailRow>
-                      <ButtonGroup>
-                        {nationalId.file?.secureUrl ? (
-                          <>
-                            <ActionButton
-                              href={nationalId.file.secureUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              <Eye size={14} /> View
-                            </ActionButton>
-                            <ActionButton
-                              href={nationalId.file.secureUrl}
-                              download
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              <Download size={14} /> Download
-                            </ActionButton>
-                          </>
-                        ) : (
-                          <ActionButton
-                            as="button"
-                            disabled
-                            style={{ opacity: 0.5, cursor: "not-allowed" }}
-                          >
-                            Unavailable
-                          </ActionButton>
-                        )}
-                      </ButtonGroup>
-                    </DocumentCard>
+                      let fileStatus = fileObj.status || docObj.verificationStatus;
+                      if (!fileStatus) {
+                        fileStatus = previewUrl ? "pending" : "not_uploaded";
+                      }
 
-                    {/* Visa Card */}
-                    <DocumentCard>
-                      <DocumentTitle>Visa</DocumentTitle>
-                      <DocPreviewImage
-                        src={visa?.file?.secureUrl}
-                        alt="Visa Document"
-                      />
-                      <DocumentDetailRow>
-                        <DocumentDetailLabel>Visa Number</DocumentDetailLabel>
-                        <DocumentDetailValue>
-                          {visa?.number || "—"}
-                        </DocumentDetailValue>
-                      </DocumentDetailRow>
-                      <DocumentDetailRow>
-                        <DocumentDetailLabel>Expiry</DocumentDetailLabel>
-                        <DocumentDetailValue>
-                          {formatDate(visa?.expiry)}
-                        </DocumentDetailValue>
-                      </DocumentDetailRow>
-                      <ButtonGroup>
-                        {visa?.file?.secureUrl ? (
-                          <>
-                            <ActionButton
-                              href={visa?.file?.secureUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              <Eye size={14} /> View
-                            </ActionButton>
-                            <ActionButton
-                              href={visa?.file?.secureUrl}
-                              download
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              <Download size={14} /> Download
-                            </ActionButton>
-                          </>
-                        ) : (
-                          <ActionButton
-                            as="button"
-                            disabled
-                            style={{ opacity: 0.5, cursor: "not-allowed" }}
-                          >
-                            Unavailable
-                          </ActionButton>
-                        )}
-                      </ButtonGroup>
-                    </DocumentCard>
+                      const rejectionReason = fileObj.reason || docObj.reason || "";
 
-                    {/* Insurance Card */}
-                    <DocumentCard>
-                      <DocumentTitle>Insurance</DocumentTitle>
-                      <DocPreviewImage
-                        src={insurance?.file?.secureUrl}
-                        alt="Insurance Document"
-                      />
-                      <DocumentDetailRow>
-                        <DocumentDetailLabel>Provider</DocumentDetailLabel>
-                        <DocumentDetailValue>
-                          {insurance?.provider || "—"}
-                        </DocumentDetailValue>
-                      </DocumentDetailRow>
-                      <DocumentDetailRow>
-                        <DocumentDetailLabel>Policy No.</DocumentDetailLabel>
-                        <DocumentDetailValue>
-                          {insurance?.policyNumber || "—"}
-                        </DocumentDetailValue>
-                      </DocumentDetailRow>
-                      <ButtonGroup>
-                        {insurance?.file?.secureUrl ? (
-                          <>
-                            <ActionButton
-                              href={insurance.file.secureUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
+                      return (
+                        <DocumentCard key={doc.key}>
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
+                            <DocumentTitle style={{ margin: 0 }}>{doc.title}</DocumentTitle>
+                            {fileStatus === "verified" && (
+                              <StatusBadge style={{ backgroundColor: "#10b981", fontSize: "0.7rem", padding: "0.2rem 0.5rem" }}>Verified</StatusBadge>
+                            )}
+                            {fileStatus === "rejected" && (
+                              <StatusBadge style={{ backgroundColor: "#eb1010", fontSize: "0.7rem", padding: "0.2rem 0.5rem" }}>Rejected</StatusBadge>
+                            )}
+                            {fileStatus === "pending" && (
+                              <StatusBadge style={{ backgroundColor: "#f59e0b", fontSize: "0.7rem", padding: "0.2rem 0.5rem" }}>Under Review</StatusBadge>
+                            )}
+                            {fileStatus === "not_uploaded" && (
+                              <StatusBadge style={{ backgroundColor: "#6b7280", fontSize: "0.7rem", padding: "0.2rem 0.5rem" }}>Not Uploaded</StatusBadge>
+                            )}
+                          </div>
+
+                          <DocPreviewImage src={previewUrl} alt={doc.title} />
+
+                          {doc.details.map((detail) => (
+                            <DocumentDetailRow key={detail.label}>
+                              <DocumentDetailLabel>
+                                {detail.label}
+                              </DocumentDetailLabel>
+
+                              <DocumentDetailValue>
+                                {detail.value}
+                              </DocumentDetailValue>
+                            </DocumentDetailRow>
+                          ))}
+
+                          {fileStatus === "rejected" && (
+                            <div style={{ backgroundColor: "#fef2f2", border: "1px solid #fca5a5", color: "#991b1b", padding: "0.5rem 0.75rem", borderRadius: "0.375rem", fontSize: "0.75rem", marginTop: "0.5rem", marginBottom: "0.75rem" }}>
+                              <strong>Reason:</strong> {rejectionReason || "Document rejected by verification team."}
+                            </div>
+                          )}
+
+                          <input
+                            id={`file-${idx}-${doc.key}`}
+                            type="file"
+                            hidden
+                            onChange={(e) => handleFileChange(e, idx, doc)}
+                          />
+
+                          {fileStatus === "rejected" && (
+                            <ReuploadButton
+                              type="button"
+                              disabled={isReuploading}
+                              onClick={() =>
+                                document.getElementById(`file-${idx}-${doc.key}`)?.click()
+                              }
                             >
-                              <Eye size={14} /> View
-                            </ActionButton>
-                            <ActionButton
-                              href={insurance.file.secureUrl}
-                              download
-                              target="_blank"
-                              rel="noopener noreferrer"
+                              {isReuploading ? "Reuploading..." : "Reupload Document"}
+                            </ReuploadButton>
+                          )}
+
+                          {fileStatus === "not_uploaded" && (
+                            <ReuploadButton
+                              type="button"
+                              disabled={isReuploading}
+                              style={{ backgroundColor: "#2563eb" }}
+                              onClick={() =>
+                                document.getElementById(`file-${idx}-${doc.key}`)?.click()
+                              }
                             >
-                              <Download size={14} /> Download
-                            </ActionButton>
-                          </>
-                        ) : (
-                          <ActionButton
-                            as="button"
-                            disabled
-                            style={{ opacity: 0.5, cursor: "not-allowed" }}
-                          >
-                            Unavailable
-                          </ActionButton>
-                        )}
-                      </ButtonGroup>
-                    </DocumentCard>
+                              {isReuploading ? "Uploading..." : "Upload Document"}
+                            </ReuploadButton>
+                          )}
+
+                          {fileStatus === "pending" && (
+                              <ButtonGroup>
+                                {previewUrl ? (
+                                  <>
+                                    <ActionButton
+                                      href={previewUrl}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      <Eye size={14} />
+                                      View
+                                    </ActionButton>
+
+                                    <ActionButton
+                                      href={previewUrl}
+                                      download
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      <Download size={14} />
+                                      Download
+                                    </ActionButton>
+                                  </>
+                                ) : (
+                                  <ActionButton
+                                    as="button"
+                                    disabled
+                                    style={{
+                                      opacity: 0.5,
+                                      cursor: "not-allowed",
+                                    }}
+                                  >
+                                    Unavailable
+                                  </ActionButton>
+                                )}
+                              </ButtonGroup>
+                          )}
+
+                          {fileStatus === "verified" && (
+                            <ButtonGroup>
+                              {previewUrl ? (
+                                <>
+                                  <ActionButton
+                                    href={previewUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    <Eye size={14} />
+                                    View
+                                  </ActionButton>
+
+                                  <ActionButton
+                                    href={previewUrl}
+                                    download
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    <Download size={14} />
+                                    Download
+                                  </ActionButton>
+                                </>
+                              ) : (
+                                <ActionButton
+                                  as="button"
+                                  disabled
+                                  style={{
+                                    opacity: 0.5,
+                                    cursor: "not-allowed",
+                                  }}
+                                >
+                                  Unavailable
+                                </ActionButton>
+                              )}
+                            </ButtonGroup>
+                          )}
+                        </DocumentCard>
+                      );
+                    })}
                   </DocumentGrid>
                 </TravelerCard>
               );

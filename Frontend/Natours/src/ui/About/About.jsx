@@ -58,7 +58,7 @@ import {
  CTAContent,
   SecondaryButton
 } from "./About.styles";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // High-resolution Unsplash images curated for luxury travel aesthetic with fallback
 const IMAGES = {
@@ -239,7 +239,8 @@ const SafeImage = ({ src, fallbackSrc, alt, className, style }) => {
 
 export default function About() {
   const [setScrolled] = useState(false);
-  const navigate=useNavigate();
+  const navigate = useNavigate();
+  
 
   useEffect(() => {
     const handleScroll = () => {
@@ -369,7 +370,7 @@ export default function About() {
             </SectionSubtitle>
           </SectionHeader>
 
-          <ValuesGrid style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
+          <ValuesGrid>
             <ValueCard>
               <div className="icon-box">
                 <Compass size={24} />
@@ -742,7 +743,7 @@ export default function About() {
               portfolio.
             </p>
             <ButtonGroup style={{ justifyContent: "center" }}>
-              <PrimaryButton onClick={() => Navigate("/tours")}>
+              <PrimaryButton onClick={() => navigate("/tours")}>
                 Explore Tours <ArrowRight size={16} />
               </PrimaryButton>
             </ButtonGroup>

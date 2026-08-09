@@ -100,7 +100,7 @@ const {
         </Header>
 
         <BottomWrapper>
-          <ConsultationCard style={{ width: "100%", height: "700px" }}>
+          <ConsultationCard style={{ width: "100%" }}>
             <ConsultationContent>
               <ConsultationHeading>Raise a Support Request</ConsultationHeading>
 

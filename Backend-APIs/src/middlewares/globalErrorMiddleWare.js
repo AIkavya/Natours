@@ -138,6 +138,7 @@ module.exports = (err, req, res, next) => {
   const env = (process.env.NODE_ENV || "").trim();
 
   if (env === "development") {
+    console.log(error);
     return sendErrorDevelopment(error, res);
   }
 

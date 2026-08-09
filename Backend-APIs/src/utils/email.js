@@ -177,4 +177,10 @@ module.exports = class Email {
       },
     );
   }
+
+  async sendCancelBooking(booking) {
+    await this.send("bookingCancellation", "Natours | Your Booking cancelled", {
+      booking,
+    });
+  }
 };

@@ -75,54 +75,19 @@ export default function TrustComponent() {
             <Badge>ONE BOOKING ZERO STRESS.</Badge>
 
             <Title>
-                       Experiences
-                       <br />
-                       <AuroraText>Without Worries</AuroraText>
-                     </Title>
-           
-                     <Subtitle>
-                       No searching for flights. No comparing hotels. No worrying about
-                       transport, meals, guides, or support. Book your trip once and let us
-                       take care of everything while you focus on making memories.
-                     </Subtitle>
+              Experiences
+              <br />
+              <AuroraText>Without Worries</AuroraText>
+            </Title>
+
+            <Subtitle>
+              No searching for flights. No comparing hotels. No worrying about
+              transport, meals, guides, or support. Book your trip once and let
+              us take care of everything while you focus on making memories.
+            </Subtitle>
           </Header>
 
           <ComparisonSection>
-            {/* Traditional */}
-            <ComparisonCard
-              as={motion.div}
-              initial={{ opacity: 0, x: -80 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.7 }}
-            >
-              <CardHeader>
-                <CardTitle>Traditional Travel</CardTitle>
-
-                <CardSubtitle>
-                  Multiple bookings. Endless planning.
-                </CardSubtitle>
-              </CardHeader>
-
-              <ComparisonList>
-                {traditional.map((text, index) => (
-                  <ComparisonItem
-                    as={motion.li}
-                    key={text}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={isInView ? { opacity: 1, x: 0 } : {}}
-                    transition={{ delay: index * 0.08 }}
-                  >
-                    <IconWrapper $danger>
-                      <LuX />
-                    </IconWrapper>
-
-                    {text}
-                  </ComparisonItem>
-                ))}
-              </ComparisonList>
-            </ComparisonCard>
-
-            {/* Our Service */}
             <ComparisonCard
               $primary
               as={motion.div}
@@ -157,10 +122,42 @@ export default function TrustComponent() {
                 ))}
               </ComparisonList>
             </ComparisonCard>
+            <ComparisonCard
+              as={motion.div}
+              initial={{ opacity: 0, x: -80 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.7 }}
+            >
+              <CardHeader>
+                <CardTitle>Traditional Travel</CardTitle>
+
+                <CardSubtitle>
+                  Multiple bookings. Endless planning.
+                </CardSubtitle>
+              </CardHeader>
+
+              <ComparisonList>
+                {traditional.map((text, index) => (
+                  <ComparisonItem
+                    as={motion.li}
+                    key={text}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={isInView ? { opacity: 1, x: 0 } : {}}
+                    transition={{ delay: index * 0.08 }}
+                  >
+                    <IconWrapper $danger>
+                      <LuX />
+                    </IconWrapper>
+
+                    {text}
+                  </ComparisonItem>
+                ))}
+              </ComparisonList>
+            </ComparisonCard>
           </ComparisonSection>
         </Container>
       </Section>
-      <Consultant />
+      <Consultant id="help" />
       <Review />
     </>
   );

@@ -64,7 +64,7 @@ const features = [
   },
 ];
 
-function Consultant() {
+function Consultant({ id = "help" }) {
   const sectionRef = useRef(null);
 
   const isInView = useInView(sectionRef, {
@@ -76,7 +76,7 @@ function Consultant() {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = useForm({
     defaultValues: {
       name: "",
@@ -105,7 +105,7 @@ function Consultant() {
   }
 
   return (
-    <Section ref={sectionRef}>
+    <Section id={id} ref={sectionRef}>
       <BottomContent>
         <Header
           as={motion.div}

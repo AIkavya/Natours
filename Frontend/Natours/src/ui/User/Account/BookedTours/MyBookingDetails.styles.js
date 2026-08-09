@@ -374,6 +374,10 @@ export const ChecklistGrid = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1rem;
   margin-bottom: 2rem;
+
+  @media (max-width: 500px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 export const ChecklistItem = styled.div`
@@ -399,4 +403,55 @@ export const CheckIcon = styled.span`
   color: #ffffff;
   font-size: 0.75rem;
   font-weight: 700;
+`;
+
+export const RejectBox = styled.div`
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+
+  strong {
+    color: #ef4444;
+    display: block;
+    margin-bottom: 0.35rem;
+  }
+
+  p {
+    color: #d1d5db;
+    font-size: 1.25rem;
+    line-height: 1.5;
+  }
+`;
+
+export const ReuploadButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 1);
+  background-color: #e12323ce;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  flex: 1;
+
+  &:hover {
+    background: #ffffff;
+    color: #e20c0cff;
+    border-color: #ffffff;
+  }
+
+`;
+
+export const RejectText = styled.p`
+  margin-top: 0.7rem;
+  color: #ef4444;
+  font-size: 1.2rem;
 `;

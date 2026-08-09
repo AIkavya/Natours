@@ -35,4 +35,32 @@ export async function getMyBookingDetails(bookingNumber) {
 }
 
 
-///actually let's do ssection by section first i am giving you the data of booking that i ahve so you structure in 4 parts Tour / Travller / payment  /..and etc 
+
+export const reuploadBookingDocument = async ({
+  bookingId,
+  travelerIndex,
+  docType,
+  rejectDocId,
+  file,
+}) => {
+  const formData = new FormData();
+
+  formData.append("bookingId", bookingId);
+  formData.append("travelerIndex", travelerIndex);
+  formData.append("docType", docType);
+  formData.append("rejectDocId", rejectDocId);
+  formData.append("file", file);
+
+  const { data } = await axios.patch(
+    `http://localhost:3001/api/v1/booking/reupload-document`,
+    formData,
+    {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    },
+  );
+
+  return data.data;
+};

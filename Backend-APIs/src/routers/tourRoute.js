@@ -8,6 +8,7 @@ const {
   getNatureThemeTours,
   getCitiesThemeTours,
   getCountryTopTours,
+  getUniqueCountries,
 } = require("../controllers/tourController");
 
 const {
@@ -24,6 +25,7 @@ router.get("/top-trending", getTopTrendingTours);
 router.get("/nature-themes", getNatureThemeTours);
 router.get("/cities-theme", getCitiesThemeTours);
 router.get("/getCountryTopTours", getCountryTopTours);
+router.get("/unique-countries", getUniqueCountries);
 
 
 

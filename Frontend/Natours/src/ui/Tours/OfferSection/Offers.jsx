@@ -84,7 +84,9 @@ export default function Offer() {
 
         <OfferBlock $color={"white"}>
           <HeaderTrending $variant="trending"> Trending Deals</HeaderTrending>
-
+          <p style={{ textAlign: "left", marginTop: "1rem", color: "#949494" }}>
+            Swipe for more
+          </p>
           <DiscoveryFeed>
             <TrendingGrid tours={trendingTours} category="Trending" />
           </DiscoveryFeed>
@@ -94,7 +96,9 @@ export default function Offer() {
 
         <OfferBlock $color={"black"}>
           <HeaderTrending $variant="adventure"> Adventure Deals</HeaderTrending>
-
+          <p style={{ textAlign: "left", marginTop: "1rem", color: "#949494" }}>
+            Swipe for more
+          </p>
           <DiscoveryFeed>
             <TrendingGrid tours={adventureTours} category="Adventure" />
           </DiscoveryFeed>
@@ -104,7 +108,9 @@ export default function Offer() {
 
         <OfferBlock $color={"white"}>
           <HeaderTrending $variant="partner">Partner Specials</HeaderTrending>
-
+          <p style={{ textAlign: "left", marginTop: "1rem", color: "#949494" }}>
+            Swipe for more
+          </p>
           <DiscoveryFeed>
             <TrendingGrid tours={partnerTours} category="Couple" />
           </DiscoveryFeed>

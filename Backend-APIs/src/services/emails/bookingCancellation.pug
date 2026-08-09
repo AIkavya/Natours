@@ -1,0 +1,42 @@
+
+extends baseEmail
+
+block content
+  h2(style="margin:0 0 16px;font-size:28px;font-weight:700;color:#111827;") Booking Cancelled
+
+  p(style="margin:0 0 18px;font-size:16px;line-height:1.7;color:#4B5563;")
+    | Hello,
+    br
+    | Your booking has been cancelled successfully. We're sorry your travel plans couldn't proceed, and we hope to welcome you on another journey soon.
+
+  table(role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0;background:#F8FAFC;border:1px solid #E5E7EB;border-radius:12px;padding:20px;")
+    tr
+      td(style="padding:8px 0;font-size:15px;color:#6B7280;font-weight:600;") Booking Number
+      td(style="padding:8px 0;font-size:15px;color:#111827;font-weight:700;text-align:right;") #{book.bookingNumber}
+
+    tr
+      td(style="padding:8px 0;font-size:15px;color:#6B7280;font-weight:600;") Travel Date
+      td(style="padding:8px 0;font-size:15px;color:#111827;font-weight:700;text-align:right;") #{book.travelDate}
+
+    tr
+      td(style="padding:8px 0;font-size:15px;color:#6B7280;font-weight:600;") Cancellation Status
+      td(style="padding:8px 0;font-size:15px;color:#DC2626;font-weight:700;text-align:right;") Cancelled
+
+    tr
+      td(style="padding:8px 0;font-size:15px;color:#6B7280;font-weight:600;") Refund  Will be Provided Soon
+     
+
+  .info-box(style="margin:28px 0;padding:18px;background:#FEF3C7;border-left:4px solid #F59E0B;border-radius:8px;")
+    h3(style="margin:0 0 10px;font-size:18px;color:#92400E;") Refund Information
+    p(style="margin:0;font-size:15px;line-height:1.7;color:#78350F;")
+      | If your booking is eligible for a refund, the amount will be processed according to our cancellation policy and credited to your original payment method. Processing typically takes 5–10 business days depending on your payment provider.
+
+  p(style="margin:28px 0 10px;font-size:16px;line-height:1.7;color:#4B5563;")
+    | If you believe this cancellation was made in error or you have any questions regarding your refund, please contact our customer support team.
+
+  p(style="margin:0;font-size:16px;font-weight:600;color:#111827;")
+    | 📞 Customer Support: +91 98765 43210
+
+  p(style="margin:32px 0 0;font-size:15px;color:#6B7280;")
+    | Thank you for choosing Natours. We look forward to serving you again in the future.
+

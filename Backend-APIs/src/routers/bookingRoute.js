@@ -3,7 +3,7 @@ const router = express.Router();
 
 const { protect } = require('../controllers/authController');
 const BookingController = require('../controllers/bookingController');
-const { uploadBookingDocuments } = require('../middlewares/documents');
+const { uploadBookingDocuments,reuploadBookingDocument } = require('../middlewares/documents');
 
 router.use(protect);
 
@@ -14,6 +14,8 @@ router.get(
   "/detail-booking/:bookingNumber",
   BookingController.getMyTourDetails,
 );
+
+router.patch("/reupload-document",reuploadBookingDocument,BookingController.reuploadBookingDocument);  
 
 
 module.exports = router; 

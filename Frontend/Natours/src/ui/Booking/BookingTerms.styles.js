@@ -192,6 +192,8 @@ export const AgreementText = styled.p`
   strong {
     color: white;
   }
+
+  
 `;
 
 // =======================================================

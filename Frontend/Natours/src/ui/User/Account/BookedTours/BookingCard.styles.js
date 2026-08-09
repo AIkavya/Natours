@@ -27,10 +27,19 @@ export const Image = styled.img`
   height: 100%;
   min-height: 240px;
   object-fit: cover;
+
+  @media (max-width: 850px) {
+    height: 200px;
+    min-height: 180px;
+  }
 `;
 
 export const Content = styled.div`
   padding: 2.2rem;
+
+  @media (max-width: 500px) {
+    padding: 1.5rem;
+  }
 `;
 
 export const TourName = styled.h2`
@@ -38,6 +47,10 @@ export const TourName = styled.h2`
   font-weight: 700;
   color: #1f2937;
   margin-bottom: 0.8rem;
+
+  @media (max-width: 500px) {
+    font-size: 1.9rem;
+  }
 `;
 
 export const Status = styled.span`
@@ -81,6 +94,7 @@ export const Grid = styled.div`
 
   @media (max-width: 600px) {
     grid-template-columns: 1fr;
+    gap: 1.2rem;
   }
 `;
 
@@ -113,7 +127,8 @@ export const Footer = styled.div`
 
   @media (max-width: 700px) {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
+    gap: 1.5rem;
   }
 `;
 
@@ -121,6 +136,10 @@ export const Amount = styled.h3`
   font-size: 2.2rem;
   color: #111827;
   margin-bottom: 0.3rem;
+
+  @media (max-width: 500px) {
+    font-size: 1.9rem;
+  }
 `;
 
 export const Remaining = styled.p`
@@ -145,8 +164,16 @@ export const Button = styled.a`
   font-weight: 600;
 
   transition: 0.3s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
 
   &:hover {
     background: #1d4ed8;
+  }
+
+  @media (max-width: 700px) {
+    width: 100%;
   }
 `;

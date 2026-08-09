@@ -94,9 +94,13 @@ exports.verifyOrRejectDocuments = catchAsync(async (req, res, next) => {
     );
   }
 
+
   const { decisions } = req.body;
   // decisions should be an array or object:
   // Array of { travelerIndex: 0, docType: 'passport', action: 'verify'|'reject', reason: '' }
+
+  
+  
 
   if (decisions && Array.isArray(decisions)) {
     decisions.forEach((dec) => {
@@ -108,15 +112,27 @@ exports.verifyOrRejectDocuments = catchAsync(async (req, res, next) => {
       ) {
         const docObj =
           booking.travelers[travelerIndex].travelDocuments[docType];
-        if (docObj.file) {
-          docObj.file.status = action === "reject" ? "rejected" : "verified";
-          docObj.file.rejectionReason =
-            action === "reject" ? reason || "Document invalid or unclear" : "";
+        const isReject = action === "reject";
+        const statusVal = isReject ? "rejected" : "verified";
+        const reasonVal = isReject ? (reason || "Document invalid or unclear") : "";
+
+        // Update top-level verificationStatus and file subdocument status and reason
+        docObj.verificationStatus = statusVal;
+
+        if (!docObj.file) {
+          docObj.file = {};
         }
+        docObj.file.status = statusVal;
+        docObj.file.reason = reasonVal;
       }
     });
+
+    booking.markModified("travelers");
   }
 
+  
+  
+  
   // Check overall document status across all travelers and their uploaded document files
   let hasRejections = false;
   let allVerified = true;
@@ -125,6 +141,7 @@ exports.verifyOrRejectDocuments = catchAsync(async (req, res, next) => {
   booking.travelers.forEach((traveler, tIdx) => {
     const travelerName = `${traveler.firstName} ${traveler.lastName}`;
     const docs = traveler.travelDocuments || {};
+    const dob = traveler.dob;
 
     ["passport", "nationalId", "visa", "insurance"].forEach((docKey) => {
       const doc = docs[docKey];
@@ -134,9 +151,10 @@ exports.verifyOrRejectDocuments = catchAsync(async (req, res, next) => {
           allVerified = false;
           rejectedDocsList.push({
             travelerName,
+            dob,
             docType: docKey.toUpperCase(),
             reason:
-              doc.file.rejectionReason ||
+              doc.file.reason ||
               "Document rejected by verification team",
           });
         } else if (doc.file.status !== "verified") {
@@ -146,29 +164,41 @@ exports.verifyOrRejectDocuments = catchAsync(async (req, res, next) => {
     });
   });
 
-  if (hasRejections) {
-    booking.documentVerificationStatus = "rejected";
-    await booking.save();
+  console.log(
+    JSON.stringify(
+      booking.travelers.map((t) => ({
+        name: `${t.firstName} ${t.lastName}`,
+        docs: t.travelDocuments,
+      })),
+      null,
+      2,
+    ),
+  );
 
-    // Send rejection email to user
-    try {
-      await new Email(booking.user, "").sendDocumentRejection(
-        booking,
-        rejectedDocsList,
-      );
-    } catch (err) {
-      console.error("Failed to send rejection email:", err.message);
-    }
+  if (hasRejections)
+  {
+   booking.documentVerificationStatus = "rejected";
+   await booking.save();
 
-    return res.status(200).json({
-      status: "success",
-      verificationStatus: "rejected",
-      message: "Some documents were rejected. Notification email sent to user.",
-      booking,
-    });
-  }
+   try {
+     await new Email(booking.user, "").sendDocumentRejection(
+       booking,
+       rejectedDocsList,
+     );
+   } catch (err) {
+     console.error("Failed to send rejection email:", err.message);
+   }
 
-  if (allVerified) {
+   return res.status(200).json({
+     status: "success",
+     verificationStatus: "rejected",
+     message: "Some documents were rejected.",
+     booking,
+   });
+ }
+
+  if (allVerified)
+  {
     booking.documentVerificationStatus = "verified";
     // If pending, mark booking status as confirmed if advance or payment is good
     if (booking.bookingStatus === "pending") {
@@ -248,8 +278,28 @@ exports.markJourneyCompleted = catchAsync(async (req, res, next) => {
 
   const booking = await Booking.findById(req.params.id).populate("user");
 
-  if (!booking) {
+  if(!booking)
+  {
     return next(new AppError("Booking not found.", 404));
+  }
+  if(status === "cancelled")
+  {
+   
+      try {
+        await new Email(booking.user, "").sendCancelBooking(booking);
+        booking.bookingStatus = "cancelled";
+        booking.active = false;
+        await booking.save();
+        
+      } catch (err) {
+        console.error("Booking cancellation email error:", err.message);
+        return next(new AppError("Failed to send booking cancellation email.", 500));
+      }
+      return res.status(200).json({
+        status: "success",
+        message: "Booking journey cancelled successfully.",
+        booking,
+      });
   }
 
   booking.bookingStatus = newStatus;

@@ -1,28 +1,38 @@
 import styled from "styled-components";
 
-
-
 export const Card = styled.div`
   background: transparent;
   /* border: 1px solid #262626; */
   border-radius: 2rem;
   padding: 3rem;
+
+  @media (max-width: 768px) {
+    padding: 1.8rem;
+  }
+
+  @media (max-width: 500px) {
+    padding: 1rem;
+  }
 `;
 
 export const Header = styled.div`
   margin-bottom: 3rem;
+
+  @media (max-width: 500px) {
+    margin-bottom: 2rem;
+  }
 `;
 
 export const Title = styled.h2`
   color: white;
-  font-size: 2.6rem;
+  font-size: clamp(2rem, 3vw, 2.6rem);
   font-weight: 700;
   margin-bottom: 0.8rem;
 `;
 
 export const Description = styled.p`
   color: #9c9c9c;
-  font-size: 1.5rem;
+  font-size: clamp(1.35rem, 1.8vw, 1.5rem);
   line-height: 1.7;
 `;
 
@@ -31,6 +41,14 @@ export const AvatarSection = styled.div`
   align-items: center;
   gap: 2rem;
   margin-bottom: 4rem;
+
+  @media (max-width: 500px) {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.2rem;
+    margin-bottom: 2.5rem;
+  }
 `;
 
 export const Avatar = styled.img`
@@ -41,6 +59,11 @@ export const Avatar = styled.img`
   object-fit: cover;
 
   border: 4px solid #222;
+
+  @media (max-width: 500px) {
+    width: 8.5rem;
+    height: 8.5rem;
+  }
 `;
 
 export const UploadButton = styled.button`
@@ -63,12 +86,21 @@ export const UploadButton = styled.button`
     background: #141414;
     color: white;
   }
+
+  @media (max-width: 500px) {
+    width: 100%;
+    padding: 1rem 1.6rem;
+  }
 `;
 
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
+
+  @media (max-width: 500px) {
+    gap: 1.8rem;
+  }
 `;
 
 export const Row = styled.div`
@@ -78,6 +110,7 @@ export const Row = styled.div`
 
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 `;
 
@@ -115,6 +148,11 @@ export const Input = styled.input`
   &[readonly] {
     color: #bdbdbd;
   }
+
+  @media (max-width: 500px) {
+    padding: 1.1rem 1.2rem;
+    font-size: 1.4rem;
+  }
 `;
 
 export const Select = styled.select`
@@ -132,6 +170,11 @@ export const Select = styled.select`
   &:focus {
     outline: none;
     border-color: #2563eb;
+  }
+
+  @media (max-width: 500px) {
+    padding: 1.1rem 1.2rem;
+    font-size: 1.4rem;
   }
 `;
 
@@ -154,6 +197,12 @@ export const TextArea = styled.textarea`
   &:focus {
     outline: none;
     border-color: #2563eb;
+  }
+
+  @media (max-width: 500px) {
+    padding: 1.2rem;
+    font-size: 1.4rem;
+    min-height: 12rem;
   }
 `;
 
@@ -205,5 +254,11 @@ export const SaveButton = styled.button`
   &:hover {
     background: #0e0e0e;
     color: white;
+  }
+
+  @media (max-width: 500px) {
+    width: 100%;
+    align-self: stretch;
+    padding: 1.3rem 2rem;
   }
 `;

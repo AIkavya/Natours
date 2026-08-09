@@ -4,48 +4,42 @@ import Carousel from "../../components/Carousel";
 
 import {
   Section,
+  
+} from "./CarouselSection.styles";
+import {
+  AuroraText,
   Header,
   Badge,
   Title,
-  Subtitle,
-} from "./CarouselSection.styles";
-import { AuroraText } from "../Grid/GridComponent.styles";
+  Subtitle
+} from "../Grid/GridComponent.styles";
 
 const ease = [0.16, 1, 0.3, 1];
 
 export default function CarouselSection() {
   return (
     <Section>
-      <Header
-        as={motion.div}
-        initial={{
-          opacity: 0,
-          y: 16,
-        }}
-        whileInView={{
-          opacity: 1,
-          y: 0,
-        }}
-        viewport={{
-          once: true,
-          amount: 0.15,
-        }}
-        transition={{
-          duration: 1,
-          ease,
-        }}
-      >
-        <Badge> Explore Destinations</Badge>
-
-        <Title>
-          Discover Your Next <AuroraText>Adventure</AuroraText>
-        </Title>
-
-        <Subtitle>
-          Explore breathtaking landscapes, vibrant cities, and unforgettable
-          journeys carefully curated for every kind of traveler.
-        </Subtitle>
-      </Header>
+    <Header
+              as={motion.div}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.8 }}
+            >
+              <Badge>Life Beyond Noise</Badge>
+    
+              <Title>
+                Discover
+                <br />
+                <AuroraText>Beyond The Ordinary</AuroraText>
+              </Title>
+    
+              <Subtitle>
+                Wander through extraordinary destinations from every corner of the
+                world. Pause, explore, and uncover journeys that inspire your next
+                adventure.
+              </Subtitle>
+            </Header>
 
       <motion.div
         initial={{

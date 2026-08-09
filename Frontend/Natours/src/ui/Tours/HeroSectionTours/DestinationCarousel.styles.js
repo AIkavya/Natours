@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import {motion} from 'framer-motion';
+import { motion } from "framer-motion";
+
 export const CarouselSection = styled.section`
   width: 100%;
   min-height: 100vh;
@@ -7,9 +8,6 @@ export const CarouselSection = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
-
-  /* padding: 10rem 0; */
-
 `;
 
 export const CarouselWrapper = styled.section`
@@ -23,7 +21,6 @@ export const CarouselWrapper = styled.section`
 
   background: rgba(12, 1, 1, 0.929);
 
- 
   box-shadow:
     0 30px 90px rgba(0, 0, 0, 0.55),
     0 10px 30px rgba(0, 0, 0, 0.25);
@@ -84,6 +81,18 @@ export const Content = styled.div`
   column-gap: 4rem;
 
   align-items: center;
+
+  @media (max-width: 1100px) {
+    padding: 0 2.5rem;
+    grid-template-columns: 60px 1fr 420px;
+    column-gap: 2rem;
+  }
+
+  @media (max-width: 900px) {
+    padding: 0 1.5rem;
+    grid-template-columns: 50px 1fr 360px;
+    column-gap: 1.5rem;
+  }
 `;
 
 export const LeftContent = styled.div`
@@ -118,6 +127,18 @@ export const LeftContent = styled.div`
 
     max-width: 520px;
   }
+
+  @media (max-width: 1000px) {
+    span {
+      font-size: 2.2rem;
+    }
+    h1 {
+      font-size: clamp(2.4rem, 4vw, 3.8rem);
+    }
+    p {
+      font-size: 1.05rem;
+    }
+  }
 `;
 
 export const RightContent = styled.div`
@@ -128,6 +149,10 @@ export const RightContent = styled.div`
 
   display: flex;
   align-items: center;
+
+  @media (max-width: 1000px) {
+    height: 320px;
+  }
 `;
 
 export const CardTrack = styled(motion.div)`
@@ -143,4 +168,8 @@ export const CardTrack = styled(motion.div)`
   &:active {
     cursor: grabbing;
   }
-`;
+
+  @media (max-width: 1000px) {
+    gap: 1.5rem;
+  }
+`;

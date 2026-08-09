@@ -60,9 +60,11 @@ function MyBookings() {
       </Header>
 
       <Grid>
-        {bookings.map((booking) => (
-          <BookingCard key={booking._id} booking={booking} />
-        ))}
+        {bookings.map((booking) => {
+           return booking.bookingStatus === "cancelled" ? '' : (
+            <BookingCard key={booking._id} booking={booking} />
+           );
+        })}
       </Grid>
     </Container>
   );

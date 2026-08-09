@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { Link,NavLink } from "react-router-dom";
+import styled, { css } from "styled-components";
+import { Link, NavLink } from "react-router-dom";
 
 export const Layout = styled.div`
   display: grid;
@@ -7,6 +7,19 @@ export const Layout = styled.div`
   height: 100vh;
   overflow: hidden;
   background: #0c0c0c;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 24rem 1fr;
+  }
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 `;
 
 /* ==========================
@@ -18,6 +31,29 @@ export const SideBar = styled.aside`
   grid-template-rows: 8rem 1fr 8rem;
   background: #111111;
   border-right: 1px solid #252525;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    grid-template-rows: none;
+    border-right: none;
+    border-bottom: 1px solid #252525;
+    transition: all 0.3s ease;
+
+    ${({ $isOpen }) =>
+      $isOpen &&
+      css`
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        height: 100vh;
+        width: 100vw;
+        background: #0d0d0d;
+        padding: 1.5rem;
+        overflow-y: auto;
+        justify-content: space-between;
+      `}
+  }
 `;
 
 /* ==========================
@@ -30,6 +66,11 @@ export const HeaderSiderBar = styled.header`
   justify-content: center;
   padding: 1rem;
   border-bottom: 1px solid #252525;
+
+  @media (max-width: 768px) {
+    padding: 0.5rem 0;
+    border-bottom: ${({ $isOpen }) => ($isOpen ? "1px solid #252525" : "none")};
+  }
 `;
 
 export const UserPill = styled.div`
@@ -47,9 +88,10 @@ export const UserPill = styled.div`
   border-radius: 1.6rem;
 
   transition: 0.25s ease;
+  cursor: pointer;
 
   &:hover {
-    border-color: #0d0d0d;
+    border-color: #3b82f6;
     background: #1e1d1d;
   }
 `;
@@ -82,6 +124,20 @@ export const UserName = styled.span`
   text-overflow: ellipsis;
 `;
 
+export const ToggleChevron = styled.span`
+  display: none;
+  font-size: 2.2rem;
+  color: #9c9c9c;
+  transition: transform 0.3s ease;
+  transform: rotate(${({ $isOpen }) => ($isOpen ? "180deg" : "0deg")});
+
+  @media (max-width: 768px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+`;
+
 /* ==========================
    Menu
 ========================== */
@@ -97,6 +153,15 @@ export const MainMenuSideBar = styled.main`
   &::-webkit-scrollbar-thumb {
     background: #333;
     border-radius: 100px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 2rem 0.5rem;
+    overflow-y: auto;
+    display: ${({ $isOpen }) => ($isOpen ? "flex" : "none")};
+    flex-direction: column;
+    flex: 1;
+    justify-content: center;
   }
 `;
 
@@ -115,6 +180,11 @@ export const FooterSideBar = styled.footer`
 
   color: #9c9c9c;
   font-size: 1rem;
+
+  @media (max-width: 768px) {
+    display: ${({ $isOpen }) => ($isOpen ? "flex" : "none")};
+    padding-top: 1.5rem;
+  }
 `;
 
 /* ==========================
@@ -134,8 +204,12 @@ export const MainBar = styled.main`
     background: #2d2d2d;
     border-radius: 100px;
   }
+
+  @media (max-width: 768px) {
+    padding: 1.5rem 1rem;
+    overflow-y: visible;
+  }
 `;
-  
 
 /* ==========================
    Sidebar Menu
@@ -147,6 +221,11 @@ export const Menu = styled.div`
   gap: 0.8rem;
   height: 100%;
 
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 1.2rem;
+    width: 100%;
+  }
 `;
 
 export const MenuItem = styled(NavLink)`
@@ -172,6 +251,20 @@ export const MenuItem = styled(NavLink)`
     background: #202020;
     color: white;
   }
+
+  @media (max-width: 768px) {
+    padding: 1.4rem 1.6rem;
+    font-size: 1.6rem;
+    gap: 1.2rem;
+    background: #171717;
+    border: 1px solid #282828;
+
+    &.active {
+      background: #2563eb;
+      color: white;
+      border-color: #2563eb;
+    }
+  }
 `;
 
 export const MenuIcon = styled.span`
@@ -193,6 +286,10 @@ export const FooterLinks = styled.div`
   display: flex;
   gap: 1rem;
   width: 100%;
+
+  @media (max-width: 500px) {
+    flex-direction: column;
+  }
 `;
 
 export const FooterButton = styled(Link)`
@@ -231,6 +328,11 @@ export const FooterButton = styled(Link)`
   svg {
     font-size: 1.7rem;
   }
+
+  @media (max-width: 768px) {
+    height: 4.8rem;
+    font-size: 1.4rem;
+  }
 `;
 
 export const Logout = styled.button`
@@ -238,13 +340,21 @@ export const Logout = styled.button`
   color: #ffffff;
   padding: 1rem 1.3rem;
   border: 1px solid black;
-  border-radius: 2px;
+  border-radius: 1.2rem;
   margin-top: auto;
   font-size: 1.35rem;
   font-weight: 500;
   cursor: pointer;
+
   &:hover {
     background-color: #ffffff;
     color: #ff0000;
+  }
+
+  @media (max-width: 768px) {
+    margin-top: 1.5rem;
+    padding: 1.4rem 1.6rem;
+    font-size: 1.5rem;
+    width: 100%;
   }
 `;

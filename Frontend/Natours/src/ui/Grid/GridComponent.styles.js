@@ -115,7 +115,7 @@ export const Title = styled.h2`
 export const Subtitle = styled.p`
   max-width: 100rem;
 
-  margin: 2.2rem auto 0;
+  margin: 2rem auto 0;
 
   font-size: 1.6rem;
   line-height: 1.8;

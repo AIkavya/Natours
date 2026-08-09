@@ -1,6 +1,6 @@
 exports.protectAdminService = (req, res, next) => {
   const serviceKey =
-    process.env.ADMIN_SERVICE_KEY || "vanguard_admin_service_secret_key_2026";
+    process.env.ADMIN_SERVICE_KEY;
 
   const providedKey =
     req.headers["x-admin-service-key"] ||

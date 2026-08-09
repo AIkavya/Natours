@@ -63,6 +63,8 @@ export const Card = styled.article`
     distance: "-6px",
     shadowLevel: shadow.sm,
   })}
+
+ 
 `;
 
 export const ImageWrapper = styled.div`

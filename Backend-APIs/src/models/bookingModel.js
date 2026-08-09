@@ -15,6 +15,16 @@ const documentFileSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+
+    status: {
+      type: String,
+      enum: ['verified', 'rejected', 'pending'],
+      default: 'pending',
+      require: true
+    },
+
+    reason: String,
+      
   },
   {
     _id: false,
@@ -102,10 +112,6 @@ const travelerSchema = new mongoose.Schema(
       trim: true,
     },
 
-  
-
-    
-
     // ==========================================
     // TRAVEL DOCUMENTS
     // ==========================================
@@ -114,6 +120,7 @@ const travelerSchema = new mongoose.Schema(
       passport: {
         number: String,
         expiry: Date,
+        verificationStatus: String,
         file: documentFileSchema,
       },
 
@@ -123,21 +130,21 @@ const travelerSchema = new mongoose.Schema(
         },
 
         number: String,
-
+        verificationStatus: String,
         file: documentFileSchema,
       },
 
       visa: {
         number: String,
         expiry: Date,
+        verificationStatus: String,
         file: documentFileSchema,
       },
 
       insurance: {
         provider: String,
-
         policyNumber: String,
-
+        verificationStatus: String,
         file: documentFileSchema,
       },
     },
@@ -219,6 +226,7 @@ const termsSchema = mongoose.Schema({
     },
   },
 });
+
 // =======================================================
 // BOOKING SCHEMA
 // =======================================================
@@ -291,7 +299,7 @@ const bookingSchema = new mongoose.Schema(
 
     emergencyContact: {
       type: emergencyContactSchema,
-      required: true
+      required: true,
     },
 
     // ==========================================
@@ -331,7 +339,7 @@ const bookingSchema = new mongoose.Schema(
     payment: {
       provider: {
         type: String,
-        enum: ["card" , "upi"],
+        enum: ["card", "upi"],
         default: "card",
       },
 
@@ -359,8 +367,20 @@ const bookingSchema = new mongoose.Schema(
 
     bookingStatus: {
       type: String,
-      enum: ["pending", "confirmed", "cancelled", "completed", "expired" , "failed"],
+      enum: [
+        "pending",
+        "confirmed",
+        "cancelled",
+        "completed",
+        "expired",
+        "failed",
+      ],
       default: "pending",
+    },
+    documentVerificationStatus: {
+      type: String,
+      enum: ['verified', 'pending', 'rejected'],
+      default: 'pending'
     },
   },
   {

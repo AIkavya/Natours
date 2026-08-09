@@ -495,3 +495,27 @@ exports.getTours = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+// ==========================================
+// GET UNIQUE COUNTRIES & COVER IMAGES
+// ==========================================
+exports.getUniqueCountries = catchAsync(async (req, res, next) => {
+  const tours = await Tour.find({}, { destinations: 1, imageCover: 1 }).lean();
+
+  const countriesMap = {};
+
+  tours.forEach((tour) => {
+    if (Array.isArray(tour.destinations)) {
+      tour.destinations.forEach((dest) => {
+        if (dest.country && !countriesMap[dest.country]) {
+          countriesMap[dest.country] = tour.imageCover || "";
+        }
+      });
+    }
+  });
+
+  res.status(200).json({
+    status: "success",
+    data: countriesMap,
+  });
+});

@@ -15,11 +15,11 @@ import { heading, paragraph } from "../card/typography";
 export const Card = styled.article`
   position: relative;
 
-  width: 16rem;
-  height: 20rem;
+  width: clamp(12rem, 14vw, 16rem);
+  height: clamp(15rem, 18vw, 20rem);
 
   flex-shrink: 0;
-
+  
   overflow: hidden;
 
   border-radius: ${radius.xl};
@@ -31,6 +31,8 @@ export const Card = styled.article`
   &:hover {
     border: 2px solid rgba(19, 18, 18, 1);
   }
+
+
 `;
 
 export const ImageWrapper = styled.div`
@@ -53,6 +55,13 @@ export const Image = styled.img`
   ${imageBrightness(Card, {
     brightness: 0.8,
   })}
+
+  @media (max-width: 1000px) {
+    filter: brightness(0.60);
+  }
+
+ 
+ 
 `;
 
 export const Gradient = styled(Overlay)`
@@ -69,6 +78,8 @@ export const Gradient = styled(Overlay)`
   ${Card}:hover & {
     opacity: 1;
   }
+
+  
 `;
 
 export const Content = styled.div`
@@ -98,6 +109,13 @@ export const Destination = styled.h3`
   ${Card}:hover & {
     transform: translateY(-0.6rem);
     opacity: 0.9;
+  }
+
+  @media (max-width : 1000px) {
+    
+    font-size: 1.4rem;
+    transform: translateX(10%) translateY(40%);
+
   }
 `;
 

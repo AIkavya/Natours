@@ -1,4 +1,4 @@
-
+import { useState } from "react";
 import { useLogout } from "../../features/hooks/UserHooks/useLogout";
 import toast from "react-hot-toast";
 import { Outlet, Link, NavLink, useNavigate } from "react-router-dom";
@@ -10,6 +10,7 @@ import {
   LuStar,
   LuArrowLeft,
   LuMap,
+  LuChevronDown,
 } from "react-icons/lu";
 
 import {
@@ -23,6 +24,7 @@ import {
   ImageWrapper,
   Image,
   UserName,
+  ToggleChevron,
   Menu,
   MenuItem,
   MenuIcon,
@@ -59,72 +61,96 @@ const menuItems = [
   },
 ];
 
-function UserPage({ user })
-{
-
+function UserPage({ user }) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
- const { logout } = useLogout({
-   onSuccess: () => {
-     toast.success("Logged out successfully");
-     navigate('/');
-     
-   },
-   onError: () => {
-     toast.error("Logout failed");
-   },
- });
 
- function handleLogout() {
-   logout();
+  const { logout } = useLogout({
+    onSuccess: () => {
+      toast.success("Logged out successfully");
+      navigate("/");
+    },
+    onError: () => {
+      toast.error("Logout failed");
+    },
+  });
+
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
+  function handleLogout() {
+    closeMenu();
+    logout();
   }
-  
+
   return (
     <Layout>
-      <SideBar>
-        <HeaderSiderBar>
-          <UserPill>
+      <SideBar $isOpen={isMenuOpen}>
+        <HeaderSiderBar $isOpen={isMenuOpen}>
+          <UserPill
+            onClick={toggleMenu}
+            role="button"
+            tabIndex={0}
+            aria-expanded={isMenuOpen}
+            aria-label="Toggle Navigation Menu"
+          >
             <ImageWrapper>
               <Image
                 src={
-                  user.photo !== "default-user.jpg" ? user.photo.url : "/user.svg"
+                  user.photo !== "default-user.jpg"
+                    ? user.photo.url
+                    : "/user.svg"
                 }
                 alt="User"
               />
             </ImageWrapper>
 
             <UserName>{user.name}</UserName>
+
+            <ToggleChevron $isOpen={isMenuOpen}>
+              <LuChevronDown />
+            </ToggleChevron>
           </UserPill>
         </HeaderSiderBar>
 
-        <MainMenuSideBar>
+        <MainMenuSideBar $isOpen={isMenuOpen}>
           <Menu>
-            
-              {menuItems.map((item) => {
-                const Icon = item.icon;
+            {menuItems.map((item) => {
+              const Icon = item.icon;
 
-                return (
-                  <MenuItem key={item.path} as={NavLink} to={item.path} end>
-                    <MenuIcon>
-                      <Icon />
-                    </MenuIcon>
+              return (
+                <MenuItem
+                  key={item.path}
+                  as={NavLink}
+                  to={item.path}
+                  end
+                  onClick={closeMenu}
+                >
+                  <MenuIcon>
+                    <Icon />
+                  </MenuIcon>
+                  {item.title}
+                </MenuItem>
+              );
+            })}
 
-                    {item.title}
-                  </MenuItem>
-                );
-              })}
-            
             <Logout onClick={handleLogout}>Logout</Logout>
           </Menu>
         </MainMenuSideBar>
 
-        <FooterSideBar>
+        <FooterSideBar $isOpen={isMenuOpen}>
           <FooterLinks>
-            <FooterButton as={Link} to="/">
+            <FooterButton as={Link} to="/" onClick={closeMenu}>
               <LuArrowLeft />
               Back
             </FooterButton>
 
-            <FooterButton as={Link} to="/tours" primary>
+            <FooterButton as={Link} to="/tours" primary onClick={closeMenu}>
               <LuMap />
               Explore Tours
             </FooterButton>

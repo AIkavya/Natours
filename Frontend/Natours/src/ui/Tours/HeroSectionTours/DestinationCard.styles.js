@@ -34,6 +34,12 @@ export const Card = styled.div`
     distance: "-12px",
     shadowLevel: shadow.xl,
   })}
+
+  @media (max-width: 700px) {
+     width: 200px;
+     height:280px;
+
+  }
 `;
 
 export const CardImage = styled.img`
@@ -53,6 +59,8 @@ export const CardOverlay = styled(Overlay)`
     middle: "rgba(0,0,0,.12)",
     end: "rgba(0,0,0,.02)",
   })}
+
+  
 `;
 
 export const CardContent = styled.div`
@@ -84,3 +92,5 @@ export const Title = styled.h3`
     lineHeight: 1.15,
   })}
 `;
+
+

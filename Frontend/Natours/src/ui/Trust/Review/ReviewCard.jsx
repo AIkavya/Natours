@@ -18,9 +18,17 @@ import { LuInstagram, LuStar } from "react-icons/lu";
 import { FaXTwitter } from "react-icons/fa6";
 
 function ReviewCard({ review }) {
-  const { avatar, name, social, review: text } = review;
+  const { avatar, name, social } = review;
 
   const SocialIcon = social === "instagram" ? LuInstagram : FaXTwitter;
+
+  const getText = () => {
+    const width = window.innerWidth;
+
+    if (width <= 700) return review.review.short;
+    if (width <= 1100) return review.review.medium;
+    return review.review.long;
+  };
 
   return (
     <Card>
@@ -38,7 +46,7 @@ function ReviewCard({ review }) {
         </Social>
       </Header>
 
-      <Review>{text}</Review>
+      <Review>{getText()}</Review>
 
       <Footer>
         <Stars>

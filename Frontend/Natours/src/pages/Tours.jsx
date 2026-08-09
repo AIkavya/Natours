@@ -1,7 +1,9 @@
 import DestinationCarousel from "../ui/Tours/HeroSectionTours/DestinationCarousel"
 import { styled } from "styled-components";
 import Offer from "../ui/Tours/OfferSection/Offers";
-// import MapTours from "../ui/Tours/MapTours/MapTours";
+import FindDestinationByCountry from "../ui/Tours/FindDestinationTours/FindDestinationByCountry";
+import TourEnd from "../ui/Tours/TourEnd";
+
 const HeroSection = styled.div`
 position: relative;
 top:0rem;
@@ -17,6 +19,8 @@ function Tours() {
           <DestinationCarousel />
         </HeroSection>
         <Offer />  
+        <FindDestinationByCountry />
+        <TourEnd />
       
       </>
     );

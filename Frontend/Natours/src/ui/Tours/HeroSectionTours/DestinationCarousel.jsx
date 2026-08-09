@@ -1,5 +1,6 @@
-import { useMemo, useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import useCountryTopTours from "../../../features/hooks/TourHooks/useCountryTopTours";
+import DestinationCarouselMobile from "./DestinationCarouselMobile";
 
 import {
   CarouselWrapper,
@@ -19,6 +20,18 @@ import Timeline from "./Timeline";
 function DestinationCarousel() {
   const { data: countries = [], isPending, error } = useCountryTopTours();
   const [activeCountry, setActiveCountry] = useState(0);
+
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.innerWidth < 700 : false
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 700);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const country = countries[activeCountry];
 
@@ -53,6 +66,20 @@ function DestinationCarousel() {
   const VIEWPORT_WIDTH = 520;
 
   const dragLimit = cards.length * (CARD_WIDTH + GAP) - VIEWPORT_WIDTH;
+
+  if (isMobile) {
+    return (
+      <DestinationCarouselMobile
+        countries={countries}
+        activeCountry={activeCountry}
+        setActiveCountry={setActiveCountry}
+        country={country}
+        cards={cards}
+        handleNext={handleNext}
+        handlePrevious={handlePrevious}
+      />
+    );
+  }
 
   return (
     <CarouselSection>

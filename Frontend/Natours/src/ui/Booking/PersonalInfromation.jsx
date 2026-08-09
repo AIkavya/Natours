@@ -80,7 +80,8 @@ function PersonalInformation() {
    reset,
   watch,
   handleSubmit,
-  setValue,
+   setValue,
+  setError,
   formState: { errors },
 } = useForm({
     defaultValues: {
@@ -155,8 +156,23 @@ function PersonalInformation() {
 
   function onSubmit(data) {
     // Store actual File objects for upload
-    
+    const hasUnder15 = data.travelers.some(
+  (t) => calculateAge(t.dob) < 15
+);
 
+const hasAdult = data.travelers.some(
+  (t) => calculateAge(t.dob) >= 18
+);
+
+if (hasUnder15 && !hasAdult) {
+  setError("travelers", {
+    type: "manual",
+    message:
+      "At least one traveler aged 18 or above must accompany travelers under 15 years of age.",
+  });
+
+  return;
+}
     const bookingFiles = extractBookingFiles(data.travelers);
 console.log("Extracted files:");
 Object.entries(bookingFiles).forEach(([key, value]) => {
@@ -416,7 +432,7 @@ Object.entries(bookingFiles).forEach(([key, value]) => {
                   <>
                     <PhoneInput
                       international
-                      defaultCountry="IN"
+                      defaultCountry={`IN`}
                       value={field.value}
                       onChange={field.onChange}
                       style={{
@@ -609,7 +625,8 @@ Object.entries(bookingFiles).forEach(([key, value]) => {
                           >
                             ✓{" "}
                             {
-                              bookingFiles?.[`traveler_${index}_passport`]?.file?.name
+                              bookingFiles?.[`traveler_${index}_passport`]?.file
+                                ?.name
                             }
                           </p>
                         )}
@@ -707,7 +724,8 @@ Object.entries(bookingFiles).forEach(([key, value]) => {
                           >
                             ✓{" "}
                             {
-                              bookingFiles?.[`traveler_${index}_nationalId`]?.name
+                              bookingFiles?.[`traveler_${index}_nationalId`]
+                                ?.name
                             }
                           </p>
                         )}
@@ -801,9 +819,7 @@ Object.entries(bookingFiles).forEach(([key, value]) => {
                               fontSize: "14px",
                             }}
                           >
-                            ✓ {
-                              bookingFiles?.[`traveler_${index}_visa`]?.name
-                            }
+                            ✓ {bookingFiles?.[`traveler_${index}_visa`]?.name}
                           </p>
                         )}
                       </>
@@ -895,7 +911,8 @@ Object.entries(bookingFiles).forEach(([key, value]) => {
                           >
                             ✓{" "}
                             {
-                              bookingFiles?.[`traveler_${index}_insurance`]?.name
+                              bookingFiles?.[`traveler_${index}_insurance`]
+                                ?.name
                             }
                           </p>
                         )}
@@ -932,6 +949,7 @@ Object.entries(bookingFiles).forEach(([key, value]) => {
           + Add Another Traveler
         </SecondaryButton>
 
+        {errors.travelers?.message && <Error>{errors.travelers.message}</Error>}
         <PrimaryButton type="submit">Continue</PrimaryButton>
       </BottomActions>
     </form>

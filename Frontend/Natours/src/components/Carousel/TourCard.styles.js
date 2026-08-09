@@ -17,16 +17,19 @@ import { overlay, bottomGradient, Overlay } from "../../ui/card/overlays";
 import { heading, paragraph, badgeText } from "../../ui/card/typography";
 
 export const CardWrapper = styled(motion.div)`
+  --card-width: 270px;
+  --card-height: 390px;
+
   position: absolute;
 
   left: 50%;
   top: 50%;
 
-  margin-left: -135px;
-  margin-top: -195px;
+  width: var(--card-width);
+  height: var(--card-height);
 
-  width: 270px;
-  height: 390px;
+  margin-left: calc(var(--card-width) / -2);
+  margin-top: calc(var(--card-height) / -2);
 
   overflow: hidden;
 
@@ -43,6 +46,9 @@ export const CardWrapper = styled(motion.div)`
   box-shadow: ${shadow.md};
 
   transition:
+    width 0.35s ease,
+    height 0.35s ease,
+    margin 0.35s ease,
     box-shadow ${transition.normal},
     filter ${transition.normal};
 
@@ -53,6 +59,22 @@ export const CardWrapper = styled(motion.div)`
   &:has(a:hover) {
     cursor: pointer;
     filter: brightness(1.08);
+  }
+
+  /* ---------- Tablet ---------- */
+
+  @media (max-width: 1000px) {
+    --card-width: 230px;
+    --card-height: 332px;
+  }
+
+  /* ---------- Mobile ---------- */
+
+  @media (max-width: 700px) {
+    --card-width: min(82vw, 270px);
+    --card-height: calc(var(--card-width) * 390 / 270);
+
+    border: 2px solid white;
   }
 `;
 

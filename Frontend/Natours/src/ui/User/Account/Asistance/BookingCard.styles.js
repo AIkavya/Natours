@@ -13,6 +13,11 @@ export const Card = styled.div`
     border-color: white;
     transform: translateY(-4px);
   }
+
+  @media (max-width: 500px) {
+    padding: 1.5rem;
+    border-radius: 14px;
+  }
 `;
 
 export const Header = styled.div`
@@ -21,11 +26,21 @@ export const Header = styled.div`
   align-items: flex-start;
   gap: 2rem;
   margin-bottom: 2rem;
+
+  @media (max-width: 500px) {
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
 `;
 
 export const Title = styled.h3`
   font-size: 2.2rem;
   font-weight: 700;
+
+  @media (max-width: 500px) {
+    font-size: 1.8rem;
+  }
 `;
 
 export const Category = styled.p`
@@ -39,6 +54,7 @@ export const Status = styled.div`
   border-radius: 50px;
   font-size: 1.3rem;
   font-weight: 600;
+  align-self: flex-start;
 
   ${({ status }) =>
     status === "Open" &&
@@ -73,6 +89,11 @@ export const Row = styled.div`
   grid-template-columns: 180px 1fr;
   gap: 2rem;
   align-items: center;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
+  }
 `;
 
 export const Label = styled.div`
@@ -113,6 +134,11 @@ export const Message = styled.div`
     font-size: 1.45rem;
     white-space: pre-wrap;
   }
+
+  @media (max-width: 500px) {
+    padding: 1.2rem;
+    border-radius: 12px;
+  }
 `;
 
 export const EmptyResponse = styled.div`
@@ -131,6 +157,11 @@ export const Footer = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 2rem;
+
+  @media (max-width: 500px) {
+    flex-direction: column;
+    gap: 1rem;
+  }
 `;
 
 export const DateText = styled.div`

@@ -250,13 +250,15 @@ exports.bookingQuery = catchAsync(async (req, res, next) => {
     return next(new AppError("Booking not found.", 404));
   }
 
-  const assistance = await Assistance.create({
+  let assistance = await Assistance.create({
     booking: booking._id,
     user: user._id,
     category,
     subject,
     message,
-  }).populate({
+  });
+
+  assistance = await assistance.populate({
     path: "user",
     select: "name email",
   });

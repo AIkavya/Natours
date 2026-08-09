@@ -26,6 +26,7 @@ function BookingCard({ booking }) {
     payment,
     createdAt,
     travelDate,
+    documentVerificationStatus,
   } = booking;
   const {formatCurrency} = useCurrencyDetector();
   return (
@@ -35,13 +36,34 @@ function BookingCard({ booking }) {
       <Content>
         <TourName>{tour.name}</TourName>
 
-        {bookingStatus==="pending" ? (
+        {bookingStatus === "pending" ? (
           <>
-          <Status status={bookingStatus}>Booking status : {bookingStatus}</Status>
-              <p style={{color : "#f04526",fontSize : "12px",marginBottom : "1rem"}}>The Document verificaation may take 2 or more Days , Please Stay Updated !</p>
-              </>
-        ): (
-          <Status status={bookingStatus}>Booking status : {bookingStatus}</Status>
+            <Status status={bookingStatus}>
+              Booking status : {bookingStatus}
+            </Status>
+            <p
+              style={{
+                color: "#f04526",
+                fontSize: "12px",
+                marginBottom: "1rem",
+              }}
+            >
+              The Document verificaation may take 2 or more Days , Please Stay
+              Updated !
+            </p>
+          </>
+        ) : (
+          <>
+            {" "}
+            <Status status={bookingStatus}>
+              Booking status : {bookingStatus}
+            </Status>
+            {documentVerificationStatus && (
+              <Status status={documentVerificationStatus}>
+                Document verification status : {documentVerificationStatus}
+              </Status>
+            )}
+          </>
         )}
 
         <Grid>
@@ -73,9 +95,7 @@ function BookingCard({ booking }) {
             <Amount>{formatCurrency(amountPaid)}</Amount>
 
             {remainingAmount > 0 && (
-              <Remaining>
-                Remaining {formatCurrency(remainingAmount)}
-              </Remaining>
+              <Remaining>Remaining {formatCurrency(remainingAmount)}</Remaining>
             )}
 
             <Value>Payment : {payment?.status}</Value>

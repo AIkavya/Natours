@@ -1,58 +1,132 @@
 // reviewData.js
-
 export const reviews = [
-  // Card 2 (small)
   {
-    id: 2,
-    variant: "small",
+    id: 1,
     avatar: "https://randomuser.me/api/portraits/women/44.jpg",
     name: "Emma Watson",
     social: "instagram",
-    review: "Absolutely unforgettable trip.",
+    review: {
+      short: "Absolutely unforgettable journey.",
+      medium:
+        "Absolutely unforgettable journey. Everything was planned perfectly from beginning to end.",
+      long: "Absolutely unforgettable journey. Every part of the trip was carefully planned, from airport pickup to the final hotel checkout. The itinerary felt balanced, the guides were knowledgeable, and the entire experience exceeded our expectations. I would happily travel with them again.",
+    },
   },
 
-  // Card 4 (small)
   {
-    id: 4,
-    variant: "small",
+    id: 2,
     avatar: "https://randomuser.me/api/portraits/men/32.jpg",
     name: "James Carter",
     social: "twitter",
-    review: "Everything was perfectly planned.",
+    review: {
+      short: "Exceeded every expectation.",
+      medium:
+        "The hotels, guides and transport exceeded every expectation throughout the trip.",
+      long: "The hotels, guides and transport exceeded every expectation. Every transfer arrived on time, the accommodations were clean and comfortable, and the local guides shared incredible insights about each destination. It was one of the most stress-free vacations I've ever experienced.",
+    },
   },
 
-  // Card 5 (medium)
   {
-    id: 5,
-    variant: "medium",
+    id: 3,
     avatar: "https://randomuser.me/api/portraits/women/68.jpg",
     name: "Sophia Wilson",
     social: "instagram",
-    review:
-      "Every destination was breathtaking and the entire journey was seamless from start to finish. This was by far the best vacation we've ever had. Every hotel, transfer, activity, and local guide exceeded our expectations.",
+    review: {
+      short: "Professional from start to finish.",
+      medium:
+        "Professional service from start to finish with excellent communication.",
+      long: "Professional service from start to finish. Every question we had was answered quickly, booking was simple, and the support team remained available throughout the journey. Their attention to detail made us feel confident at every stage.",
+    },
   },
 
-  // Card 7 (ONLY BIG REVIEW CARD)
   {
-    id: 7,
-    variant: "medium",
+    id: 4,
     avatar: "https://randomuser.me/api/portraits/men/54.jpg",
     name: "Daniel Brown",
-    social: "instagram",
-    rating: 5,
-    destination: "Switzerland",
-    review:
-      "This was by far the best vacation we've ever had. Every hotel, transfer, activity, and local guide exceeded our expectations. We never had to worry about anything and simply enjoyed every moment.",
+    social: "twitter",
+    review: {
+      short: "Every destination felt magical.",
+      medium:
+        "Every destination felt magical and beautifully planned for our group.",
+      long: "Every destination felt magical. The itinerary balanced sightseeing, relaxation, and local experiences perfectly. We discovered places we never would have found on our own, making the entire vacation unforgettable.",
+    },
   },
 
-  // Card 9 (medium horizontal)
   {
-    id: 9,
-    variant: "medium",
+    id: 5,
     avatar: "https://randomuser.me/api/portraits/women/22.jpg",
     name: "Olivia Taylor",
+    social: "instagram",
+    review: {
+      short: "Smooth and hassle-free.",
+      medium:
+        "One of the smoothest travel experiences we've ever had together.",
+      long: "One of the smoothest travel experiences we've ever had. Flights, hotels, transport, and daily activities were coordinated flawlessly. We could simply enjoy every moment without worrying about schedules or logistics.",
+    },
+  },
+
+  {
+    id: 6,
+    avatar: "https://randomuser.me/api/portraits/men/75.jpg",
+    name: "Michael Scott",
     social: "twitter",
-    review:
-      "Professional guides, amazing hotels, and an unforgettable travel experience.",
+    review: {
+      short: "Amazing customer support.",
+      medium:
+        "Amazing support throughout the trip whenever we needed assistance.",
+      long: "Amazing support throughout the trip. Even when we needed last-minute assistance, the team responded immediately and solved everything without stress. Their dedication made the entire experience feel premium.",
+    },
+  },
+
+  {
+    id: 7,
+    avatar: "https://randomuser.me/api/portraits/women/12.jpg",
+    name: "Emily Johnson",
+    social: "instagram",
+    review: {
+      short: "Beautiful memories forever.",
+      medium:
+        "Beautiful memories, amazing locations and wonderful people everywhere we visited.",
+      long: "Beautiful memories, amazing locations, and wonderful people. Every destination offered something unique, and the activities were perfectly organized. We returned home with incredible photos and unforgettable experiences.",
+    },
+  },
+
+  {
+    id: 8,
+    avatar: "https://randomuser.me/api/portraits/men/18.jpg",
+    name: "Ryan Miller",
+    social: "twitter",
+    review: {
+      short: "Perfect itinerary.",
+      medium:
+        "The itinerary was perfectly balanced and every detail was handled for us.",
+      long: "The itinerary was perfectly balanced with enough time for sightseeing, relaxation, and exploring on our own. Every booking, transfer, and activity was organized professionally, making the vacation completely stress-free.",
+    },
+  },
+
+  {
+    id: 9,
+    avatar: "https://randomuser.me/api/portraits/women/55.jpg",
+    name: "Charlotte Green",
+    social: "instagram",
+    review: {
+      short: "Five stars!",
+      medium:
+        "Five stars. I'd happily travel with this team again without hesitation.",
+      long: "Five stars. I'd happily travel with this team again. The professionalism, attention to detail, and friendly communication made us feel valued throughout the entire journey. It truly felt like a luxury experience.",
+    },
+  },
+
+  {
+    id: 10,
+    avatar: "https://randomuser.me/api/portraits/men/41.jpg",
+    name: "William Davis",
+    social: "twitter",
+    review: {
+      short: "Stress-free vacation.",
+      medium:
+        "Stress-free travel filled with unforgettable experiences and beautiful destinations.",
+      long: "Stress-free travel from beginning to end. Every destination was thoughtfully selected, every hotel exceeded expectations, and the entire trip flowed seamlessly. We focused on creating memories while the team handled everything else.",
+    },
   },
 ];

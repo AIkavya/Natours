@@ -38,15 +38,6 @@ export const CarouselContainer = styled.section`
     perspective: 1700px;
   }
 
-  @media (max-width: 768px) {
-    height: 500px;
-    perspective: 1400px;
-  }
-
-  @media (max-width: 576px) {
-    height: 430px;
-    perspective: 1000px;
-  }
 `;
 
 export const CarouselTrack = styled.div`

@@ -13,6 +13,10 @@ export const Layout = styled.main`
   @media (max-width: 992px) {
     flex-direction: column;
   }
+
+  @media (max-width: 500px) {
+    min-height: auto;
+  }
 `;
 
 export const ImageWrapper = styled.div`
@@ -24,9 +28,13 @@ export const ImageWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-
   @media (max-width: 992px) {
     min-height: 45vh;
+    flex: none;
+  }
+
+  @media (max-width: 500px) {
+    display: none;
   }
 `;
 
@@ -43,6 +51,10 @@ export const Background = styled(motion.img)`
   pointer-events: none;
 
   will-change: transform, opacity, filter;
+
+  @media (max-width: 992px) {
+    object-position: center;
+  }
 `;
 
 export const Image = styled.img`
@@ -56,26 +68,35 @@ export const Image = styled.img`
 
   user-select: none;
   pointer-events: none;
-`;
 
+  @media (max-width: 992px) {
+    object-position: center;
+  }
+`;
 export const FormWrapper = styled.div`
   flex: 1;
-  width: 100%;
   display: flex;
   justify-content: center;
-  align-items: flex-end;
+  align-items: center;
+
+  min-width: 0;
+  width: 100%;
+  overflow-y: auto;
 
   padding: clamp(2rem, 5vw, 6rem);
 
-  border-left: 1px solid rgba(255, 255, 255, 0.12);
-
-  position: relative;
-  z-index: 2;
-
   @media (max-width: 992px) {
-    border-left: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
-    padding: 2rem;
+    width: 100%;
+    min-height: 55vh;
+    padding: 3rem 2rem;
+  }
+
+  @media (max-width: 500px) {
+    flex: 1;
+    width: 100%;
+    min-height: 100vh;
+    padding: 1rem;
+    border: none;
   }
 `;
 
@@ -110,6 +131,14 @@ export const HeroContent = styled.div`
   );
 
   color: white;
+
+  @media (max-width: 992px) {
+    padding: 3rem;
+  }
+
+  @media (max-width: 500px) {
+    display: none;
+  }
 `;
 
 export const HeroBadge = styled(motion.div)`
@@ -145,6 +174,10 @@ export const HeroSubtitle = styled(motion.p)`
   font-size: clamp(1rem, 1.15vw, 1.2rem);
 
   line-height: 1.8;
+
+  @media (max-width: 992px) {
+    max-width: 420px;
+  }
 `;
 
 export const HeroButton = styled(motion(Link))`
@@ -178,6 +211,15 @@ export const HeroButton = styled(motion(Link))`
     background: white;
     color: black;
   }
+
+  @media (max-width: 992px) {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@media (max-width: 500px) {
+  display: none;
+}
 `;
 
 export const HeroTitle = styled(motion.h1)`
@@ -199,4 +241,15 @@ export const HeroTitle = styled(motion.h1)`
   text-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
 
   z-index: 2;
+
+  @media (max-width: 992px) {
+    top: 5rem;
+    left: 3rem;
+    right: 3rem;
+    font-size: clamp(3.8rem, 8vw, 5.5rem);
+  }
+
+  @media (max-width: 500px) {
+    display: none;
+  }
 `;

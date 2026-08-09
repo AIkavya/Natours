@@ -212,6 +212,10 @@ export const ConsultationCard = styled.div`
   background: linear-gradient(180deg, #335de7, #0c0c0c 90%);
  
   /* border-bottom: 1px solid #d80f0f; */
+
+  @media (max-width: 500px) {
+    width: 95%;
+  }
 `;
 
 export const ConsultationContent = styled.div`

@@ -35,3 +35,4 @@ const uploadDocuments = multer({
 });
 
 exports.uploadBookingDocuments = uploadDocuments.any();
+exports.reuploadBookingDocument = uploadDocuments.single('file');
