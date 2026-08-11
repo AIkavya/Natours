@@ -7,8 +7,6 @@ export const Section = styled.section`
   background: #0b0b0b;
 `;
 
-
-
 export const CountryGrid = styled.div`
   width: min(140rem, 92%);
   margin: 0 auto;
@@ -42,15 +40,16 @@ export const CountryCard = styled.article`
 
   background: #111;
 
+  will-change: transform;
   transition:
-    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:hover {
-    transform: translateY(-8px) scale(1.015);
+    transform: translateY(-6px) scale(1.015);
     box-shadow:
-      0 20px 40px rgba(0, 0, 0, 0.2),
-      0 8px 20px rgba(0, 0, 0, 0.12);
+      0 16px 32px rgba(0, 0, 0, 0.3),
+      0 6px 16px rgba(0, 0, 0, 0.15);
   }
 
   @media (max-width: 768px) {
@@ -76,13 +75,14 @@ export const Image = styled.img`
   object-fit: cover;
   object-position: center;
 
+  will-change: transform, opacity;
   transition:
-    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
-    filter 0.5s ease;
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.3s ease;
 
   ${CountryCard}:hover & {
-    transform: scale(1.08);
-    filter: brightness(0.8);
+    transform: scale(1.06);
+    opacity: 0.88;
   }
 `;
 
@@ -107,7 +107,7 @@ export const CountryInfo = styled.div`
   color: white;
 
   transform: translateY(0);
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 
   ${CountryCard}:hover & {
     transform: translateY(-4px);

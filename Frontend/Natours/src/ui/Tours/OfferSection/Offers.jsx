@@ -17,6 +17,7 @@ import { Explore, HeaderTrending, OfferBlock } from "./Offers.style";
 import useTrendingCard from "../../../features/hooks/TourHooks/useTrendingCard";
 import useAdventureCard from "../../../features/hooks/TourHooks/useAdventureCard";
 import usePartnerCard from "../../../features/hooks/TourHooks/usePartnerCard";
+import FullSpinner from "../../FullSpinner";
 
 const Section = styled.section`
   padding-top: 4rem;
@@ -55,7 +56,7 @@ export default function Offer() {
   const isLoading = trendingLoading || adventureLoading || partnerLoading;
   const hasError = trendingError || adventureError || partnerError;
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div><FullSpinner /></div>;
   if (hasError) return <div>Unable to load tour offers.</div>;
 
   return (

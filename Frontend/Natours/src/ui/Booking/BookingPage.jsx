@@ -1,4 +1,6 @@
+import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
+import FullSpinner from "../FullSpinner";
 
 import {
   BookingWrapper,
@@ -12,7 +14,6 @@ import {
   Content,
 } from "./BookingPage.styles";
 import { useLocation } from "react-router-dom";
-
 
 const Booking = () => {
   const location = useLocation();
@@ -62,7 +63,9 @@ const Booking = () => {
         </ProgressWrapper>
 
         <Content>
-          <Outlet />
+          <Suspense fallback={<FullSpinner />}>
+            <Outlet />
+          </Suspense>
         </Content>
       </BookingContainer>
     </BookingWrapper>

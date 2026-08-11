@@ -5,7 +5,6 @@ const {
 } = require("./cloudinary.service");
 const AppError = require("../utils/appError");
 
-
 const getBookingFolderPath = (userId, bookingNumber) => {
   if (!userId || !bookingNumber) {
     throw new AppError("User id and booking number are required.", 500);
@@ -72,52 +71,30 @@ const uploadTravelerDocuments = async ({
   bookingNumber,
 }) => {
   const passport = findFile(files, `traveler_${travelerIndex}_passport`);
-
   const visa = findFile(files, `traveler_${travelerIndex}_visa`);
-
   const nationalId = findFile(files, `traveler_${travelerIndex}_nationalId`);
-
   const insurance = findFile(files, `traveler_${travelerIndex}_insurance`);
 
-  if (passport) {
-    traveler.travelDocuments.passport.file = await uploadBookingDocument({
-      file: passport,
-      userId,
-      bookingNumber,
-      travelerIndex: travelerIndex + 1,
-      documentType: "passport",
-    });
-  }
+  const docTypes = [
+    { file: passport, type: "passport" },
+    { file: visa, type: "visa" },
+    { file: nationalId, type: "nationalId" },
+    { file: insurance, type: "insurance" },
+  ];
 
-  if (visa) {
-    traveler.travelDocuments.visa.file = await uploadBookingDocument({
-      file: visa,
-      userId,
-      bookingNumber,
-      travelerIndex: travelerIndex + 1,
-      documentType: "visa",
-    });
-  }
-
-  if (nationalId) {
-    traveler.travelDocuments.nationalId.file = await uploadBookingDocument({
-      file: nationalId,
-      userId,
-      bookingNumber,
-      travelerIndex: travelerIndex + 1,
-      documentType: "nationalId",
-    });
-  }
-
-  if (insurance) {
-    traveler.travelDocuments.insurance.file = await uploadBookingDocument({
-      file: insurance,
-      userId,
-      bookingNumber,
-      travelerIndex: travelerIndex + 1,
-      documentType: "insurance",
-    });
-  }
+  await Promise.all(
+    docTypes.map(async ({ file, type }) => {
+      if (file && traveler.travelDocuments && traveler.travelDocuments[type]) {
+        traveler.travelDocuments[type].file = await uploadBookingDocument({
+          file,
+          userId,
+          bookingNumber,
+          travelerIndex: travelerIndex + 1,
+          documentType: type,
+        });
+      }
+    }),
+  );
 
   return traveler;
 };
@@ -132,21 +109,19 @@ const uploadAllTravelerDocuments = async ({
   userId,
   bookingNumber,
 }) => {
-  const uploadedTravelers = [];
+  if (!files || files.length === 0) return travelers;
 
-  for (let i = 0; i < travelers.length; i++) {
-    uploadedTravelers.push(
-      await uploadTravelerDocuments({
-        traveler: travelers[i],
+  return Promise.all(
+    travelers.map((traveler, i) =>
+      uploadTravelerDocuments({
+        traveler,
         travelerIndex: i,
         files,
         userId,
         bookingNumber,
       }),
-    );
-  }
-
-  return uploadedTravelers;
+    ),
+  );
 };
 
 /* ===========================================================
@@ -182,6 +157,3 @@ module.exports = {
   uploadAllTravelerDocuments,
   deleteBookingFolder,
 };
-
-
-

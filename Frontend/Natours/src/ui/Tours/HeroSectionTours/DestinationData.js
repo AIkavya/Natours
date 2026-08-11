@@ -6,7 +6,7 @@ export const countries = [
     description:
       "Step into a world where ancient history meets breathtaking island beauty. Wander through whitewashed villages perched on dramatic cliffs, admire the deep blue waters of the Aegean Sea, discover centuries-old temples and ruins, and experience vibrant local culture. From spectacular sunsets in Santorini to charming coastal towns and authentic Mediterranean cuisine, Greece offers a timeless escape filled with unforgettable memories.",
 
-    background: "images/greece.jpg",
+    background: "images/greece.",
 
     destinations: [
       {

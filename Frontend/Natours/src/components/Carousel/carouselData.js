@@ -5,7 +5,7 @@ export const CARDS = [
     title: "Urban Escapes",
     description:
       "Discover iconic skylines, rich culture, and vibrant city life.",
-    image: "/images/tour5.jpg",
+    image: "/images/tour5.webp",
     theme:"cities"
 
   },
@@ -14,7 +14,7 @@ export const CARDS = [
     badge: "Oceans",
     title: "Ocean Odyssey",
     description: "Sail crystal waters and uncover breathtaking island escapes.",
-    image: "/images/tour2.jpg",
+    image: "/images/tour2.webp",
     theme:"oceans"
   },
   {
@@ -23,7 +23,7 @@ export const CARDS = [
     title: "Explore the Highest Peaks",
     description:
       "Conquer majestic mountains and unforgettable alpine adventures.",
-    image: "/images/tour4.jpg",
+    image: "/images/tour4.webp",
     theme:"mountains"
   },
   {
@@ -31,7 +31,7 @@ export const CARDS = [
     badge: "Forest Hiking",
     title: "Mountain Trek",
     description: "Hike scenic forest trails and embrace the wild outdoors.",
-    image: "/images/tour3.jpg",
+    image: "/images/tour3.webp",
     theme:"forest"
   },
   {
@@ -39,7 +39,7 @@ export const CARDS = [
     badge: "Culture & Heritage",
     title: "Timeless Traditions",
     description: "Experience historic landmarks and timeless cultural wonders.",
-    image: "/images/tour1.jpg",
+    image: "/images/tour1.webp",
     theme:"culture"
   },
 ];

@@ -62,21 +62,21 @@ import { useNavigate } from "react-router-dom";
 
 // High-resolution Unsplash images curated for luxury travel aesthetic with fallback
 const IMAGES = {
-  hero: "/m.jpg",
+  hero: "/m.webp",
   heroFallback:
     "https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1200&auto=format&fit=crop",
-  story: "/hero.jpg",
+  story: "/hero.webp",
   storyFallback:
     "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1200&auto=format&fit=crop",
-  trust: "/couple.jpg",
+  trust: "/couple.webp",
   trustFallback:
     "https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=1200&auto=format&fit=crop",
-  cta: "/m.jpg",
+  cta: "/m.webp",
   ctaFallback:
     "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=1600&auto=format&fit=crop",
   gallery: [
     {
-      url: "/images/itly.jpg",
+      url: "/images/itly.webp",
       fallback:
         "https://images.unsplash.com/photo-1533105079780-92b9be482077?q=80&w=1200&auto=format&fit=crop",
       title: "Amalfi Coast Private Villa & Yacht",
@@ -86,7 +86,7 @@ const IMAGES = {
       desc: "Private 120ft yacht charter exploring hidden sea caves, paired with exclusive cliffside villa accommodations overlooking Positano.",
     },
     {
-      url: "/images/japan.jpg",
+      url: "/images/japan.webp",
       fallback:
         "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=1000&auto=format&fit=crop",
       title: "Kyoto Ancient Temple Sanctuary",
@@ -96,7 +96,7 @@ const IMAGES = {
       desc: "After-hours private access to historic UNESCO temples with tea ceremony guided by a 15th-generation Grand Master.",
     },
     {
-      url: "/images/switzerland.jpg",
+      url: "/images/switzerland.webp",
       fallback:
         "https://images.unsplash.com/photo-1502784444187-359ac186c5bb?q=80&w=1000&auto=format&fit=crop",
       title: "Alpine Chalet Overlooking Matterhorn",
@@ -146,7 +146,7 @@ const IMAGES = {
       desc: "A secluded luxury chalet overlooking snow-capped peaks, offering breathtaking sunrise views and world-class alpine experiences.",
     },
     {
-      url: "/images/m1.jpg",
+      url: "/images/m1.webp",
       fallback:
         "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1000&auto=format&fit=crop",
       title: "Kyoto Bamboo Forest Hideaway",
@@ -154,40 +154,6 @@ const IMAGES = {
       tag: "Cultural Journey",
       size: "small",
       desc: "An elegant retreat nestled beside Kyoto's iconic bamboo groves, blending traditional Japanese architecture with modern luxury.",
-    },
-  ],
-  team: [
-    {
-      name: "Elena Rostova",
-      role: "Founder & Managing Director",
-      bio: "Former luxury hospitality executive with 20+ years orchestrating ultra-luxury travel for global leaders.",
-      img: "/images/about/team-1.jpg",
-      imgFallback:
-        "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=500&auto=format&fit=crop",
-    },
-    {
-      name: "Marcus Vance",
-      role: "Travel Expert & Expedition Lead",
-      bio: "Veteran wilderness guide and polar explorer who has personally led high-profile expeditions across 7 continents.",
-      img: "/images/about/team-2.jpg",
-      imgFallback:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=500&auto=format&fit=crop",
-    },
-    {
-      name: "Sophia Chen",
-      role: "Luxury Planner & Cultural Director",
-      bio: "Art historian specializing in private heritage access across Japan, Bhutan, and Southeast Asia.",
-      img: "/images/about/team-3.jpg",
-      imgFallback:
-        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=500&auto=format&fit=crop",
-    },
-    {
-      name: "Julian Sterling",
-      role: "Customer Success & Aviation Director",
-      bio: "Former private aviation director coordinating global jet charters, guest relations, and mega-yacht buyouts.",
-      img: "/images/about/team-4.jpg",
-      imgFallback:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=500&auto=format&fit=crop",
     },
   ],
   sampleTours: [

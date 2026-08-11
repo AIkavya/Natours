@@ -16,7 +16,7 @@ import {
 import DestinationCard from "./DestinationCard";
 import CarouselControls from "./CarouselControls";
 import Timeline from "./Timeline";
-
+import FullSpinner from "../../FullSpinner";  
 function DestinationCarousel() {
   const { data: countries = [], isPending, error } = useCountryTopTours();
   const [activeCountry, setActiveCountry] = useState(0);
@@ -46,7 +46,7 @@ function DestinationCarousel() {
   }, [country]);
 
   if (isPending) {
-    return <CarouselSection>Loading...</CarouselSection>;
+    return <CarouselSection><FullSpinner /></CarouselSection>;
   }
 
   if (error || !countries.length || !country) {

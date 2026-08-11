@@ -173,19 +173,44 @@ function getTheme(theme) {
   return result;
 }
 
-export default function TourCard({ card, offset, dragX, isActive, onClick }) {
-  const [width, setWidth] = useState(
-    typeof window !== "undefined" ? window.innerWidth : 1200,
-  );
+let globalWidth = typeof window !== "undefined" ? window.innerWidth : 1200;
+const widthListeners = new Set();
+let resizeRafId = null;
+
+function handleSharedResize() {
+  if (resizeRafId) return;
+  resizeRafId = requestAnimationFrame(() => {
+    resizeRafId = null;
+    const newWidth = window.innerWidth;
+    if (newWidth !== globalWidth) {
+      globalWidth = newWidth;
+      widthListeners.forEach((listener) => listener(newWidth));
+    }
+  });
+}
+
+function useWindowWidth() {
+  const [width, setWidth] = useState(globalWidth);
 
   useEffect(() => {
-    const handleResize = () => {
-      setWidth(window.innerWidth);
-    };
+    if (widthListeners.size === 0 && typeof window !== "undefined") {
+      window.addEventListener("resize", handleSharedResize, { passive: true });
+    }
+    widthListeners.add(setWidth);
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    return () => {
+      widthListeners.delete(setWidth);
+      if (widthListeners.size === 0 && typeof window !== "undefined") {
+        window.removeEventListener("resize", handleSharedResize);
+      }
+    };
   }, []);
+
+  return width;
+}
+
+export default function TourCard({ card, offset, dragX, isActive, onClick }) {
+  const width = useWindowWidth();
 
   const layout = getCardLayout(offset, width);
 

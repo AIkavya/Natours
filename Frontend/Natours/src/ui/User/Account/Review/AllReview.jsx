@@ -29,6 +29,7 @@ import {
   SubRatingsGrid,
   TourInfo,
 } from "./all.styles";
+import FullSpinner from "../../../FullSpinner";
 
 export default function AllReviews() {
   const { reviews = [], isLoading, isError, error } = useAllReviews();
@@ -36,7 +37,7 @@ export default function AllReviews() {
   if (isLoading) {
     return (
       <BottomContent>
-        <AlertBox>Loading customer reviews...</AlertBox>
+        <FullSpinner />
       </BottomContent>
     );
   }

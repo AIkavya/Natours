@@ -27,6 +27,7 @@ import useGetBookmark from "../../../../features/hooks/UserHooks/useGetBookmark"
 import useRemoveBookmark from "../../../../features/hooks/UserHooks/useRemoveBookmark";
 
 import useCurrencyDetector from "../../../../Services/useCurrencyDetector";
+import FullSpinner from "../../../FullSpinner";
 
 function BookMarkTour() {
 
@@ -57,7 +58,7 @@ function BookMarkTour() {
 
   const navigate = useNavigate();
   if (isPending) {
-    return <p style={{textAlign:"center",color:"white"}}>Loading bookmarked tours...</p>;
+    return <FullSpinner />;
   }
 
   const tours = data?.bookmarks || [];

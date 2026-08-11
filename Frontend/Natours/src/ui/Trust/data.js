@@ -2,7 +2,7 @@
 export const reviews = [
   {
     id: 1,
-    avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+    avatar: "/review_avatars/emma-watson.webp",
     name: "Emma Watson",
     social: "instagram",
     review: {
@@ -15,7 +15,7 @@ export const reviews = [
 
   {
     id: 2,
-    avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+    avatar: "/review_avatars/james-carter.webp",
     name: "James Carter",
     social: "twitter",
     review: {
@@ -28,7 +28,7 @@ export const reviews = [
 
   {
     id: 3,
-    avatar: "https://randomuser.me/api/portraits/women/68.jpg",
+    avatar: "/review_avatars/sophia-wilson.webp",
     name: "Sophia Wilson",
     social: "instagram",
     review: {
@@ -41,7 +41,7 @@ export const reviews = [
 
   {
     id: 4,
-    avatar: "https://randomuser.me/api/portraits/men/54.jpg",
+    avatar: "/review_avatars/daniel-brown.webp",
     name: "Daniel Brown",
     social: "twitter",
     review: {
@@ -54,7 +54,7 @@ export const reviews = [
 
   {
     id: 5,
-    avatar: "https://randomuser.me/api/portraits/women/22.jpg",
+    avatar: "/review_avatars/olivia-taylor.webp",
     name: "Olivia Taylor",
     social: "instagram",
     review: {
@@ -67,7 +67,7 @@ export const reviews = [
 
   {
     id: 6,
-    avatar: "https://randomuser.me/api/portraits/men/75.jpg",
+    avatar: "/review_avatars/michael-scott.webp",
     name: "Michael Scott",
     social: "twitter",
     review: {
@@ -80,7 +80,7 @@ export const reviews = [
 
   {
     id: 7,
-    avatar: "https://randomuser.me/api/portraits/women/12.jpg",
+    avatar: "/review_avatars/emily-johnson.webp",
     name: "Emily Johnson",
     social: "instagram",
     review: {
@@ -93,7 +93,7 @@ export const reviews = [
 
   {
     id: 8,
-    avatar: "https://randomuser.me/api/portraits/men/18.jpg",
+    avatar: "/review_avatars/ryan-miller.webp",
     name: "Ryan Miller",
     social: "twitter",
     review: {
@@ -106,7 +106,7 @@ export const reviews = [
 
   {
     id: 9,
-    avatar: "https://randomuser.me/api/portraits/women/55.jpg",
+    avatar: "/review_avatars/charlotte-green.webp",
     name: "Charlotte Green",
     social: "instagram",
     review: {
@@ -119,7 +119,7 @@ export const reviews = [
 
   {
     id: 10,
-    avatar: "https://randomuser.me/api/portraits/men/41.jpg",
+    avatar: "/review_avatars/william-davis.webp",
     name: "William Davis",
     social: "twitter",
     review: {

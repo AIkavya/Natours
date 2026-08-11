@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useLogout } from "../../features/hooks/UserHooks/useLogout";
 import toast from "react-hot-toast";
 import { Outlet, Link, NavLink, useNavigate } from "react-router-dom";
+import FullSpinner from "../FullSpinner";
 import {
   LuUserRound,
   LuBookmark,
@@ -159,7 +160,9 @@ function UserPage({ user }) {
       </SideBar>
 
       <MainBar>
-        <Outlet />
+        <Suspense fallback={<FullSpinner />}>
+          <Outlet />
+        </Suspense>
       </MainBar>
     </Layout>
   );

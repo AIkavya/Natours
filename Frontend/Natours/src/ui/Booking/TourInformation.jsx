@@ -34,6 +34,7 @@ import {
   DatePickerWrapper,
   Radio,
 } from "./TourInformation.styles";
+import FullSpinner from "../FullSpinner";
 
 const TourInformation = () =>
 {
@@ -93,7 +94,7 @@ const TourInformation = () =>
  }, [selectedPackage, bookingData, reset]);
 
   
-  if (isPending) return <h2>Loading...</h2>;
+  if (isPending) return <FullSpinner />;
   if (!tour) return null;
   if (!selectedPackage) return <h2>Selected package not found.</h2>;
 

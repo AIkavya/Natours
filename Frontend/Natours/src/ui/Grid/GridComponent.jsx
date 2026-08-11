@@ -13,12 +13,13 @@ import {
 
 import useGetHomePageTours from "../../features/hooks/TourHooks/useGetHomePageTours";
 import DestinationRow from "./DestinationRow";
+import FullSpinner from "../FullSpinner";
 
 export default function GridComponent() {
   const { data: tours, isPending, error } = useGetHomePageTours();
 
   if (isPending) {
-    return <div>Loading...</div>;
+    return <div><FullSpinner /></div>;
   }
 
   if (error) {

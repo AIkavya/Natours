@@ -16,6 +16,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { useTours } from "../../../features/hooks/TourHooks/useTours";
+import { useDebounce } from "../../../features/hooks/useDebounce";
 import { AuroraText } from "../../Grid/GridComponent.styles";
 import {
   PageWrapper,
@@ -45,7 +46,6 @@ import {
   ClearAllButton,
   ResultsContainer,
   Toolbar,
-
   ToolbarRightGroup,
   TotalCountText,
   FilterToggleButton,
@@ -135,8 +135,13 @@ export default function SearchPage() {
 
   const [searchFocused, setSearchFocused] = useState(false);
   const [searchInputVal, setSearchInputVal] = useState(filters.search);
+  const [priceRangeVal, setPriceRangeVal] = useState(filters.priceRange);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+const skipSearchDebounceRef = useRef(false);
+  // Debounce search input and price slider by 300ms
+  const debouncedSearchVal = useDebounce(searchInputVal, 300);
+  const debouncedPriceRangeVal = useDebounce(priceRangeVal, 300);
 
   // Section collapse states
   const [openSections, setOpenSections] = useState({
@@ -153,8 +158,44 @@ export default function SearchPage() {
 
   // Sync internal search input with URL search filter
   useEffect(() => {
+
     setSearchInputVal(filters.search);
+    
   }, [filters.search]);
+
+  // Sync internal price range state with filters.priceRange
+  useEffect(() => {
+    setPriceRangeVal(filters.priceRange);
+  }, [filters.priceRange]);
+
+  // Apply debounced search filter & suggestion queries
+useEffect(() => {
+  if (skipSearchDebounceRef.current) {
+    skipSearchDebounceRef.current = false;
+    return;
+  }
+
+  if (debouncedSearchVal !== filters.search) {
+    updateFilter("search", debouncedSearchVal);
+  }
+
+  setSearchQueryForSuggestions(debouncedSearchVal);
+}, [
+  debouncedSearchVal,
+  filters.search,
+  updateFilter,
+  setSearchQueryForSuggestions,
+]);
+
+  // Apply debounced price range filter
+  useEffect(() => {
+    if (
+      debouncedPriceRangeVal[0] !== filters.priceRange[0] ||
+      debouncedPriceRangeVal[1] !== filters.priceRange[1]
+    ) {
+      updateFilter("priceRange", debouncedPriceRangeVal);
+    }
+  }, [debouncedPriceRangeVal, filters.priceRange, updateFilter]);
 
   // Handle outside click to hide suggestions dropdown
   useEffect(() => {
@@ -177,18 +218,19 @@ export default function SearchPage() {
   const handleSearchChange = (e) => {
     const val = e.target.value;
     setSearchInputVal(val);
-    setSearchQueryForSuggestions(val);
-    updateFilter("search", val);
   };
 
-  const handleClearSearch = () => {
-    setSearchInputVal("");
-    setSearchQueryForSuggestions("");
-    updateFilter("search", "");
-  };
+const handleClearSearch = () => {
+  skipSearchDebounceRef.current = true;
+
+  setSearchInputVal("");
+  setSearchQueryForSuggestions("");
+  updateFilter("search", "");
+};
 
   const handleSuggestionClick = (value) => {
     setSearchInputVal(value);
+    setSearchQueryForSuggestions(value);
     updateFilter("search", value);
     setSearchFocused(false);
   };
@@ -372,18 +414,32 @@ export default function SearchPage() {
       {/* Main Container Layout */}
       <MainLayout id="tours">
         {/* Mobile/Tablet Backdrop Overlay */}
-        <SidebarOverlay $isOpen={isAnyFilterActive} onClick={handleCloseFilter} />
+        <SidebarOverlay
+          $isOpen={isAnyFilterActive}
+          onClick={handleCloseFilter}
+        />
 
         {/* Collapsible Animated Filter Sidebar */}
-        <SidebarContainer $isOpen={isFilterOpen} $isMobileOpen={isMobileSidebarOpen}>
+        <SidebarContainer
+          $isOpen={isFilterOpen}
+          $isMobileOpen={isMobileSidebarOpen}
+        >
           <SidebarHeader>
-            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <div
+              style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
+            >
               <SlidersHorizontal size={20} style={{ color: "#ffffff" }} />
               <h2>Filters</h2>
             </div>
             <button
               onClick={handleCloseFilter}
-              style={{ background: "none", border: "none", cursor: "pointer", color: "#8c8c8c", padding: "0.25rem" }}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                color: "#8c8c8c",
+                padding: "0.25rem",
+              }}
             >
               <X size={20} />
             </button>
@@ -463,8 +519,8 @@ export default function SearchPage() {
             {openSections.price && (
               <PriceSliderContainer>
                 <PriceDisplay>
-                  <span>Min: {formatCurrency(filters.priceRange[0])}</span>
-                  <span>Max: {formatCurrency(filters.priceRange[1])}</span>
+                  <span>Min: {formatCurrency(priceRangeVal[0])}</span>
+                  <span>Max: {formatCurrency(priceRangeVal[1])}</span>
                 </PriceDisplay>
                 <div>
                   <RangeSlider
@@ -472,15 +528,23 @@ export default function SearchPage() {
                     min={2000}
                     max={50000}
                     step={1000}
-                    value={filters.priceRange[1]}
+                    value={priceRangeVal[1]}
                     onChange={(e) =>
-                      updateFilter("priceRange", [
-                        filters.priceRange[0],
+                      setPriceRangeVal([
+                        priceRangeVal[0],
                         Number(e.target.value),
                       ])
                     }
                   />
-                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "1.2rem", color: "#6b7280", marginTop: "0.25rem" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      fontSize: "1.2rem",
+                      color: "#6b7280",
+                      marginTop: "0.25rem",
+                    }}
+                  >
                     <span>₹1,70,000</span>
                     <span>₹50,00,000</span>
                   </div>
@@ -744,7 +808,6 @@ export default function SearchPage() {
                           <BadgeContainer>
                             {tour.featured && <Badge>Featured</Badge>}
                             {tour.trending && <Badge>Trending</Badge>}
-                          
                           </BadgeContainer>
                         </CardImageContainer>
 
@@ -794,49 +857,63 @@ export default function SearchPage() {
                               {tour.itinerary?.length > 0 && (
                                 <MetaItem>
                                   <Compass size={14} />
-                                  <span>{tour.itinerary.length} Stops Itinerary</span>
+                                  <span>
+                                    {tour.itinerary.length} Stops Itinerary
+                                  </span>
                                 </MetaItem>
                               )}
                             </MetaRow>
 
-                                      <TourSummary>{tour.summary}</TourSummary>
-                                     <TourSummary>
-                                         {tour.destinations?.map((dest)=>{
-                                            return(
-                                                <MetaItem key={dest._id}>
-                                                    <MapPin size={14} />
-                                                    <span>{`${dest.city}, ${dest.country}`}</span>
-                                                </MetaItem>
-                                            )
-                                         })}
-                                     </TourSummary>
+                            <TourSummary>{tour.summary}</TourSummary>
+                            <TourSummary>
+                              {tour.destinations?.map((dest) => {
+                                return (
+                                  <MetaItem key={dest._id}>
+                                    <MapPin size={14} />
+                                    <span>{`${dest.city}, ${dest.country}`}</span>
+                                  </MetaItem>
+                                );
+                              })}
+                            </TourSummary>
 
-                                      {/* Package Tier Options Badges */}
-                                      {tour.packages && tour.packages.length > 0 && (
-                                        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginTop: "0.75rem", marginBottom: "0.85rem" }}>
-                                          {tour.packages.map((pkg, idx) => (
-                                            <span
-                                              key={idx}
-                                              style={{
-                                                background: "rgba(255, 255, 255, 0.07)",
-                                                border: "1px solid rgba(255, 255, 255, 0.15)",
-                                                color: "#e2e8f0",
-                                                fontSize: "1.1rem",
-                                                fontWeight: "500",
-                                                padding: "0.3rem 0.75rem",
-                                                borderRadius: "8px",
-                                                display: "inline-flex",
-                                                alignItems: "center",
-                                                gap: "0.4rem"
-                                              }}
-                                            >
-                                              <CheckCircle2 size={13} style={{ color: "#3b82f6" }} />
-                                              {pkg.name} Tier ({formatCurrency(pkg.price)})
-                                            </span>
-                                          ))}
-                                        </div>
-                                      )}
-                                      
+                            {/* Package Tier Options Badges */}
+                            {tour.packages && tour.packages.length > 0 && (
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexWrap: "wrap",
+                                  gap: "0.5rem",
+                                  marginTop: "0.75rem",
+                                  marginBottom: "0.85rem",
+                                }}
+                              >
+                                {tour.packages.map((pkg, idx) => (
+                                  <span
+                                    key={idx}
+                                    style={{
+                                      background: "rgba(255, 255, 255, 0.07)",
+                                      border:
+                                        "1px solid rgba(255, 255, 255, 0.15)",
+                                      color: "#e2e8f0",
+                                      fontSize: "1.1rem",
+                                      fontWeight: "500",
+                                      padding: "0.3rem 0.75rem",
+                                      borderRadius: "8px",
+                                      display: "inline-flex",
+                                      alignItems: "center",
+                                      gap: "0.4rem",
+                                    }}
+                                  >
+                                    <CheckCircle2
+                                      size={13}
+                                      style={{ color: "#3b82f6" }}
+                                    />
+                                    {pkg.name} Tier ({formatCurrency(pkg.price)}
+                                    )
+                                  </span>
+                                ))}
+                              </div>
+                            )}
                           </div>
 
                           <CardFooter>
@@ -877,7 +954,7 @@ export default function SearchPage() {
                 disabled={filters.page <= 1}
                 onClick={() => updateFilter("page", filters.page - 1)}
               >
-                              {'Prev'}
+                {"Prev"}
               </PageButton>
 
               {Array.from({ length: totalPages }, (_, i) => i + 1).map(

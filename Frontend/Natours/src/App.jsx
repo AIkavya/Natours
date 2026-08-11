@@ -1,30 +1,43 @@
 import {createBrowserRouter,RouterProvider} from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { lazy } from 'react';
+import { lazy, Suspense } from "react";
 
 import GlobalStyles from "./styles/GlobalStyle";
 import { Toaster } from 'react-hot-toast';
 import ProtectedRoute from './features/ProtectedRoute';
 import PublicRoute from './features/PublicRoute';
 import { Navigate } from 'react-router-dom';
-import ManageAccount from './ui/User/Account/ManageAccount';
-import VerifyEmail from './components/Model/VerifyEmail';
-import BookMarkTour from './ui/User/Account/BookmarkTour/BookmarkTour';
+import FullSpinner from "./ui/FullSpinner";
 
-import TourInformation from './ui/Booking/TourInformation';
-import PersonalInfromation from './ui/Booking/PersonalInfromation';
-import BookingDetailsFinal from './ui/Booking/BookingDetailsFinal';
-import BookingTearms from "./ui/Booking/BookingTerms"
-import TermsAndPolicy from "./ui/Policy/TermsAndPolicy";
-import Payment from "./ui/Booking/Payment";
-import MyBookings from './ui/User/Account/BookedTours/MyBookings';
-import MyBookingDetails from './ui/User/Account/BookedTours/MyBookingDetails';
-import Asistance from './ui/User/Account/Asistance/Asistance';
-import AllQueries from './ui/User/Account/Asistance/AllQueries';
-import Review from "./ui/User/Account/Review/Review"
-import AllReview from "./ui/User/Account/Review/AllReview"
-const Tours = lazy(() => import('./pages/Tours'));
+const ManageAccount = lazy(() => import("./ui/User/Account/ManageAccount"));
+const VerifyEmail = lazy(() => import("./components/Model/VerifyEmail"));
+const BookMarkTour = lazy(
+  () => import("./ui/User/Account/BookmarkTour/BookmarkTour"),
+);
+
+const TourInformation = lazy(() => import("./ui/Booking/TourInformation"));
+const PersonalInfromation = lazy(
+  () => import("./ui/Booking/PersonalInfromation"),
+);
+const BookingDetailsFinal = lazy(
+  () => import("./ui/Booking/BookingDetailsFinal"),
+);
+const BookingTearms = lazy(() => import("./ui/Booking/BookingTerms"));
+const TermsAndPolicy = lazy(() => import("./ui/Policy/TermsAndPolicy"));
+const Payment = lazy(() => import("./ui/Booking/Payment"));
+const MyBookings = lazy(
+  () => import("./ui/User/Account/BookedTours/MyBookings"),
+);
+const MyBookingDetails = lazy(
+  () => import("./ui/User/Account/BookedTours/MyBookingDetails"),
+);
+const Asistance = lazy(() => import("./ui/User/Account/Asistance/Asistance"));
+const AllQueries = lazy(() => import("./ui/User/Account/Asistance/AllQueries"));
+const Review = lazy(() => import("./ui/User/Account/Review/Review"));
+const AllReview = lazy(() => import("./ui/User/Account/Review/AllReview"));
+
+const Tours = lazy(() => import("./pages/Tours"));
 const Form = lazy(() => import("./components/Form/Form"));
 const Home = lazy(() => import("./pages/Home"));
 const AppLayout = lazy(() => import("./pages/AppLayout"));
@@ -34,7 +47,6 @@ const User = lazy(() => import("./pages/User"));
 const TourDetails = lazy(() => import("./pages/TourDetails"));
 const Search = lazy(() => import("./pages/Search"));
 const Booking = lazy(() => import("./pages/Booking"));
-
 
 const ONE_HOUR = 1000 * 60 * 60;
 
@@ -251,7 +263,9 @@ function App() {
             },
           }}
         />
-        <RouterProvider router={router} />
+        <Suspense fallback={<FullSpinner />}>
+          <RouterProvider router={router} />
+        </Suspense>
       </QueryClientProvider>
     </>
   );

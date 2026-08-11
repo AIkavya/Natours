@@ -148,28 +148,16 @@ exports.createMyBooking = catchAsync(async (req, res, next) => {
       select: "name email",
     });
 
-  try {
-    await new Email(populatedBooking.user, "").sendBookingEmail(
-      populatedBooking,
-    );
+  new Email(populatedBooking.user, "")
+    .sendBookingEmail(populatedBooking)
+    .catch((err) => console.error("Error in sending booking mail :", err));
 
-    res.status(201).json({
-      status: "success",
-      data: {
-        booking,
-      },
-    });
-  } catch (err) {
-    console.error("Error in sending booking mail :", err);
-
-    res.status(200).json({
-      status: "success",
-      message: "Booking created successfully but Not able to send email",
-      data: {
-        booking,
-      },
-    });
-  }
+  res.status(201).json({
+    status: "success",
+    data: {
+      booking,
+    },
+  });
 });
 
 function generateBookingNumber() {
@@ -231,13 +219,15 @@ exports.reuploadBookingDocument = catchAsync(async (req, res, next) => {
 
   switch (docType.toLowerCase()) {
     case "passport":
-      if (!traveler.travelDocuments.passport) traveler.travelDocuments.passport = {};
+      if (!traveler.travelDocuments.passport)
+        traveler.travelDocuments.passport = {};
       traveler.travelDocuments.passport.file = newFileObj;
       traveler.travelDocuments.passport.verificationStatus = "pending";
       break;
 
     case "nationalid":
-      if (!traveler.travelDocuments.nationalId) traveler.travelDocuments.nationalId = {};
+      if (!traveler.travelDocuments.nationalId)
+        traveler.travelDocuments.nationalId = {};
       traveler.travelDocuments.nationalId.file = newFileObj;
       traveler.travelDocuments.nationalId.verificationStatus = "pending";
       break;
@@ -249,7 +239,8 @@ exports.reuploadBookingDocument = catchAsync(async (req, res, next) => {
       break;
 
     case "insurance":
-      if (!traveler.travelDocuments.insurance) traveler.travelDocuments.insurance = {};
+      if (!traveler.travelDocuments.insurance)
+        traveler.travelDocuments.insurance = {};
       traveler.travelDocuments.insurance.file = newFileObj;
       traveler.travelDocuments.insurance.verificationStatus = "pending";
       break;
@@ -266,7 +257,11 @@ exports.reuploadBookingDocument = catchAsync(async (req, res, next) => {
     const docs = t.travelDocuments || {};
     ["passport", "nationalId", "visa", "insurance"].forEach((key) => {
       const d = docs[key];
-      if (d && ((d.file && d.file.status === "rejected") || d.verificationStatus === "rejected")) {
+      if (
+        d &&
+        ((d.file && d.file.status === "rejected") ||
+          d.verificationStatus === "rejected")
+      ) {
         hasRemainingRejections = true;
       }
     });

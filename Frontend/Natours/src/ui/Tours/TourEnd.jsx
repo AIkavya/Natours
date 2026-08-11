@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { ButtonGroup, CTASection, CTAContent, CTAOverlay, Container, PrimaryButton } from "../About/About.styles"
 import { useNavigate } from "react-router-dom"
+import { Search } from 'lucide-react';
 const Section = styled.section`
   width: 100%;
   padding: 4rem 0 2rem;
@@ -34,7 +35,7 @@ function TourEnd() {
           <CTASection>
             <SafeImage
               className="cta-bg"
-              src={"/m.jpg"}
+              src={"/m.webp"}
               alt="Luxury Sunset Mountain Landscape"
             />
             <CTAOverlay />
@@ -47,7 +48,7 @@ function TourEnd() {
               </p>
               <ButtonGroup style={{ justifyContent: "center" }}>
                 <PrimaryButton onClick={() => Navigate("/search")}>
-                  Search
+                 <Search size={25} /> Search
                 </PrimaryButton>
               </ButtonGroup>
             </CTAContent>

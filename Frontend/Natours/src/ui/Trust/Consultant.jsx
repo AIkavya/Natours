@@ -2,8 +2,18 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import styled from "styled-components";
 
 import { consultantBooking } from "../../Services/userAuthentication/userAuthentication";
+
+const ErrorMessage = styled.span`
+  color: #ff2727;
+  font-size: 1.35rem;
+  margin-top: 0.4rem;
+  display: block;
+  font-weight: 500;
+  background-color: rgba(255, 255, 255, 0);
+`;
 
 import {
   BottomContent,
@@ -76,7 +86,7 @@ function Consultant({ id = "help" }) {
     register,
     handleSubmit,
     reset,
-    formState: { isSubmitting },
+    formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
       name: "",
@@ -90,8 +100,6 @@ function Consultant({ id = "help" }) {
 
   async function onSubmit(data) {
     try {
-
-
       const response = await consultantBooking(data);
 
       toast.success(response.message);
@@ -164,79 +172,112 @@ function Consultant({ id = "help" }) {
 
               <Form onSubmit={handleSubmit(onSubmit)}>
                 <InputGroup>
-                  <Input
-                    placeholder="Full Name"
-                    {...register("name", {
-                      required: "Full name is required.",
-                    })}
-                    disabled={isSubmitting}
-                  />
+                  <div>
+                    <Input
+                      placeholder="Full Name"
+                      {...register("name", {
+                        required: "Full name is required.",
+                      })}
+                      disabled={isSubmitting}
+                    />
+                    {errors.name && (
+                      <ErrorMessage>{errors.name.message}</ErrorMessage>
+                    )}
+                  </div>
 
-                  <Input
-                    type="email"
-                    placeholder="Email Address"
-                    {...register("email", {
-                      required: "Email is required.",
-                      pattern: {
-                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                        message: "Please enter a valid email.",
+                  <div>
+                    <Input
+                      type="email"
+                      placeholder="Email Address"
+                      {...register("email", {
+                        required: "Email is required.",
+                        pattern: {
+                          value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                          message: "Please enter a valid email.",
+                        },
+                      })}
+                      disabled={isSubmitting}
+                    />
+                    {errors.email && (
+                      <ErrorMessage>{errors.email.message}</ErrorMessage>
+                    )}
+                  </div>
+                </InputGroup>
+
+                <InputGroup>
+                  <div>
+                    <Input
+                      type="date"
+                      min={new Date().toISOString().split("T")[0]}
+                      {...register("date", {
+                        required: "Please select a date.",
+                      })}
+                      disabled={isSubmitting}
+                    />
+                    {errors.date && (
+                      <ErrorMessage>{errors.date.message}</ErrorMessage>
+                    )}
+                  </div>
+
+                  <div>
+                    <Input
+                      type="time"
+                      min="09:00"
+                      max="18:00"
+                      {...register("time", {
+                        required: "Please select a time.",
+                      })}
+                      disabled={isSubmitting}
+                    />
+                    <p style={{ color: "white", fontSize: "1.2rem" }}>
+                      Please select your preferred time slot (09:00 AM - 06:00 PM).
+                    </p>
+                    {errors.time && (
+                      <ErrorMessage>{errors.time.message}</ErrorMessage>
+                    )}
+                  </div>
+                </InputGroup>
+
+                <InputGroup>
+                  <div>
+                    <Select
+                      defaultValue=""
+                      {...register("mode", {
+                        required: "Please select a meeting mode.",
+                      })}
+                      disabled={isSubmitting}
+                    >
+                      <option value="" disabled>
+                        Select Meeting Mode
+                      </option>
+
+                      <option value="offline">Visit Offline</option>
+
+                      <option value="online">Video Meeting</option>
+                    </Select>
+                    {errors.mode && (
+                      <ErrorMessage>{errors.mode.message}</ErrorMessage>
+                    )}
+                  </div>
+                </InputGroup>
+
+                <div>
+                  <TextArea
+                    rows={5}
+                    maxLength={500}
+                    placeholder="Anything you'd like us to know?"
+                    {...register("message", {
+                      maxLength: {
+                        value: 500,
+                        message: "Message cannot exceed 500 characters.",
                       },
                     })}
                     disabled={isSubmitting}
                   />
-                </InputGroup>
-
-                <InputGroup>
-                  <Input
-                    type="date"
-                    min={new Date().toISOString().split("T")[0]}
-                    {...register("date", {
-                      required: "Please select a date.",
-                    })}
-                    disabled={isSubmitting}
-                  />
-
-                  <Input
-                    type="time"
-                    min="09:00"
-                    max="18:00"
-                    {...register("time", {
-                      required: "Please select a time.",
-                    })}
-                    disabled={isSubmitting}
-                  />
-                </InputGroup>
-
-                <InputGroup>
-                  <Select
-                    defaultValue=""
-                    {...register("mode", {
-                      required: "Please select a meeting mode.",
-                    })}
-                    disabled={isSubmitting}
-                  >
-                    <option value="" disabled>
-                      Select Meeting Mode
-                    </option>
-
-                    <option value="offline">Visit Offline</option>
-
-                    <option value="online">Video Meeting</option>
-                  </Select>
-                </InputGroup>
-
-                <TextArea
-                  rows={5}
-                  maxLength={500}
-                  placeholder="Anything you'd like us to know?"
-                  {...register("message", {
-                    maxLength: {
-                      value: 500,
-                      message: "Message cannot exceed 500 characters.",
-                    },
-                  })}
-                  disabled={isSubmitting}
-                />
+                  {errors.message && (
+                    <ErrorMessage>{errors.message.message}</ErrorMessage>
+                  )}
+                </div>
 
                 <SubmitButton type="submit" disabled={isSubmitting}>
                   {isSubmitting ? "Scheduling..." : "Schedule Consultation"}

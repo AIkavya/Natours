@@ -1,11 +1,12 @@
 import BookingCardQuery from "./BookingCardQuery";
 import useMyBookingQueries from "../../../../features/hooks/AsistanceHooks/useMyBookingQueries";
+import FullSpinner from "../../../FullSpinner";
 function AllQueries()
 {
 const {queries,isPending,isError,error} = useMyBookingQueries();
 
 if(isPending){
-    return <div>Loading...</div>
+    return <div><FullSpinner /></div>
 }
 if(isError){
     return <div>Error: {error.message}</div>

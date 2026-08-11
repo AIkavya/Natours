@@ -1,6 +1,8 @@
-import  { useState } from "react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import useAllMyBookings from "../../../../features/hooks/BookingHooks/useAllMyBookings";
 import { useReview } from "../../../../features/hooks/reviewHooks/useReview";
+import FullSpinner from "../../../FullSpinner";
 
 import styled, { css } from "styled-components";
 
@@ -15,16 +17,16 @@ const AlertBox = styled.div`
     switch ($type) {
       case "success":
         return css`
-          background: rgba(34, 197, 94, 0.12);
-          color: #4ade80;
-          border: 1px solid rgba(34, 197, 94, 0.3);
+          color: black;
+          background: transparent;
+          border: 1px solid rgba(0, 0, 0, 0.94);
         `;
 
       case "error":
         return css`
-          background: rgba(239, 68, 68, 0.12);
           color: #ffffff;
-          border: 1px solid rgba(239, 68, 68, 0.3);
+          background: red;
+          border: 3px solid rgba(255, 255, 255, 0.93);
         `;
 
       default:
@@ -43,6 +45,14 @@ const Label = styled.label`
   font-size: 1.4rem;
   font-weight: 600;
   margin-bottom: 0.8rem;
+`;
+
+const ErrorMessage = styled.span`
+  color: #fb1c1c;
+  font-size: 1.25rem;
+  margin-top: 0.5rem;
+  display: block;
+  font-weight: 500;
 `;
 
 const ComparisonCard = styled.div`
@@ -89,7 +99,7 @@ const RatingStarGroup = styled.div`
 const StarSpan = styled.span`
   display: inline-block;
   font-size: ${({ $size }) => $size || "1rem"};
-  color: ${({ $active }) => ($active ? "#FFD43B" : "#5b5b5b")};
+  color: ${({ $active }) => ($active ? "#ffffff" : "#03102430")};
   transition: 0.2s;
   user-select: none;
 
@@ -109,8 +119,8 @@ const StatusBadge = styled.span`
     switch ($type) {
       case "success":
         return css`
-          background: rgba(34, 197, 94, 0.15);
-          color: #4ade80;
+         border: 3px solid rgba(255, 255, 255, 0.93);
+          color: #ffffff;
         `;
 
       case "warning":
@@ -127,6 +137,7 @@ const StatusBadge = styled.span`
     }
   }}
 `;
+
 import {
   ConsultationCard,
   ConsultationContent,
@@ -137,13 +148,42 @@ import {
   Input,
   Select,
   TextArea,
-  SubmitButton
+  SubmitButton,
 } from "../../../Trust/Trust.styles";
 
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+
 export default function Review({ onReviewSuccess }) {
   const { bookings, isLoading, isError, error } = useAllMyBookings();
-  const {addReview , isLoading : addReviewLoading } = useReview();
+  const { addReview, isLoading: addReviewLoading } = useReview();
+
+  const [hoverRating, setHoverRating] = useState(0);
+  const [formAlert, setFormAlert] = useState(null);
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      bookingId: "",
+      rating: 5,
+      title: "",
+      subRatings: {
+        guide: 5,
+        hotel: 5,
+        transport: 5,
+        valueForMoney: 5,
+        itinerary: 5,
+      },
+      review: "",
+    },
+  });
+
+  const rating = watch("rating") || 5;
 
   // Filter completed & fullPaid tours eligible for review
   const eligibleBookings = bookings.filter((b) => {
@@ -157,67 +197,25 @@ export default function Review({ onReviewSuccess }) {
     return isCompleted && isFullPaid;
   });
 
-  const [selectedBookingId, setSelectedBookingId] = useState("");
-  const [rating, setRating] = useState(5);
-  const [hoverRating, setHoverRating] = useState(0);
-  const [title, setTitle] = useState("");
-  const [reviewText, setReviewText] = useState("");
-
-  const [subRatings, setSubRatings] = useState({
-    guide: 5,
-    hotel: 5,
-    transport: 5,
-    valueForMoney: 5,
-    itinerary: 5,
-  });
-
-  const [formAlert, setFormAlert] = useState(null);
-
-  const handleBookingChange = (e) => {
-    setSelectedBookingId(e.target.value);
-    setFormAlert(null);
-  };
-
-  const handleSubRatingChange = (category, value) => {
-    setSubRatings((prev) => ({
-      ...prev,
-      [category]: Number(value),
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
     setFormAlert(null);
 
-    if (!selectedBookingId) {
-      setFormAlert({
-        type: "error",
-        message: "Please select an eligible completed tour to review.",
-      });
-      return;
-    }
-
-    if (!reviewText.trim()) {
-      setFormAlert({
-        type: "error",
-        message: "Please enter your review feedback.",
-      });
-      return;
-    }
-
-    const bookingObj = eligibleBookings.find(
-      (b) => b._id === selectedBookingId,
-    );
-
+    const bookingObj = eligibleBookings.find((b) => b._id === data.bookingId);
     const tourId = bookingObj?.tour?._id || bookingObj?.tour;
 
     const payload = {
-      bookingId: selectedBookingId,
+      bookingId: data.bookingId,
       tourId,
-      rating,
-      subRatings,
-      title,
-      review: reviewText,
+      rating: Number(data.rating),
+      subRatings: {
+        guide: Number(data.subRatings?.guide || 5),
+        hotel: Number(data.subRatings?.hotel || 5),
+        transport: Number(data.subRatings?.transport || 5),
+        valueForMoney: Number(data.subRatings?.valueForMoney || 5),
+        itinerary: Number(data.subRatings?.itinerary || 5),
+      },
+      title: data.title,
+      review: data.review,
     };
 
     try {
@@ -229,19 +227,20 @@ export default function Review({ onReviewSuccess }) {
           "Thank you! Your verified tour review has been submitted successfully.",
       });
 
-      setSelectedBookingId("");
-      setRating(5);
-      setHoverRating(0);
-      setTitle("");
-      setReviewText("");
-
-      setSubRatings({
-        guide: 5,
-        hotel: 5,
-        transport: 5,
-        valueForMoney: 5,
-        itinerary: 5,
+      reset({
+        bookingId: "",
+        rating: 5,
+        title: "",
+        subRatings: {
+          guide: 5,
+          hotel: 5,
+          transport: 5,
+          valueForMoney: 5,
+          itinerary: 5,
+        },
+        review: "",
       });
+      setHoverRating(0);
 
       onReviewSuccess?.();
     } catch (err) {
@@ -256,7 +255,7 @@ export default function Review({ onReviewSuccess }) {
   };
 
   return (
-    <ConsultationCard style={{width: "100%"}}>
+    <ConsultationCard style={{ width: "100%" }}>
       <p>
         <Link to="/user/all-review" style={{ color: "#ffffff" }}>
           View All Reviews
@@ -272,11 +271,7 @@ export default function Review({ onReviewSuccess }) {
           payment verification.
         </ConsultationDescription>
 
-        {isLoading && (
-          <AlertBox $type="info">
-            Loading your verified tour bookings list...
-          </AlertBox>
-        )}
+        {isLoading && <FullSpinner />}
 
         {isError && (
           <AlertBox $type="error">
@@ -304,7 +299,7 @@ export default function Review({ onReviewSuccess }) {
             </CardSubtitle>
           </ComparisonCard>
         ) : (
-          <Form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit(onSubmit)}>
             <InputGroup>
               <div>
                 <Label htmlFor="bookingSelect">
@@ -312,9 +307,10 @@ export default function Review({ onReviewSuccess }) {
                 </Label>
                 <Select
                   id="bookingSelect"
-                  value={selectedBookingId}
-                  onChange={handleBookingChange}
-                  required
+                  {...register("bookingId", {
+                    required:
+                      "Please select an eligible completed tour to review.",
+                  })}
                 >
                   <option value="">-- Choose Eligible Tour Booking --</option>
                   {eligibleBookings.map((b) => {
@@ -330,6 +326,9 @@ export default function Review({ onReviewSuccess }) {
                     );
                   })}
                 </Select>
+                {errors.bookingId && (
+                  <ErrorMessage>{errors.bookingId.message}</ErrorMessage>
+                )}
               </div>
 
               <div>
@@ -339,7 +338,9 @@ export default function Review({ onReviewSuccess }) {
                     <button
                       key={star}
                       type="button"
-                      onClick={() => setRating(star)}
+                      onClick={() =>
+                        setValue("rating", star, { shouldValidate: true })
+                      }
                       onMouseEnter={() => setHoverRating(star)}
                       onMouseLeave={() => setHoverRating(0)}
                       aria-label={`Rate ${star} star`}
@@ -354,60 +355,83 @@ export default function Review({ onReviewSuccess }) {
                   ))}
                   <StatusBadge $type="success">{rating} / 5 Stars</StatusBadge>
                 </RatingStarGroup>
+                {errors.rating && (
+                  <ErrorMessage>{errors.rating.message}</ErrorMessage>
+                )}
               </div>
             </InputGroup>
 
             <InputGroup>
               <div>
+                <Label htmlFor="reviewTitle">Review Title *</Label>
                 <Input
                   id="reviewTitle"
                   type="text"
                   placeholder="e.g. Unforgettable Alpine Treks & Professional Guide"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
                   maxLength={120}
+                  {...register("title", {
+                    required: "Please enter a title for your review.",
+                    minLength: {
+                      value: 3,
+                      message: "Title must be at least 3 characters long.",
+                    },
+                  })}
                 />
+                {errors.title && (
+                  <ErrorMessage>{errors.title.message}</ErrorMessage>
+                )}
               </div>
 
               <div>
                 <InputGroup>
-                  <Select
-                    value={subRatings.guide}
-                    onChange={(e) =>
-                      handleSubRatingChange("guide", e.target.value)
-                    }
-                  >
-                    <option value={5}>Guide: 5 Stars</option>
-                    <option value={4}>Guide: 4 Stars</option>
-                    <option value={3}>Guide: 3 Stars</option>
-                    <option value={2}>Guide: 2 Stars</option>
-                    <option value={1}>Guide: 1 Star</option>
-                  </Select>
+                  <div>
+                    <Label htmlFor="subRatingGuide">Guide Rating</Label>
+                    <Select
+                      id="subRatingGuide"
+                      {...register("subRatings.guide")}
+                    >
+                      <option value={5}>Guide: 5 Stars</option>
+                      <option value={4}>Guide: 4 Stars</option>
+                      <option value={3}>Guide: 3 Stars</option>
+                      <option value={2}>Guide: 2 Stars</option>
+                      <option value={1}>Guide: 1 Star</option>
+                    </Select>
+                  </div>
 
-                  <Select
-                    value={subRatings.hotel}
-                    onChange={(e) =>
-                      handleSubRatingChange("hotel", e.target.value)
-                    }
-                  >
-                    <option value={5}>Hotel: 5 Stars</option>
-                    <option value={4}>Hotel: 4 Stars</option>
-                    <option value={3}>Hotel: 3 Stars</option>
-                    <option value={2}>Hotel: 2 Stars</option>
-                    <option value={1}>Hotel: 1 Star</option>
-                  </Select>
+                  <div>
+                    <Label htmlFor="subRatingHotel">Hotel Rating</Label>
+                    <Select
+                      id="subRatingHotel"
+                      {...register("subRatings.hotel")}
+                    >
+                      <option value={5}>Hotel: 5 Stars</option>
+                      <option value={4}>Hotel: 4 Stars</option>
+                      <option value={3}>Hotel: 3 Stars</option>
+                      <option value={2}>Hotel: 2 Stars</option>
+                      <option value={1}>Hotel: 1 Star</option>
+                    </Select>
+                  </div>
                 </InputGroup>
               </div>
             </InputGroup>
 
             <div>
+              <Label htmlFor="reviewBody">Detailed Review *</Label>
               <TextArea
                 id="reviewBody"
                 placeholder="Share details of your tour experience, accommodation comfort, itinerary pace, and guide assistance..."
-                value={reviewText}
-                onChange={(e) => setReviewText(e.target.value)}
-                required
+                {...register("review", {
+                  required: "Please enter your review feedback.",
+                  minLength: {
+                    value: 10,
+                    message:
+                      "Review feedback must be at least 10 characters long.",
+                  },
+                })}
               />
+              {errors.review && (
+                <ErrorMessage>{errors.review.message}</ErrorMessage>
+              )}
             </div>
 
             <SubmitButton type="submit" disabled={addReviewLoading}>

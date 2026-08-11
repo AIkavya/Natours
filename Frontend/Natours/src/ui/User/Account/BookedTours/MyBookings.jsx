@@ -8,8 +8,9 @@ import {
   Subtitle,
   Grid,
   EmptyState,
-  Loading,
+
 } from "./MyBooking.styles";
+import FullSpinner from "../../../FullSpinner";
 
 function MyBookings() {
   const { bookings, isLoading, isError, error } = useAllMyBookings();
@@ -17,7 +18,7 @@ function MyBookings() {
   if (isLoading) {
     return (
       <Container>
-        <Loading>Loading your bookings...</Loading>
+         <FullSpinner />
       </Container>
     );
   }

@@ -1,7 +1,9 @@
+import { Suspense } from "react";
 import { Outlet, useLocation, ScrollRestoration } from "react-router-dom";
 import styled from "styled-components";
 import Footer from "../ui/Footer/Footer";
 import NavBar from "../ui/Navbar/NavBar";
+import FullSpinner from "../ui/FullSpinner";
 
 const PageContainer = styled.div`
   display: flex;
@@ -27,7 +29,9 @@ function AppLayout() {
       <ScrollRestoration />
       <NavBar />
       <Layout $isUserRoute={isUserRoute}>
-        <Outlet />
+        <Suspense fallback={<FullSpinner />}>
+          <Outlet />
+        </Suspense>
       </Layout>
       <Footer />
     </PageContainer>

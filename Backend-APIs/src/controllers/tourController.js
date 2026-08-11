@@ -3,7 +3,6 @@ const Tour = require("../models/tourModel");
 const catchAsync = require("../utils/error");
 const AppError = require("../utils/appError");
 
-
 // ==========================================
 // GET ALL TOURS
 // ==========================================
@@ -334,15 +333,7 @@ exports.getTours = catchAsync(async (req, res, next) => {
   // ----------------------------
 
   if (search) {
-    filter.$or = [
-      { name: { $regex: search, $options: "i" } },
-      { summary: { $regex: search, $options: "i" } },
-      { description: { $regex: search, $options: "i" } },
-      { theme: { $regex: search, $options: "i" } },
-      { "destinations.country": { $regex: search, $options: "i" } },
-      { "destinations.state": { $regex: search, $options: "i" } },
-      { "destinations.city": { $regex: search, $options: "i" } },
-    ];
+    filter.$text = { $search: search };
   }
 
   // ----------------------------
@@ -482,7 +473,8 @@ exports.getTours = catchAsync(async (req, res, next) => {
   const tours = await Tour.find(filter)
     .sort(sortBy)
     .skip((pageNum - 1) * limitNum)
-    .limit(limitNum);
+    .limit(limitNum)
+    .lean();
 
   res.status(200).json({
     status: "success",
@@ -500,19 +492,23 @@ exports.getTours = catchAsync(async (req, res, next) => {
 // GET UNIQUE COUNTRIES & COVER IMAGES
 // ==========================================
 exports.getUniqueCountries = catchAsync(async (req, res, next) => {
-  const tours = await Tour.find({}, { destinations: 1, imageCover: 1 }).lean();
+  const result = await Tour.aggregate([
+    { $unwind: "$destinations" },
+    { $match: { "destinations.country": { $exists: true, $ne: "" } } },
+    {
+      $group: {
+        _id: "$destinations.country",
+        imageCover: { $first: "$imageCover" },
+      },
+    },
+  ]);
 
-  const countriesMap = {};
-
-  tours.forEach((tour) => {
-    if (Array.isArray(tour.destinations)) {
-      tour.destinations.forEach((dest) => {
-        if (dest.country && !countriesMap[dest.country]) {
-          countriesMap[dest.country] = tour.imageCover || "";
-        }
-      });
+  const countriesMap = result.reduce((acc, item) => {
+    if (item._id) {
+      acc[item._id] = item.imageCover || "";
     }
-  });
+    return acc;
+  }, {});
 
   res.status(200).json({
     status: "success",

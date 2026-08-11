@@ -121,46 +121,44 @@ const hotelSchema = new mongoose.Schema(
   },
 );
 
-const packageSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-      enum: ["Normal", "Standard", "Premium"],
-    },
+const packageSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    enum: ["Normal", "Standard", "Premium"],
+  },
 
-    price: {
-      type: Number,
-      required: true,
-      min: 0,
-    },
+  price: {
+    type: Number,
+    required: true,
+    min: 0,
+  },
 
-    hotels: {
-      type: [hotelSchema],
-      default: [],
-    },
+  hotels: {
+    type: [hotelSchema],
+    default: [],
+  },
 
-    transportation: {
-      type: String,
-      required: true,
-    },
+  transportation: {
+    type: String,
+    required: true,
+  },
 
-    assistance: {
-      type: String,
-      required: true,
-    },
+  assistance: {
+    type: String,
+    required: true,
+  },
 
-    meals: {
-      type: [String],
-      default: [],
-    },
+  meals: {
+    type: [String],
+    default: [],
+  },
 
-    extraFacilities: {
-      type: [String],
-      default: [],
-    },
-  }
-);
+  extraFacilities: {
+    type: [String],
+    default: [],
+  },
+});
 
 // =======================================================
 // TOUR SCHEMA
@@ -201,14 +199,7 @@ const tourSchema = new mongoose.Schema(
     theme: {
       type: String,
       required: true,
-      enum: [
-        "Cities",
-        "Mountains",
-        "Oceans",
-        "Forest",
-        "Culture",
-  
-      ],
+      enum: ["Cities", "Mountains", "Oceans", "Forest", "Culture"],
     },
 
     // ==========================================
@@ -423,10 +414,11 @@ tourSchema.index({ status: 1, startingPrice: 1, "duration.days": 1 });
 // 5. Featured Tours Section
 tourSchema.index({ status: 1, featured: 1 });
 
-// 6. Full-Text Search Index (Global Searchbar matching Name, City, State, Country, Summary)
+// 6. Full-Text Search Index (Global Searchbar matching Name, Theme, City, State, Country, Summary, Description)
 tourSchema.index(
   {
     name: "text",
+    theme: "text",
     "destinations.city": "text",
     "destinations.state": "text",
     "destinations.country": "text",
@@ -439,6 +431,7 @@ tourSchema.index(
       "destinations.city": 8,
       "destinations.state": 6,
       "destinations.country": 5,
+      theme: 4,
       summary: 3,
       description: 1,
     },

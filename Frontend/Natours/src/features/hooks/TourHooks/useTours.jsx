@@ -1,6 +1,10 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { fetchTours, fetchSearchSuggestions } from "../../../Services/tourService/tourService";
+import {
+  fetchTours,
+  fetchSearchSuggestions,
+} from "../../../Services/tourService/tourService";
+import { useDebounce } from "../useDebounce";
 
 const DEFAULT_FILTERS = {
   search: "",
@@ -133,6 +137,9 @@ export function useTours() {
     syncFiltersToUrl(filters);
   }, [filters]);
 
+  const debouncedSearch = useDebounce(filters.search, 300);
+  const debouncedPriceRange = useDebounce(filters.priceRange, 300);
+
   const apiParams = useMemo(() => {
     let minDays;
     let maxDays;
@@ -152,11 +159,11 @@ export function useTours() {
     }
 
     return {
-      search: filters.search,
+      search: debouncedSearch,
       theme: filters.themes.join(","),
       country: filters.countries.join(","),
-      minPrice: filters.priceRange[0],
-      maxPrice: filters.priceRange[1],
+      minPrice: debouncedPriceRange[0],
+      maxPrice: debouncedPriceRange[1],
       minDays,
       maxDays,
       minRating: filters.minRating || undefined,
@@ -167,7 +174,7 @@ export function useTours() {
       page: filters.page,
       limit: 6,
     };
-  }, [filters]);
+  }, [filters, debouncedSearch, debouncedPriceRange]);
 
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["tours", apiParams],
@@ -178,10 +185,12 @@ export function useTours() {
   const [searchQueryForSuggestions, setSearchQueryForSuggestions] =
     useState("");
 
+  const debouncedSuggestionsQuery = useDebounce(searchQueryForSuggestions, 300);
+
   const { data: suggestionsData } = useQuery({
-    queryKey: ["searchSuggestions", searchQueryForSuggestions],
-    queryFn: () => fetchSearchSuggestions(searchQueryForSuggestions),
-    enabled: searchQueryForSuggestions.trim().length >= 2,
+    queryKey: ["searchSuggestions", debouncedSuggestionsQuery],
+    queryFn: () => fetchSearchSuggestions(debouncedSuggestionsQuery),
+    enabled: debouncedSuggestionsQuery.trim().length >= 2,
     staleTime: 1000 * 60,
   });
 

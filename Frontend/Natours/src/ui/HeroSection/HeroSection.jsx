@@ -21,7 +21,14 @@ function Hero() {
   return (
     <HeroWrapper>
       <HeroSection>
-        <Background src="hero.jpg" alt="Travel Hero" />
+        <Background
+          src="hero.webp"
+          alt="Travel Hero"
+          width="1920"
+          height="1080"
+          decoding="async"
+          fetchPriority="high"
+        />
 
         <Overlay />
 

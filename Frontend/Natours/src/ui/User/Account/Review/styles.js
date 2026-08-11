@@ -104,14 +104,14 @@ export const AlertBox = styled.div`
   ${({ $type }) =>
     $type === "error"
       ? css`
-          color: #ffb4b4;
-          background: rgba(255, 0, 0, 0.08);
-          border: 1px solid rgba(255, 0, 0, 0.25);
+          color: #d51e1eff;
+          background: transparent;
+          border: 1px solid rgba(202, 6, 6, 0.93);
         `
       : css`
-          color: #d7f3ff;
-          background: rgba(0, 140, 255, 0.08);
-          border: 1px solid rgba(0, 140, 255, 0.2);
+          color: black;
+          background: transparent;
+          border: 1px solid rgba(0, 0, 0, 0.94);
         `}
 `;
 
@@ -202,9 +202,9 @@ export const StatusBadge = styled.div`
   ${({ $type }) =>
     $type === "success" &&
     css`
-      color: #54ff99;
-      background: rgba(84, 255, 153, 0.12);
-      border: 1px solid rgba(84, 255, 153, 0.3);
+      color: #ffffffff;
+      background: rgba(14, 93, 183, 1);
+      border: 1px solid rgba(255, 255, 255, 0.93);
     `}
 `;
 
@@ -217,7 +217,7 @@ export const ReviewTourTitle = styled.h3`
 export const StarSpan = styled.span`
   font-size: 2rem;
   margin-right: 0.25rem;
-  color: ${({ $active }) => ($active ? "#fbbf24" : "rgba(255,255,255,.18)")};
+  color: ${({ $active }) => ($active ? "#fefefeff" : "rgba(14, 30, 255, 0.91)")};
 `;
 
 export const SubRatingsGrid = styled.div`

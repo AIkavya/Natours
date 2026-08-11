@@ -20,10 +20,11 @@ import {
   VisitText,
 } from "./FindDestinationByCountry.styles";
 import { useFindByCountry } from "../../../features/hooks/TourHooks/useFindByCountry";
+import FullSpinner from "../../FullSpinner";
 function FindDestinationByCountry() {
   const navigate = useNavigate();
     const {data:countryData,isLoading,isError } = useFindByCountry();
-    if(isLoading) return <div>Loading...</div>
+    if(isLoading) return <div> <FullSpinner /></div>
     if(isError) return <div>Error...</div>
   const handleCountryClick = (country) => {
     navigate(`/search?country=${encodeURIComponent(country)}`);

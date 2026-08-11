@@ -5,20 +5,23 @@ import {
   Background,
   HeroContent,
   HeroTitle,
-  HeroButton
- 
- 
+  HeroButton,
 } from "./LoginUI.style";
 
-import { Outlet} from "react-router-dom";
+import { Suspense } from "react";
+import { Outlet } from "react-router-dom";
+import FullSpinner from "../FullSpinner";
 
 function LoginUI() {
   return (
     <Layout>
       <ImageWrapper>
         <Background
-          src="/sky.jpg"
+          src="/sky.webp"
           alt="Mountain"
+          width="1920"
+          height="1080"
+          decoding="async"
           initial={{
             scale: 1.45,
             opacity: 0,
@@ -84,7 +87,9 @@ function LoginUI() {
       </ImageWrapper>
 
       <FormWrapper>
-        <Outlet />
+        <Suspense fallback={<FullSpinner />}>
+          <Outlet />
+        </Suspense>
       </FormWrapper>
     </Layout>
   );
