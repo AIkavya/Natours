@@ -78,6 +78,10 @@ const router = createBrowserRouter([
         element: <Search />,
       },
       {
+        path: "/policy",
+        element: <TermsAndPolicy />,
+      },
+      {
         element: <PublicRoute />,
         children: [
           {
@@ -154,11 +158,12 @@ const router = createBrowserRouter([
           },
           {
             path: "reviews",
-            element: <Review />
-          }, {
+            element: <Review />,
+          },
+          {
             path: "all-review",
-            element: <AllReview />
-          }
+            element: <AllReview />,
+          },
         ],
       },
     ],
@@ -197,10 +202,6 @@ const router = createBrowserRouter([
           {
             path: "payment",
             element: <Payment />,
-          },
-          {
-            path: "policy",
-            element: <TermsAndPolicy />,
           },
         ],
       },
