@@ -133,6 +133,9 @@ function onSubmit() {
       .trim();
   }
 
+   if (bookingData.formNumber !== 4) {
+     return navigate(`/`);
+   }
   return (
     <Wrapper>
       {(processing || success) && (

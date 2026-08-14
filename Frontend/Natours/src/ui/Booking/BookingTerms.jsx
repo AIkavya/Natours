@@ -61,65 +61,65 @@ const policies = [
     icon: LuBadgeDollarSign,
     title: "Refund Policy",
     subtitle: "Understand how refunds are processed for cancelled bookings.",
-    link: `/user/booking/${slug}/policy#refund`,
+    link: `/policy#refund`,
   },
   {
     icon: LuCircleX,
     title: "Cancellation Policy",
     subtitle:
       "Review cancellation timelines and applicable cancellation charges.",
-    link: `/user/booking/${slug}/policy#cancellation`,
+    link: `/policy#cancellation`,
   },
   {
     icon: LuCreditCard,
     title: "Payment Policy",
     subtitle: "Know how successful and failed payments affect your booking.",
-    link: `/user/booking/${slug}/policy#payment`,
+    link: `/policy#payment`,
   },
   {
     icon: LuShieldCheck,
     title: "Insurance Policy",
     subtitle: "Understand insurance coverage, exclusions and claim process.",
-    link: `/user/booking/${slug}/policy#insurance`,
+    link: `/policy#insurance`,
   },
   {
     icon: LuFileCheck,
     title: "Document Verification",
     subtitle:
       "Learn how passports, visas and identity documents are verified.",
-    link: `/user/booking/${slug}/policy#documents`,
+    link: `/policy#documents`,
   },
   {
     icon: LuScale,
     title: "Criminal & Immigration",
     subtitle:
       "Traveler responsibilities regarding immigration and legal matters.",
-    link: `/user/booking/${slug}/policy#criminal`,
+    link: `/policy#criminal`,
   },
   {
     icon: LuUsers,
     title: "Traveler Information",
     subtitle: "Verify all traveler information before booking confirmation.",
-    link: `/user/booking/${slug}/policy#traveler`,
+    link: `/policy#traveler`,
   },
   {
     icon: LuBuilding2,
     title: "Third Party Services",
     subtitle:
       "Airlines, hotels and suppliers operate under their own policies.",
-    link: `/user/booking/${slug}/policy#thirdparty`,
+    link: `/policy#thirdparty`,
   },
   {
     icon: LuHeartPulse,
     title: "Health Declaration",
     subtitle: "Traveler fitness and medical responsibility declaration.",
-    link: `/user/booking/${slug}/policy#health`,
+    link: `/policy#health`,
   },
   {
     icon: LuFileText,
     title: "Terms & Conditions",
     subtitle: "Read the complete terms and conditions governing your booking.",
-    link: `/user/booking/${slug}/policy#terms`,
+    link: `/policy#terms`,
   },
 ];
 
@@ -130,7 +130,7 @@ const policies = [
 
    setBookingData((prev) => ({
      ...prev,
-
+     formNumber : 4, 
      terms: {
        refundPolicy: accepted,
        cancellationPolicy: accepted,
@@ -152,6 +152,10 @@ const policies = [
 
    navigate(`/user/booking/${tour?.slug}/payment`);
  }
+
+  if (bookingData.formNumber !== 3) {
+     return navigate(`/`)
+  }
 
   return (
     <Container>

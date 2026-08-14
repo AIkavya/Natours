@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 
 const spin = keyframes`
@@ -1564,4 +1565,25 @@ export const BookmarkButton = styled.button`
       font-size: 1.8rem;
     }
   }
+`;
+
+
+export const PolicyButton = styled(Link)`
+    background-color: white;
+    color: black;
+    margin: 0 auto;
+    border: none;
+    position: relative;
+    top:4rem;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    font-size: 1.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid white;
+    &:hover {
+        background-color: black;
+        color: white;
+    }
 `;

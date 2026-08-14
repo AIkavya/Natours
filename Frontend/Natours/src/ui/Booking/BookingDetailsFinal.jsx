@@ -29,7 +29,7 @@ import { useEffect } from "react";
 import useCurrencyDetector from "../../Services/useCurrencyDetector";
 
 function BookingDetailsFinal() {
-  const { bookingData, bookingFiles } = useBooking();
+  const { bookingData, bookingFiles, setBookingData } = useBooking();
   const navigate = useNavigate();
   const { tour } = useTourDetail();
   const locationString =
@@ -44,9 +44,14 @@ function BookingDetailsFinal() {
   const { formatCurrency } = useCurrencyDetector();
 
   function handleProceed() {
+
+    setBookingData((prev)=>({...prev,formNumber : 3}))
     navigate(`/user/booking/${tour?.slug}/terms-conditions`);
   }
 
+  if (bookingData.formNumber !== 2) {
+    return navigate(`/`)
+  }
   return (
     <Container $padding="0">
       <Wrapper>

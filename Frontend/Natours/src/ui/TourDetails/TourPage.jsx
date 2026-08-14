@@ -1,5 +1,5 @@
 import { useState , useEffect , useRef} from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 
 import useUser from "../../features/hooks/UserHooks/useUser";
 
@@ -88,6 +88,7 @@ import {
   MobilePriceInfo,
   MobileBookButton,
   BookmarkButton,
+  PolicyButton,
  
 } from "./TourPage.styles";
 
@@ -96,9 +97,12 @@ import {
   Subtitle,
   AuroraText,
   Badge,
+  Section,
+  Header,
 } from "../Grid/GridComponent.styles";
 
 import useCurrencyDetector from "../../Services/useCurrencyDetector";
+
 // Helper component for rich typography and highlighted words
 function RichTextFormatter({ text }) {
   if (!text) return null;
@@ -146,6 +150,7 @@ function RichTextFormatter({ text }) {
 
 function TourPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { formatCurrency } = useCurrencyDetector();
   const { tour, isPending, error } = useTourDetail();
   const { slug: routeSlug } = useParams();
@@ -701,6 +706,20 @@ function TourPage() {
             </TrustList>
           </BookingCard>
         </BookingPackagesRow>
+
+        <Section>
+          <Header>
+            <Badge>Terms & conditions</Badge>
+
+            <Subtitle>
+              Review all booking policies, cancellation rules, payment terms,
+              and travel guidelines before confirming your adventure.
+            </Subtitle>
+            <PolicyButton to="/policy" state={{ from: location.pathname }}>
+              Read Our Policies & Terms
+            </PolicyButton>
+          </Header>
+        </Section>
       </ContentWrapper>
 
       {/* ==========================================

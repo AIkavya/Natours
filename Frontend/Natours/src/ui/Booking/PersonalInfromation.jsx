@@ -187,7 +187,7 @@ Object.entries(bookingFiles).forEach(([key, value]) => {
       ...prev,
 
       travelers,
-
+      formNumber: 2,
       emergencyContact: data.emergencyContact,
 
       totalAmount: prev.pricePerPerson * travelers.length,
@@ -253,6 +253,11 @@ Object.entries(bookingFiles).forEach(([key, value]) => {
 
   
 
+  if (bookingData.formNumber !== 1) {
+    return (
+      <navigate to={`/`} replace />
+      )
+  }
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {fields.map((field, index) => (

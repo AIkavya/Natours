@@ -155,6 +155,9 @@ function Footer() {
                   Help Center
                 </FooterLink>
               </li>
+              <li>
+                <FooterLink to="/policy">Terms & Conditions</FooterLink>
+              </li>
             </LinkList>
           </NavColumn>
         </NavGrid>

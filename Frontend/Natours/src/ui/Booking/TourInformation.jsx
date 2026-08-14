@@ -123,7 +123,7 @@ const selectedHotel =
      packageName:selectedPackage.name,
     pricePerPerson:effectivePrice,
     remainingAmountPerPerson:remainingBalance,
-
+     formNumber : 1,
      selectedHotel,
 
 
@@ -365,6 +365,10 @@ const selectedHotel =
 
             <Button as="button" type="submit">
               Continue
+            </Button>
+
+            <Button as="button" onClick={() => navigate(`/tour/${tour.slug}`)} >
+              Back to Tour Page
             </Button>
           </PaymentCard>
         </Grid>
