@@ -20,6 +20,13 @@ app.use(express.json({ limit: "10kb" }));
 app.use(cookieParser());
 app.use(compression());
 
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "success",
+    message: "Natours API is running",
+  });
+});
+
 const cors = require("cors");
 
 const allowedOrigins = [
