@@ -66,7 +66,7 @@ exports.signup = catchAsync(async function (req, res, next) {
     validateBeforeSave: false,
   });
 
-  const verifyURL = "http://localhost:5173/user/verifyToken";
+  const verifyURL = `${process.env.FRONTEND_URL}/user/verifyToken`;
 
   try {
     await new Email(newUser, verifyURL).sendOtpVerification(otp);
@@ -320,7 +320,7 @@ exports.forgetPassword = catchAsync(async function (req, res, next)
         validateBeforeSave: false,
     });
 
-    const resetURL = `http://localhost:5173/user/reset-password/${resetToken}`;
+    const resetURL = `${process.env.FRONTEND_URL}/user/reset-password/${resetToken}`;
 
     // const message = `Forget Password ! , Click below to get resetPassword. ${resetURL}`;
 
@@ -441,9 +441,9 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 exports.logout = (req, res, next) => {
   res.cookie("jwt", "loggedout", {
     expires: new Date(Date.now() + 10 * 1000),
-  httpOnly: true,
-  secure:true,
-  sameSite:'lax'
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   });
 
   res.status(200).json({
@@ -478,9 +478,11 @@ exports.deleteAccount = catchAsync(async (req, res, next) => {
   await User.findByIdAndDelete(user._id);
 
   res.cookie("jwt", "", {
-    expires: new Date(Date.now() + 1000),
-    httpOnly: true,
-  });
+  expires: new Date(Date.now() + 1000),
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+});
 
   res.status(200).json({
     status: "success",
