@@ -13,6 +13,7 @@ export const Wrapper = styled.div`
     #000;
 
   padding: 5rem 0 8rem;
+  margin-top: 2rem;
 `;
 
 export const Container = styled.div`
@@ -203,7 +204,7 @@ export const Content = styled.main`
 
 export const BackButton = styled(Link)`
   display: inline-flex;
-
+  position: relative;
   align-items: center;
   justify-content: center;
 
@@ -211,10 +212,10 @@ export const BackButton = styled(Link)`
 
   width: fit-content;
 
-  margin-top: 4rem;
+  margin: 4rem;
 
-  padding: 1.4rem 2.5rem;
-
+  padding: 1rem 2rem;
+  border: 1px solid white;
   border-radius: 1.4rem;
 
   background: white;
@@ -229,9 +230,22 @@ export const BackButton = styled(Link)`
   transition: 0.25s;
 
   &:hover {
-    background: #2183eb;
-
+    background: #000000ff;
+    color: white;
     transform: translateY(-2px);
+  }
+
+  @media (max-width:900px){
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    margin: 0;
+    border-radius: 0;
+
+    
   }
 `;
 
