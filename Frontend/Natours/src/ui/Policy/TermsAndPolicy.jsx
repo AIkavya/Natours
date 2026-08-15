@@ -1,3 +1,5 @@
+import { useEffect, useRef } from "react";
+
 import {
   LuArrowLeft,
   LuBadgeDollarSign,
@@ -53,6 +55,7 @@ import {
   ContactButton,
   BackButton,
 } from "./TermsAndPolicy.styles";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const policies = [
   {
@@ -108,6 +111,101 @@ const policies = [
 ];
 
 function PolicyCenter() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  /*
+   * ---------------------------------------------------------
+   * ORIGINAL PAGE
+   * ---------------------------------------------------------
+   *
+   * When the user enters /policy, the previous page is passed
+   * through location.state.form.
+   *
+   * We store it in a ref so that changing:
+   *
+   * /policy
+   * /policy#refund
+   * /policy#payment
+   * /policy#documents
+   *
+   * NEVER changes the page we return to.
+   */
+  const originalPageRef = useRef(location.state?.form || "/");
+
+  /*
+   * ---------------------------------------------------------
+   * HANDLE SECTION HASH
+   * ---------------------------------------------------------
+   *
+   * Hash navigation is handled manually instead of allowing
+   * the browser's normal anchor navigation to create multiple
+   * history entries.
+   */
+  useEffect(() => {
+    if (!location.hash) return;
+
+    const id = location.hash.substring(1);
+    const element = document.getElementById(id);
+
+    if (!element) return;
+
+    setTimeout(() => {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 0);
+  }, [location.hash]);
+
+  /*
+   * ---------------------------------------------------------
+   * SECTION NAVIGATION
+   * ---------------------------------------------------------
+   *
+   * Scroll to the section and update the URL WITHOUT adding
+   * another browser history entry.
+   */
+  function handleSectionNavigation(e, id) {
+    e.preventDefault();
+
+    const element = document.getElementById(id);
+    if (!element) return;
+
+    element.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+
+    /*
+     * replaceState changes the URL but DOES NOT create a
+     * browser history entry.
+     */
+    window.history.replaceState(
+      window.history.state,
+      "",
+      `${window.location.pathname}${window.location.search}#${id}`
+    );
+  }
+
+  /*
+   * ---------------------------------------------------------
+   * BACK BUTTON
+   * ---------------------------------------------------------
+   *
+   * Always return to the page from which the user originally
+   * entered Policy Center.
+   */
+  function handleBack(e) {
+    e.preventDefault();
+
+    const originalPage = originalPageRef.current;
+
+    navigate(-1, {
+      replace: true,
+    });
+  }
+
   return (
     <Wrapper>
       <Container>
@@ -133,22 +231,20 @@ function PolicyCenter() {
             <LuCalendarClock />
             Last Updated : 03 August 2026
           </Updated>
+
+          <BackButton onClick={handleBack}>
+            <LuArrowLeft />
+            Back
+          </BackButton>
         </Hero>
 
         <Layout>
-
-          {/* ================================= */}
-          {/* Sidebar */}
-          {/* ================================= */}
-
           <Sidebar>
-
             <SidebarTitle>
               Quick Navigation
             </SidebarTitle>
 
             <Nav>
-
               {policies.map((policy) => {
                 const Icon = policy.icon;
 
@@ -156,24 +252,23 @@ function PolicyCenter() {
                   <NavItem
                     key={policy.id}
                     href={`#${policy.id}`}
+                    onClick={(e) =>
+                      handleSectionNavigation(
+                        e,
+                        policy.id
+                      )
+                    }
                   >
                     <Icon />
-
                     {policy.title}
                   </NavItem>
                 );
               })}
-
             </Nav>
-
           </Sidebar>
 
-          {/* ================================= */}
-          {/* Content */}
-          {/* ================================= */}
-
-                  <Content>
-                                  {/* ======================================================= */}
+          <Content>
+            {/* ======================================================= */}
             {/* REFUND POLICY */}
             {/* ======================================================= */}
 
@@ -396,8 +491,8 @@ function PolicyCenter() {
 
               <List>
                 <ListItem>
-                  Coverage may include medical emergencies, baggage loss,
-                  trip interruption and accidental incidents.
+                  Coverage may include medical emergencies, baggage loss, trip
+                  interruption and accidental incidents.
                 </ListItem>
 
                 <ListItem>
@@ -436,8 +531,8 @@ function PolicyCenter() {
                 </WarningText>
               </WarningBox>
             </PolicySection>
-               
-                  {/* ======================================================= */}
+
+            {/* ======================================================= */}
             {/* DOCUMENT VERIFICATION */}
             {/* ======================================================= */}
 
@@ -464,17 +559,13 @@ function PolicyCenter() {
                   destination country.
                 </ListItem>
 
-                <ListItem>
-                  Valid Visa (where applicable).
-                </ListItem>
+                <ListItem>Valid Visa (where applicable).</ListItem>
 
                 <ListItem>
                   Government issued National Identification document.
                 </ListItem>
 
-                <ListItem>
-                  Travel Insurance documents (if required).
-                </ListItem>
+                <ListItem>Travel Insurance documents (if required).</ListItem>
 
                 <ListItem>
                   Any additional permits, vaccination certificates or travel
@@ -571,8 +662,8 @@ function PolicyCenter() {
                   or non-compliance with applicable laws.
                 </WarningText>
               </WarningBox>
-                  </PolicySection>
-                  {/* ======================================================= */}
+            </PolicySection>
+            {/* ======================================================= */}
             {/* TRAVELER INFORMATION */}
             {/* ======================================================= */}
 
@@ -611,8 +702,8 @@ function PolicyCenter() {
                 </ListItem>
 
                 <ListItem>
-                  Emergency contact details should always belong to a person
-                  who can be reached throughout the journey.
+                  Emergency contact details should always belong to a person who
+                  can be reached throughout the journey.
                 </ListItem>
 
                 <ListItem>
@@ -637,10 +728,10 @@ function PolicyCenter() {
                 <WarningTitle>Incorrect Information</WarningTitle>
 
                 <WarningText>
-                  Incorrect traveler information may require ticket
-                  reissuance, hotel reservation amendments, visa application
-                  corrections or complete booking cancellation. Any associated
-                  charges shall be borne by the traveler.
+                  Incorrect traveler information may require ticket reissuance,
+                  hotel reservation amendments, visa application corrections or
+                  complete booking cancellation. Any associated charges shall be
+                  borne by the traveler.
                 </WarningText>
               </WarningBox>
             </PolicySection>
@@ -675,8 +766,7 @@ function PolicyCenter() {
 
                 <ListItem>
                   Hotel room allocation, facilities, amenities and check-in
-                  procedures are managed by the selected accommodation
-                  provider.
+                  procedures are managed by the selected accommodation provider.
                 </ListItem>
 
                 <ListItem>
@@ -717,9 +807,9 @@ function PolicyCenter() {
                   binding and may affect your itinerary.
                 </WarningText>
               </WarningBox>
-                  </PolicySection>
-      
-                  {/* ======================================================= */}
+            </PolicySection>
+
+            {/* ======================================================= */}
             {/* HEALTH DECLARATION */}
             {/* ======================================================= */}
 
@@ -881,8 +971,8 @@ function PolicyCenter() {
                   amendments published on this Policy Center.
                 </WarningText>
               </WarningBox>
-                  </PolicySection>
-                  {/* ======================================================= */}
+            </PolicySection>
+            {/* ======================================================= */}
             {/* CONTACT SUPPORT */}
             {/* ======================================================= */}
 
@@ -897,9 +987,7 @@ function PolicyCenter() {
                 booking if you need clarification regarding any policy.
               </ContactText>
 
-              <ContactButton to="/contact">
-                Contact Support
-              </ContactButton>
+              <ContactButton to="/contact">Contact Support</ContactButton>
             </ContactCard>
 
             {/* ======================================================= */}
@@ -912,9 +1000,7 @@ function PolicyCenter() {
                 <PolicyTag>FAQ</PolicyTag>
               </PolicyHeader>
 
-              <Heading>
-                1. Can I cancel my booking after confirmation?
-              </Heading>
+              <Heading>1. Can I cancel my booking after confirmation?</Heading>
 
               <Paragraph>
                 Yes. Cancellation requests are accepted according to our
@@ -924,9 +1010,7 @@ function PolicyCenter() {
 
               <Divider />
 
-              <Heading>
-                2. When will I receive my refund?
-              </Heading>
+              <Heading>2. When will I receive my refund?</Heading>
 
               <Paragraph>
                 Approved refunds are generally processed using the original
@@ -936,9 +1020,7 @@ function PolicyCenter() {
 
               <Divider />
 
-              <Heading>
-                3. What happens if my payment fails?
-              </Heading>
+              <Heading>3. What happens if my payment fails?</Heading>
 
               <Paragraph>
                 Failed or cancelled transactions do not confirm your booking.
@@ -948,9 +1030,7 @@ function PolicyCenter() {
 
               <Divider />
 
-              <Heading>
-                4. Are my uploaded documents secure?
-              </Heading>
+              <Heading>4. Are my uploaded documents secure?</Heading>
 
               <Paragraph>
                 Yes. Documents are used solely for booking verification,
@@ -960,9 +1040,7 @@ function PolicyCenter() {
 
               <Divider />
 
-              <Heading>
-                5. Why do I need travel insurance?
-              </Heading>
+              <Heading>5. Why do I need travel insurance?</Heading>
 
               <Paragraph>
                 Travel insurance helps protect you against unexpected medical
@@ -983,25 +1061,13 @@ function PolicyCenter() {
               </Copyright>
 
               <FooterLinks>
-                <FooterLink to="/privacy-policy">
-                  Privacy Policy
-                </FooterLink>
+                <FooterLink to="/privacy-policy">Privacy Policy</FooterLink>
 
-                <FooterLink to="/contact">
-                  Contact Us
-                </FooterLink>
+                <FooterLink to="/contact">Contact Us</FooterLink>
 
-                <FooterLink to="/about">
-                  About Us
-                </FooterLink>
+                <FooterLink to="/about">About Us</FooterLink>
               </FooterLinks>
             </Footer>
-
-            <BackButton to="/booking/review">
-              <LuArrowLeft />
-              Back to Booking
-            </BackButton>
-
           </Content>
         </Layout>
       </Container>
