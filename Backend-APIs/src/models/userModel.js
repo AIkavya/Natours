@@ -57,7 +57,7 @@ const userSchema = new mongoose.Schema(
     photo: {
       url: {
         type: String,
-        default: "default-user.jpg",
+        default : null,
       },
 
       publicId: {

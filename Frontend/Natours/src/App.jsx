@@ -225,8 +225,8 @@ function App() {
             duration: 5000,
 
             style: {
-              minWidth: "420px",
-              maxWidth: "560px",
+              minWidth: "380px",
+              maxWidth: "500px",
 
               background: "#171717",
               color: "#fff",
