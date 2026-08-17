@@ -106,7 +106,7 @@ const IMAGES = {
       desc: "Helicopter transfers direct to private ski chalets complete with Michelin-trained private chef and spa butler.",
     },
     {
-      url: "/images/about/gallery-4.jpg",
+      url: "/tanzania.webp",
       fallback:
         "https://images.unsplash.com/photo-1516426122078-c23e76319801?q=80&w=1200&auto=format&fit=crop",
       title: "Serengeti Private Air Safari",
@@ -116,7 +116,7 @@ const IMAGES = {
       desc: "Chartered bush flights landing at hyper-exclusive luxury tented camps with dedicated conservation rangers.",
     },
     {
-      url: "/images/about/gallery-5.jpg",
+      url: "/maldives.webp",
       fallback:
         "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?q=80&w=1000&auto=format&fit=crop",
       title: "Overwater Coral Island Residence",
@@ -126,7 +126,7 @@ const IMAGES = {
       desc: "Multi-bedroom glass-floored overwater estate featuring private observatory and dedicated marine biologist.",
     },
     {
-      url: "/images/about/gallery-6.jpg",
+      url: "/lights.webp",
       fallback:
         "https://images.unsplash.com/photo-1517411032315-54ef2cb783bb?q=80&w=1000&auto=format&fit=crop",
       title: "Icelandic Northern Lights Lodge",
@@ -136,7 +136,7 @@ const IMAGES = {
       desc: "Geothermal glass domes tucked deep into volcanic valleys designed specifically for private aurora viewing.",
     },
     {
-      url: "/images/about/gallery-7.jpg",
+      url: "/switzerland.webp",
       fallback:
         "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1000&auto=format&fit=crop",
       title: "Swiss Alpine Panorama Retreat",
@@ -146,7 +146,7 @@ const IMAGES = {
       desc: "A secluded luxury chalet overlooking snow-capped peaks, offering breathtaking sunrise views and world-class alpine experiences.",
     },
     {
-      url: "/images/m1.webp",
+      url: "/kyoto.webp",
       fallback:
         "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1000&auto=format&fit=crop",
       title: "Kyoto Bamboo Forest Hideaway",
