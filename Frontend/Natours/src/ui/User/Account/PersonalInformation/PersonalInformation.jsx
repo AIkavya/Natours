@@ -220,7 +220,15 @@ function PersonalInformation() {
               })}
             />
 
-            {errors.name && <span>{errors.name.message}</span>}
+            {errors.name && (
+              <span
+                style={{
+                  color: "red"
+                }}
+              >
+                {errors.name.message}
+              </span>
+            )}
           </FormGroup>
 
           <FormGroup>
@@ -256,7 +264,9 @@ function PersonalInformation() {
             {errors.dateOfBirth && <span>{errors.dateOfBirth.message}</span>}
 
             {user.dateOfBirth && (
-              <small>Date of birth can only be updated once.</small>
+              <small style={{ color: "white" }}>
+                Date of birth can only be updated once.
+              </small>
             )}
           </FormGroup>
 
@@ -277,7 +287,9 @@ function PersonalInformation() {
             </Select>
 
             {user.gender !== "prefer-not-to-say" && (
-              <small>Gender can only be selected once.</small>
+              <small style={{ color: "white" }}>
+                Gender can only be selected once.
+              </small>
             )}
           </FormGroup>
         </Row>
@@ -298,7 +310,9 @@ function PersonalInformation() {
             })}
           />
 
-          {errors.bio && <span>{errors.bio.message}</span>}
+          {errors.bio && (
+            <span style={{ color: "red" }}>{errors.bio.message}</span>
+          )}
         </FormGroup>
 
         <SaveButton type="submit" disabled={(!isDirty && !photo) || isPending}>
