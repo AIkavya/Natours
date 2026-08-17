@@ -88,12 +88,14 @@ export const UserPill = styled.div`
   border-radius: 1.6rem;
 
   transition: 0.25s ease;
-  cursor: pointer;
+  
 
   &:hover {
     border-color: #3b82f6;
     background: #1e1d1d;
   }
+
+  
 `;
 
 export const ImageWrapper = styled.div`
@@ -329,9 +331,10 @@ export const FooterButton = styled(Link)`
     font-size: 1.7rem;
   }
 
+
   @media (max-width: 768px) {
-    height: 4.8rem;
-    font-size: 1.4rem;
+    
+    font-size: 2.4rem;
   }
 `;
 

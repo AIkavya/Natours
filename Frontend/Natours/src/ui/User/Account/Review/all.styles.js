@@ -41,9 +41,9 @@ export const BackButton = styled.button`
 
   background: #fff;
 
-  color: #0f172a;
+  color: #000000ff;
 
-  font-size: 1.15rem;
+  font-size: 1.25rem;
   font-weight: 600;
 
   cursor: pointer;
@@ -53,9 +53,9 @@ export const BackButton = styled.button`
   transition: 0.25s ease;
 
   &:hover {
-    background: #0f172a;
-    color: #fff;
-    transform: translateY(-2px);
+    background: #000000ff;
+    color: #ffffffff;
+    
   }
 
   svg {

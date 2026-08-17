@@ -89,6 +89,8 @@ function PersonalInformation() {
       if (previewImage) {
         URL.revokeObjectURL(previewImage);
       }
+
+      
     };
   }, [previewImage]);
 
@@ -166,10 +168,13 @@ function PersonalInformation() {
       </Header>
 
       <AvatarSection>
-        <Avatar
-          src={previewImage || user.photo?.url || "/user.svg"}
-          alt={user.name}
-        />
+        {previewImage ? (
+          <Avatar src={previewImage} alt={user.name} />
+        ) : user.photo?.url ? (
+          <Avatar src={user.photo.url} alt={user.name} />
+        ) : (
+          <Avatar src="/m.webp" alt={user.name} />
+        )}
 
         <input
           ref={fileInputRef}

@@ -101,14 +101,7 @@ function UserPage({ user }) {
             aria-label="Toggle Navigation Menu"
           >
             <ImageWrapper>
-              <Image
-                src={
-                  user.photo !== "default-user.jpg"
-                    ? user.photo.url
-                    : "/user.svg"
-                }
-                alt="User"
-              />
+              <Image src={user.photo?.url ? user.photo.url : "/m.webp"} alt="User" />
             </ImageWrapper>
 
             <UserName>{user.name}</UserName>

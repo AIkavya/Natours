@@ -1,6 +1,17 @@
 import BookingCardQuery from "./BookingCardQuery";
 import useMyBookingQueries from "../../../../features/hooks/AsistanceHooks/useMyBookingQueries";
 import FullSpinner from "../../../FullSpinner";
+
+import {
+Container,
+Header,
+Title,
+Subtitle,
+Grid,
+EmptyState,
+
+} from '../BookedTours/MyBooking.styles'
+
 function AllQueries()
 {
 const {queries,isPending,isError,error} = useMyBookingQueries();
@@ -10,7 +21,9 @@ if(isPending){
 }
 if(isError){
     return <div>Error: {error.message}</div>
-}
+  }
+
+ 
 
   return (
     <div
@@ -21,9 +34,26 @@ if(isError){
         gap: "2rem",
       }}
     >
-      {queries.map((query) => (
+      <Container>
+        <Header>
+          <Title>My Queries</Title>
+          <Subtitle>Manage all your Queries</Subtitle>
+        </Header>
+        {
+          queries.length > 0 ? (
+             queries.map((query) => (
         <BookingCardQuery key={query._id} query={query} />
-      ))}
+      ))
+          ) : (
+             
+          <EmptyState>
+          <h2>No Queries Found</h2>
+          <p>Looks like you haven't raised any Queries yet.</p>
+        </EmptyState>
+           )
+        }
+      </Container>
+      
     </div>
   );
 }
