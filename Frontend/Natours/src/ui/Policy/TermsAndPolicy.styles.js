@@ -9,8 +9,7 @@ export const Wrapper = styled.div`
   min-height: 100vh;
 
   background:
-    radial-gradient(circle at top, rgba(8, 8, 8, 0.12), transparent 35%),
-    #000;
+    radial-gradient(circle at top, rgba(8, 8, 8, 0.12), transparent 35%), #000;
 
   padding: 5rem 0 8rem;
   margin-top: 2rem;
@@ -37,8 +36,6 @@ export const Badge = styled.span`
   padding: 0.9rem 1.7rem;
 
   border-radius: 999px;
-
-  
 
   border: 1px solid rgba(249, 252, 255, 0.25);
 
@@ -235,7 +232,7 @@ export const BackButton = styled(Link)`
     transform: translateY(-2px);
   }
 
-  @media (max-width:900px){
+  @media (max-width: 900px) {
     width: 100%;
     position: fixed;
     bottom: 0;
@@ -244,8 +241,6 @@ export const BackButton = styled(Link)`
     z-index: 1000;
     margin: 0;
     border-radius: 0;
-
-    
   }
 `;
 
@@ -515,7 +510,6 @@ export const SuccessText = styled.p`
 
   line-height: 1.9;
 `;
-
 
 // =======================================================
 // TABLE

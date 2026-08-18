@@ -136,10 +136,10 @@ function Footer() {
                 <FooterLink to="/user">My Profile</FooterLink>
               </li>
               <li>
-                <FooterLink to="/user">Bookings</FooterLink>
+                <FooterLink to="/user/my-bookings">Bookings</FooterLink>
               </li>
               <li>
-                <FooterLink to="/user">Bookmarks</FooterLink>
+                <FooterLink to="/user/reviews">Reviews</FooterLink>
               </li>
               <li>
                 <FooterLink to="/user">Account Settings</FooterLink>

@@ -184,7 +184,7 @@ function PolicyCenter() {
     window.history.replaceState(
       window.history.state,
       "",
-      `${window.location.pathname}${window.location.search}#${id}`
+      `${window.location.pathname}${window.location.search}#${id}`,
     );
   }
 
@@ -220,11 +220,11 @@ function PolicyCenter() {
           </Title>
 
           <Description>
-            Before booking your journey, please take a few minutes to review
-            our policies. These guidelines explain your rights,
-            responsibilities, payment procedures, refunds, cancellations,
-            travel documentation requirements and other important information
-            that helps us provide a safe and transparent travel experience.
+            Before booking your journey, please take a few minutes to review our
+            policies. These guidelines explain your rights, responsibilities,
+            payment procedures, refunds, cancellations, travel documentation
+            requirements and other important information that helps us provide a
+            safe and transparent travel experience.
           </Description>
 
           <Updated>
@@ -240,9 +240,7 @@ function PolicyCenter() {
 
         <Layout>
           <Sidebar>
-            <SidebarTitle>
-              Quick Navigation
-            </SidebarTitle>
+            <SidebarTitle>Quick Navigation</SidebarTitle>
 
             <Nav>
               {policies.map((policy) => {
@@ -252,12 +250,7 @@ function PolicyCenter() {
                   <NavItem
                     key={policy.id}
                     href={`#${policy.id}`}
-                    onClick={(e) =>
-                      handleSectionNavigation(
-                        e,
-                        policy.id
-                      )
-                    }
+                    onClick={(e) => handleSectionNavigation(e, policy.id)}
                   >
                     <Icon />
                     {policy.title}
@@ -1056,7 +1049,7 @@ function PolicyCenter() {
 
             <Footer>
               <Copyright>
-                © {new Date().getFullYear()} Your Company Name. All Rights
+                © {new Date().getFullYear()} Natours. All Rights
                 Reserved.
               </Copyright>
 

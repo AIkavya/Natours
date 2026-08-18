@@ -591,6 +591,85 @@ export const SectionCard = styled.div`
   }
 `;
 
+export const DocumentGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.6rem;
+  margin-top: 0.5rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.2rem;
+  }
+
+  @media (max-width: 500px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+`;
+
+export const DocumentCard = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  padding: 1.6rem 1.8rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  transition: all 0.25s ease;
+
+  &:hover {
+    border-color: #ffffffff;
+    background: rgba(26, 26, 26, 0.91);
+    transform: translateY(-2px);
+  }
+
+  svg {
+    font-size: 2.6rem;
+    color: #ffffffff;
+    flex-shrink: 0;
+  }
+
+  .doc-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .doc-title {
+    font-size: 1.5rem;
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  .doc-desc {
+    font-size: 1.25rem;
+    color: #9ca3af;
+  }
+
+  @media (max-width: 768px) {
+    padding: 1.3rem 1.5rem;
+    gap: 1.2rem;
+
+    svg {
+      font-size: 2.2rem;
+    }
+
+    .doc-title {
+      font-size: 1.35rem;
+    }
+
+    .doc-desc {
+      font-size: 1.15rem;
+    }
+  }
+
+  @media (max-width: 500px) {
+    padding: 1.2rem 1.4rem;
+    border-radius: 12px;
+  }
+`;
+
 export const SectionHeader = styled.div`
   display: flex;
   flex-direction: column;

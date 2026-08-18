@@ -19,6 +19,9 @@ import {
   HiOutlinePhone,
   HiOutlineBookmark,
   HiOutlineHome,
+  HiOutlineDocumentText,
+  HiOutlineIdentification,
+  HiOutlineHeart,
 } from "react-icons/hi2";
 
 import useTourDetail from "../../features/hooks/TourHooks/useTourDetail";
@@ -89,7 +92,8 @@ import {
   MobileBookButton,
   BookmarkButton,
   PolicyButton,
- 
+  DocumentGrid,
+  DocumentCard,
 } from "./TourPage.styles";
 
 import {
@@ -424,6 +428,12 @@ function TourPage() {
             </StickyNavItem>
           )}
           <StickyNavItem
+            $active={activeSection === "documents"}
+            onClick={() => scrollToSection("documents")}
+          >
+            Documents
+          </StickyNavItem>
+          <StickyNavItem
             $active={activeSection === "booking"}
             onClick={() => scrollToSection("booking")}
           >
@@ -529,6 +539,49 @@ function TourPage() {
             <GridMotionGallery images={images} />
           </div>
         )}
+
+        {/* REQUIRED DOCUMENTS SECTION */}
+        <SectionCard id="documents">
+          <SectionTitle>
+            <HiOutlineDocumentText /> Required Documents
+          </SectionTitle>
+          <SectionSubtitle>
+            Please make sure you have the following valid documents ready before embarking on this journey.
+          </SectionSubtitle>
+          <DocumentGrid>
+            <DocumentCard>
+              <HiOutlineDocumentText />
+              <div className="doc-info">
+                <span className="doc-title">Visa</span>
+                <span className="doc-desc">Valid tourist visa for destination</span>
+              </div>
+            </DocumentCard>
+
+            <DocumentCard>
+              <HiOutlineIdentification />
+              <div className="doc-info">
+                <span className="doc-title">Passport</span>
+                <span className="doc-desc">With Valid Passport validity</span>
+              </div>
+            </DocumentCard>
+
+            <DocumentCard>
+              <HiOutlineIdentification />
+              <div className="doc-info">
+                <span className="doc-title">National ID</span>
+                <span className="doc-desc">With Clear Government issued photo</span>
+              </div>
+            </DocumentCard>
+
+            <DocumentCard>
+              <HiOutlineHeart />
+              <div className="doc-info">
+                <span className="doc-title">Insurance</span>
+                <span className="doc-desc">Comprehensive travel & medical coverage</span>
+              </div>
+            </DocumentCard>
+          </DocumentGrid>
+        </SectionCard>
 
         {/* 5 & 6. PACKAGES AND BOOKING SIDE-BY-SIDE */}
         <SectionHeader
