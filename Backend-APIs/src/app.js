@@ -8,6 +8,7 @@ const userRoute = require("./routers/userRoute");
 const tourRoute = require("./routers/tourRoute");
 const adminRoute = require("./routers/adminRoute");
 const bookingRoute = require("./routers/bookingRoute");
+const visaRoute = require("./routers/visaRoute");
 const limit = require("express-rate-limit");
 const app = express();
 console.log("App initialized");
@@ -74,6 +75,7 @@ app.use("/api/v1/user", userRoute);
 app.use("/api/v1/tours", tourRoute);
 app.use("/api/v1/admin", adminRoute);
 app.use("/api/v1/booking", bookingRoute);
+app.use("/api/v1/visa", visaRoute);
 // app.all("/{*any}", (req, res, next) => {
 //   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 // });

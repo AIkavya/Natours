@@ -12,7 +12,9 @@
     "import:data": "node dev-data/import-dev-data.js --import",
     "delete:data": "node dev-data/import-dev-data.js --delete",
     "upload:images": "node src/scripts/uploadTourImages.js",
-    "migrate:images": "node src/scripts/migrateTourImages.js"
+    "migrate:images": "node src/scripts/migrateTourImages.js",
+    "migrate:webp": "node src/scripts/migrateTourImagesToWebp.js",
+    "migrate:webp:dry": "node src/scripts/migrateTourImagesToWebp.js --dry-run"
   },
   "dependencies": {
     "axios": "^1.18.1",

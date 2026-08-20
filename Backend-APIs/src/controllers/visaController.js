@@ -1,235 +1,157 @@
-// server/controllers/visaController.js
-// Express Controller handling single visa queries, batch stress tests, cache management, and API keys
+const catchAsync = require("../utils/error");
+const AppError = require("../utils/appError");
+const countries = require("i18n-iso-countries");
+const en = require("i18n-iso-countries/langs/en.json");
+countries.registerLocale(en);
 
-import {
-  ALL_WORLD_COUNTRIES,
-  findSpecializedRule,
-} from "../models/visaModel.js";
-import {
-  getCachedRule,
-  setCachedRule,
-  getCacheStatsData,
-  purgeCacheKey,
-  purgeAllCache,
-} from "../cacheEngine.js";
+const cache = new Map();
 
-export const visaController = {
-  // GET /api/v1/countries
-  getCountries: (req, res) => {
-    return res.json({
-      total: ALL_WORLD_COUNTRIES.length,
-      countries: ALL_WORLD_COUNTRIES,
+const DEFAULT_TTL = 24 * 60 * 60 * 1000; // 24 hours
+
+const setCache = function (destination, data, ttl = DEFAULT_TTL) {
+  // set the destination country for 24 hours in cache
+  cache.set(destination, {
+    data,
+    expiresAt: Date.now() + ttl,
+  });
+};
+
+const getCache = function (destination) {
+  // 1) get the destination data..
+  const cached = cache.get(destination);
+
+  // 2) if not found then return null
+  if (!cached) {
+    return null;
+  }
+
+  // 3) checking for time if extended then delete the cache data and return null
+  if (Date.now() > cached.expiresAt) {
+    cache.delete(destination);
+    return null;
+  }
+
+  // 4) final data
+  return cached.data;
+};
+
+const deleteCache = (destination) => {
+  cache.delete(destination);
+};
+
+const clearCache = () => {
+  cache.clear();
+};
+
+exports.getRequireDocuments = catchAsync(async (req, res, next) => {
+  // 1) get destination country from the req.body..
+  let { destination } = req.body;
+
+  if (!destination) {
+    return next(new AppError("Please provide destination", 400));
+  }
+
+  // trimming and normalizing destination country..
+
+  destination = destination.trim().toLowerCase();
+
+  if (destination === "india") {
+  }
+  const code = countries.getAlpha3Code(destination, "en");
+
+  if (!code) {
+    return next(new AppError("Invalid destination country", 400));
+  }
+
+  // console.log(code) // ex -> 'France' to 'FRA'
+
+  // 2) try to find the destination country in the cache Memmory..
+
+  const cachedData = getCache(code);
+
+  if (cachedData) {
+    return res.status(200).json({
+      status: "success",
+      message: "Data fetched successfully",
+      source: "cache Memmory",
+      data: cachedData,
     });
-  },
+  }
 
-  // POST /api/v1/visa-checklist
-  getChecklist: async (req, res) => {
-    const startTime = Date.now();
-    const { nationality, destination, travelPurpose, stayDurationDays } =
-      req.body || {};
+  // 3) try to fetch data using api...
 
-    if (!nationality || !destination) {
-      return res.status(400).json({
-        error: "BAD_REQUEST",
-        message: 'Both "nationality" and "destination" fields are required.',
-      });
+  const url = `${process.env.VISA_API}`.replace("<DESTINATION>", code);
+
+  const headers = {
+    "x-api-key": process.env.VISA_API_KEY,
+  };
+  const data = await fetch(url, {
+    headers,
+  });
+  const json = await data.json();
+
+  if (json) {
+    let response = {};
+
+    let services = {};
+
+    response = {
+      passport: json.data.passport,
+      destination: json.data.destination,
+      requireDocuments: json.data.documents_required,
+    };
+
+    if (json.data.visa_required) {
+      ((services.visa = {
+        processingTime: json.data.processing_time || 7,
+        cost: json.data.cost || "₹ 2,500-10,000",
+        requireDocuments: [
+          "Valid Passport",
+          "Bank statement / financial proof (Min Last 6 Months)",
+        ],
+      }),
+        (services.passport = {
+          processingTime: json.data.processing_time || 7,
+          cost: "₹ 3000-4500",
+          requireDocuments: ["Valid Nationality Proof", "Birth Certificate"],
+        }));
     }
 
-    const cacheKey = `${nationality.toLowerCase()}:${destination.toLowerCase()}`;
-    const cached = getCachedRule(cacheKey);
-
-    if (cached) {
-      const latencyMs = Date.now() - startTime;
-      return res.json({
-        success: true,
-        cacheStatus: "HIT",
-        latencyMs,
-        data: cached,
-      });
-    }
-
-    // Check specialized model first (e.g. India -> USA B1/B2)
-    let ruleData = findSpecializedRule(nationality, destination);
-
-    if (!ruleData) {
-      // Standard rule generator for all other 195 world countries
-      const normNat = nationality.trim();
-      const normDest = destination.trim();
-
-      const isSameCountry = normNat.toLowerCase() === normDest.toLowerCase();
-
-      ruleData = {
-        category: isSameCountry ? "visa_free" : "embassy_visa_required",
-        summary: isSameCountry
-          ? `Domestic travel within ${normDest}. No international visa required.`
-          : `Travelers holding a passport from ${normNat} visiting ${normDest} for ${travelPurpose || "tourism"} must check embassy guidelines. Valid passport, return ticket, hotel vouchers, and financial proof are required.`,
-        maxStayDays: stayDurationDays || 30,
-        processingTime: isSameCountry ? "Instant" : "15 to 30 Business Days",
-        estimatedCost: {
-          amount: isSameCountry ? 0 : 80,
-          currency: "USD",
-          formatted: isSameCountry ? "Free" : "$80 USD",
-        },
-        officialApplicationUrl: `https://www.google.com/search?q=${encodeURIComponent(normDest + " visa requirements for " + normNat + " citizens")}`,
-        passportRequirements: {
-          minValidityMonths: 6,
-          minBlankPages: 2,
-          note: `Passport from ${normNat} must be valid for at least 6 months with 2 blank pages.`,
-        },
-        documentChecklist: [
-          {
-            id: "doc-gen-1",
-            category: "mandatory",
-            title: `Valid ${normNat} National Passport`,
-            description: `Original passport with minimum 6 months validity beyond travel dates in ${normDest}.`,
-            requiredFor: "Border Clearance",
-          },
-          {
-            id: "doc-gen-2",
-            category: "mandatory",
-            title: `Confirmed Roundtrip Ticket to ${normDest}`,
-            description:
-              "Travel agency itinerary showing onward or return flight booking.",
-            requiredFor: "Airlines Check-in",
-          },
-          {
-            id: "doc-gen-3",
-            category: "mandatory",
-            title: "Accommodation Vouchers & Hotel Confirmation",
-            description:
-              "Pre-booked hotel reservation for the entire stay duration.",
-            requiredFor: "Immigration Control",
-          },
-          {
-            id: "doc-gen-4",
-            category: "mandatory",
-            title: "Proof of Sufficient Funds (3 Months Bank Statements)",
-            description: `Recent stamped bank statements from ${normNat} proving liquid cash for stay.`,
-            requiredFor: "Visa Application",
-          },
-          {
-            id: "doc-gen-5",
-            category: "recommended",
-            title: "International Medical & Travel Insurance",
-            description:
-              "Comprehensive travel health coverage for emergency medical treatment.",
-            requiredFor: "Travel Safety",
-          },
-        ],
-        digitalArrivalForms: [],
-        healthAndVaccination: [],
-        transitRules:
-          "Check airline transit restrictions if stopping in intermediate countries.",
-        currencyAndCustoms:
-          "Declare currency exceeding $10,000 USD or local equivalent.",
-        groundingSources: [
-          {
-            title: `${normDest} Official Tourism & Visa Portal`,
-            uri: `https://${normDest.toLowerCase().replace(/\s+/g, "")}.gov`,
-          },
-        ],
-        lastVerifiedDate: new Date().toISOString().split("T")[0],
+    if (json.data.documents_required.includes("Travel insurance")) {
+      services.insurance = {
+        coverage: "₹ 1,00,000-2,00,000",
+        cost: "₹ 10,000-20,000",
       };
     }
 
-    // Save into LRU Cache
-    setCachedRule(cacheKey, nationality, destination, ruleData);
-
-    const latencyMs = Date.now() - startTime;
-    return res.json({
-      success: true,
-      cacheStatus: "MISS",
-      latencyMs,
-      data: ruleData,
-    });
-  },
-
-  // POST /api/v1/batch-checklist
-  getBatchChecklist: async (req, res) => {
-    const startTime = Date.now();
-    const { items } = req.body || {};
-
-    if (!Array.isArray(items) || items.length === 0) {
-      return res.status(400).json({
-        error: "BAD_REQUEST",
-        message: 'The "items" array field is required for batch processing.',
-      });
+    if (services) {
+      response.services = services;
     }
 
-    const results = [];
-    let successCount = 0;
-    let failedCount = 0;
-
-    for (const item of items) {
-      const { passengerId, nationality, destination } = item;
-      try {
-        const cacheKey = `${nationality.toLowerCase()}:${destination.toLowerCase()}`;
-        let cached = getCachedRule(cacheKey);
-
-        if (!cached) {
-          cached = findSpecializedRule(nationality, destination);
-          if (!cached) {
-            cached = {
-              category: "embassy_visa_required",
-              summary: `Travel from ${nationality} to ${destination} evaluated in high-concurrency batch.`,
-              documentChecklist: [],
-            };
-          }
-          setCachedRule(cacheKey, nationality, destination, cached);
-        }
-
-        results.push({
-          passengerId,
-          nationality,
-          destination,
-          status: "SUCCESS",
-          response: {
-            cacheStatus: cached ? "HIT" : "MISS",
-            latencyMs: Math.floor(Math.random() * 8) + 2,
-            data: cached,
-          },
-        });
-        successCount++;
-      } catch (err) {
-        results.push({
-          passengerId,
-          nationality,
-          destination,
-          status: "ERROR",
-          errorMessage: err.message,
-        });
-        failedCount++;
-      }
-    }
-
-    const batchLatencyMs = Date.now() - startTime;
-    return res.json({
-      success: true,
-      totalCount: items.length,
-      successCount,
-      failedCount,
-      batchLatencyMs,
-      results,
+    setCache(code, response);
+    res.status(200).json({
+      status: "success",
+      message: "Data fetched successfully",
+      data: response,
+      source: "API",
     });
-  },
+  }
 
-  // GET /api/v1/cache/stats
-  getCacheStats: (req, res) => {
-    const stats = getCacheStatsData();
-    return res.json(stats);
-  },
+  // 4) fall back data : Safety..
 
-  // POST /api/v1/cache/purge
-  purgeCache: (req, res) => {
-    const { key } = req.body || {};
-    if (key) {
-      purgeCacheKey(key);
-    } else {
-      purgeAllCache();
-    }
-    return res.json({
-      success: true,
-      message: key ? `Key "${key}" purged.` : "Entire cache memory purged.",
-    });
-  },
-};
+  const FALLBACK_DATA = {
+    passport: null,
+    destination: null,
+    requireDocuments: [],
+    sevices: {},
+    message:
+      "Unable to find the required travel documents at this time. Sorry for the inconvenience.",
+  };
+
+  return res.status(404).json({
+    status: "success",
+    message: "Data not found",
+    data: FALLBACK_DATA,
+    source: "FALLBACK_DATA",
+  });
+});
