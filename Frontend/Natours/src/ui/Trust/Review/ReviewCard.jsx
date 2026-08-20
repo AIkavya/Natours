@@ -25,8 +25,8 @@ function ReviewCard({ review }) {
   const getText = () => {
     const width = window.innerWidth;
 
-    if (width <= 700) return review.review.short;
-    if (width <= 1100) return review.review.medium;
+    if (width <= 700) return review.review.long;
+    if (width <= 1100) return review.review.long;
     return review.review.long;
   };
 

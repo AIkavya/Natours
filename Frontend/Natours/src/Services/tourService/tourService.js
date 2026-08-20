@@ -129,3 +129,14 @@ export const getUniqueCountries = async () => {
 
   return data.data;
 };
+
+
+export const getRequireDocuments = async (destination) => {
+  const { data } = await apiClient.get("/visa/getInformation", {
+    params: {
+      destination,
+    },
+  });
+
+  return data;
+}

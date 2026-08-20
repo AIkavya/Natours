@@ -45,7 +45,7 @@ const clearCache = () => {
 
 exports.getRequireDocuments = catchAsync(async (req, res, next) => {
   // 1) get destination country from the req.body..
-  let { destination } = req.body;
+  let { destination } = req.query;
 
   if (!destination) {
     return next(new AppError("Please provide destination", 400));

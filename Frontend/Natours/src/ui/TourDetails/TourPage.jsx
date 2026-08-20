@@ -94,6 +94,8 @@ import {
   PolicyButton,
   DocumentGrid,
   DocumentCard,
+  ServiceGrid,
+  ServiceCard,
 } from "./TourPage.styles";
 
 import {
@@ -106,6 +108,8 @@ import {
 } from "../Grid/GridComponent.styles";
 
 import useCurrencyDetector from "../../Services/useCurrencyDetector";
+import { useRequireDocuments } from "../../features/hooks/TourHooks/useRequireDocuments";
+import { AlertBox } from "../User/Account/Review/all.styles";
 
 // Helper component for rich typography and highlighted words
 function RichTextFormatter({ text }) {
@@ -187,6 +191,8 @@ function TourPage() {
       toast.error(err.response?.data?.message || "Failed to remove bookmark.");
     },
   });
+
+  const { data, isError: isDocError, isPending: isDocPending } = useRequireDocuments(tour?.destinations?.[0]?.country);
 
   useEffect(() => {
     if (!bookingCardRef.current) return;
@@ -545,42 +551,142 @@ function TourPage() {
           <SectionTitle>
             <HiOutlineDocumentText /> Required Documents
           </SectionTitle>
-          <SectionSubtitle>
-            Please make sure you have the following valid documents ready before embarking on this journey.
-          </SectionSubtitle>
-          <DocumentGrid>
-            <DocumentCard>
-              <HiOutlineDocumentText />
-              <div className="doc-info">
-                <span className="doc-title">Visa</span>
-                <span className="doc-desc">Valid tourist visa for destination</span>
-              </div>
-            </DocumentCard>
 
-            <DocumentCard>
-              <HiOutlineIdentification />
-              <div className="doc-info">
-                <span className="doc-title">Passport</span>
-                <span className="doc-desc">With Valid Passport validity</span>
-              </div>
-            </DocumentCard>
+          {isDocPending ? (
+            <DocumentGrid>
+              {[1, 2, 3].map((n) => (
+                <DocumentCard key={n} style={{ opacity: 0.5 }}>
+                  <HiOutlineDocumentText />
+                  <div className="doc-info">
+                    <span className="doc-title">Loading documents...</span>
+                    <span className="doc-desc">Checking entry requirements</span>
+                  </div>
+                </DocumentCard>
+              ))}
+            </DocumentGrid>
+          ) : isDocError || data?.source === "FALLBACK_DATA" ? (
+            <AlertBox>
+              Something Went Wrong! Unable to retrieve travel documents at this time.
+            </AlertBox>
+          ) : (
+            <>
+              <SectionSubtitle>
+                Please ensure you have the following valid documents ready before embarking on this journey to {data?.data?.destination || tour?.destinations?.[0]?.country || "your destination"}.
+              </SectionSubtitle>
+              <DocumentGrid>
+                {(data?.data?.requireDocuments || data?.requireDocuments)?.map((doc, index) => (
+                  <DocumentCard key={index}>
+                    <HiOutlineDocumentText />
+                    <div className="doc-info">
+                      <span className="doc-title">{doc}</span>
+                      <span className="doc-desc">Required for Travel Entry</span>
+                    </div>
+                  </DocumentCard>
+                ))}
+              </DocumentGrid>
 
-            <DocumentCard>
-              <HiOutlineIdentification />
-              <div className="doc-info">
-                <span className="doc-title">National ID</span>
-                <span className="doc-desc">With Clear Government issued photo</span>
-              </div>
-            </DocumentCard>
+              {/* SERVICES BREAKDOWN (VISA, PASSPORT, INSURANCE) */}
+              {(data?.data?.services || data?.services) && (
+                <ServiceGrid>
+                  {/* VISA SERVICE */}
+                  {(data?.data?.services?.visa || data?.services?.visa) && (
+                    <ServiceCard>
+                      <div className="service-header">
+                        <div className="service-icon">
+                          <HiOutlineIdentification />
+                        </div>
+                        <span className="service-title">Visa Assistance</span>
+                      </div>
+                      <div className="service-meta">
+                        {(data?.data?.services?.visa?.processingTime || data?.services?.visa?.processingTime) && (
+                          <span className="meta-tag">
+                            Processing: {data?.data?.services?.visa?.processingTime || data?.services?.visa?.processingTime}
+                          </span>
+                        )}
+                        {(data?.data?.services?.visa?.cost || data?.services?.visa?.cost) && (
+                          <span className="meta-tag">
+                            Cost: {data?.data?.services?.visa?.cost || data?.services?.visa?.cost}
+                          </span>
+                        )}
+                      </div>
+                      {(data?.data?.services?.visa?.requireDocuments || data?.services?.visa?.requireDocuments) && (
+                        <div className="service-docs">
+                          <span className="docs-heading">Required Documents</span>
+                          <ul>
+                            {(data?.data?.services?.visa?.requireDocuments || data?.services?.visa?.requireDocuments).map((item, idx) => (
+                              <li key={idx}>
+                                <HiCheckCircle /> {item}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </ServiceCard>
+                  )}
 
-            <DocumentCard>
-              <HiOutlineHeart />
-              <div className="doc-info">
-                <span className="doc-title">Insurance</span>
-                <span className="doc-desc">Comprehensive travel & medical coverage</span>
-              </div>
-            </DocumentCard>
-          </DocumentGrid>
+                  {/* PASSPORT SERVICE */}
+                  {(data?.data?.services?.passport || data?.services?.passport) && (
+                    <ServiceCard>
+                      <div className="service-header">
+                        <div className="service-icon">
+                          <HiOutlineDocumentText />
+                        </div>
+                        <span className="service-title">Passport Renewal / Help</span>
+                      </div>
+                      <div className="service-meta">
+                        {(data?.data?.services?.passport?.processingTime || data?.services?.passport?.processingTime) && (
+                          <span className="meta-tag">
+                            Processing: {data?.data?.services?.passport?.processingTime || data?.services?.passport?.processingTime}
+                          </span>
+                        )}
+                        {(data?.data?.services?.passport?.cost || data?.services?.passport?.cost) && (
+                          <span className="meta-tag">
+                            Cost: {data?.data?.services?.passport?.cost || data?.services?.passport?.cost}
+                          </span>
+                        )}
+                      </div>
+                      {(data?.data?.services?.passport?.requireDocuments || data?.services?.passport?.requireDocuments) && (
+                        <div className="service-docs">
+                          <span className="docs-heading">Required Documents</span>
+                          <ul>
+                            {(data?.data?.services?.passport?.requireDocuments || data?.services?.passport?.requireDocuments).map((item, idx) => (
+                              <li key={idx}>
+                                <HiCheckCircle /> {item}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </ServiceCard>
+                  )}
+
+                  {/* INSURANCE SERVICE */}
+                  {(data?.data?.services?.insurance || data?.services?.insurance) && (
+                    <ServiceCard>
+                      <div className="service-header">
+                        <div className="service-icon">
+                          <HiOutlineShieldCheck />
+                        </div>
+                        <span className="service-title">Travel Insurance</span>
+                      </div>
+                      <div className="service-meta">
+                        {(data?.data?.services?.insurance?.coverage || data?.services?.insurance?.coverage) && (
+                          <span className="meta-tag">
+                            Coverage: {data?.data?.services?.insurance?.coverage || data?.services?.insurance?.coverage}
+                          </span>
+                        )}
+                        {(data?.data?.services?.insurance?.cost || data?.services?.insurance?.cost) && (
+                          <span className="meta-tag">
+                            Cost: {data?.data?.services?.insurance?.cost || data?.services?.insurance?.cost}
+                          </span>
+                        )}
+                      </div>
+                    </ServiceCard>
+                  )}
+                </ServiceGrid>
+              )}
+            </>
+          )}
         </SectionCard>
 
         {/* 5 & 6. PACKAGES AND BOOKING SIDE-BY-SIDE */}

@@ -670,6 +670,103 @@ export const DocumentCard = styled.div`
   }
 `;
 
+export const ServiceGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.8rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed rgba(255, 255, 255, 0.15);
+`;
+
+export const ServiceCard = styled.div`
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .service-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .service-icon {
+    font-size: 2.2rem;
+    color: #5066d2ff;
+    display: flex;
+    align-items: center;
+  }
+
+  .service-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: capitalize;
+  }
+
+  .service-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 1.25rem;
+  }
+
+  .meta-tag {
+    background: rgba(80, 102, 210, 0.15);
+    color: #8b9dff;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    font-weight: 600;
+  }
+
+  .service-docs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+
+    .docs-heading {
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #9ca3af;
+      font-weight: 600;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    li {
+      font-size: 1.3rem;
+      color: #e5e7eb;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+
+      svg {
+        color: #10b981;
+        font-size: 1.4rem;
+        flex-shrink: 0;
+      }
+    }
+  }
+`;
+
 export const SectionHeader = styled.div`
   display: flex;
   flex-direction: column;
